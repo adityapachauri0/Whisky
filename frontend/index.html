@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ViticultWhisky</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #1a0f08;
+            color: #d4af37;
+            font-size: 24px;
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="loading">
+            <div>
+                <h1 class="text-4xl mb-4">ViticultWhisky</h1>
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple check to show the site is accessible
+        setTimeout(() => {
+            document.getElementById('root').innerHTML = `
+                <div class="min-h-screen bg-gray-900 text-white">
+                    <header class="bg-black p-6">
+                        <div class="container mx-auto">
+                            <h1 class="text-3xl font-bold text-yellow-600">ViticultWhisky</h1>
+                        </div>
+                    </header>
+                    <main class="container mx-auto p-6">
+                        <section class="py-12">
+                            <h2 class="text-4xl font-serif mb-6">Welcome to ViticultWhisky</h2>
+                            <p class="text-xl mb-8">Discover the world of whiskey cask investment opportunities.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-gray-800 p-6 rounded-lg">
+                                    <h3 class="text-2xl mb-4 text-yellow-600">Premium Casks</h3>
+                                    <p>Invest in carefully selected whiskey casks from renowned distilleries.</p>
+                                </div>
+                                <div class="bg-gray-800 p-6 rounded-lg">
+                                    <h3 class="text-2xl mb-4 text-yellow-600">Expert Guidance</h3>
+                                    <p>Get professional advice from whiskey investment specialists.</p>
+                                </div>
+                                <div class="bg-gray-800 p-6 rounded-lg">
+                                    <h3 class="text-2xl mb-4 text-yellow-600">Secure Storage</h3>
+                                    <p>Your casks are stored in bonded warehouses with full insurance.</p>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                    <footer class="bg-black p-6 mt-12">
+                        <div class="container mx-auto text-center">
+                            <p>&copy; 2024 ViticultWhisky. All rights reserved.</p>
+                        </div>
+                    </footer>
+                </div>
+            `;
+        }, 1000);
+    </script>
+</body>
+</html>

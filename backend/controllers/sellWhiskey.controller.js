@@ -1,0 +1,120 @@
+const nodemailer = require('nodemailer');
+
+// Create reusable transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+// Handle sell whiskey submissions
+exports.submitSellWhiskey = async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      phone,
+      caskType,
+      distillery,
+      year,
+      litres,
+      abv,
+      askingPrice,
+      message
+    } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !caskType || !distillery || !year) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields'
+      });
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid email address'
+      });
+    }
+
+    // Prepare email content
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
+      subject: `New Whiskey Cask Sale Submission - ${distillery} ${year}`,
+      html: `
+        <h2>New Whiskey Cask Sale Submission</h2>
+        
+        <h3>Contact Information:</h3>
+        <ul>
+          <li><strong>Name:</strong> ${name}</li>
+          <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Phone:</strong> ${phone || 'Not provided'}</li>
+        </ul>
+        
+        <h3>Cask Details:</h3>
+        <ul>
+          <li><strong>Cask Type:</strong> ${caskType}</li>
+          <li><strong>Distillery:</strong> ${distillery}</li>
+          <li><strong>Year Distilled:</strong> ${year}</li>
+          <li><strong>Volume:</strong> ${litres || 'Not provided'} litres</li>
+          <li><strong>ABV:</strong> ${abv || 'Not provided'}%</li>
+          <li><strong>Asking Price:</strong> £${askingPrice || 'Not provided'}</li>
+        </ul>
+        
+        <h3>Additional Information:</h3>
+        <p>${message || 'No additional information provided'}</p>
+        
+        <hr>
+        <p><small>Submitted on: ${new Date().toLocaleString()}</small></p>
+      `
+    };
+
+    // Send confirmation email to the seller
+    const confirmationMail = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'We\'ve Received Your Whiskey Cask Submission',
+      html: `
+        <h2>Thank You for Your Submission</h2>
+        
+        <p>Dear ${name},</p>
+        
+        <p>We've received your whiskey cask submission for the ${distillery} ${year} cask. Our team of experts will review your submission and provide a valuation within 48 hours.</p>
+        
+        <h3>What Happens Next?</h3>
+        <ol>
+          <li><strong>Expert Review:</strong> Our specialists will analyze your cask details and current market conditions</li>
+          <li><strong>Valuation Report:</strong> You'll receive a detailed valuation report within 48 hours</li>
+          <li><strong>Marketing & Sale:</strong> If you proceed, we'll market your cask to our global buyer network</li>
+        </ol>
+        
+        <p>If you have any questions in the meantime, please don't hesitate to contact us.</p>
+        
+        <p>Best regards,<br>
+        The Whiskey Investment Team</p>
+      `
+    };
+
+    // Send emails
+    await transporter.sendMail(mailOptions);
+    await transporter.sendMail(confirmationMail);
+
+    res.status(200).json({
+      success: true,
+      message: 'Your submission has been received successfully. We will contact you within 48 hours.'
+    });
+
+  } catch (error) {
+    console.error('Sell whiskey submission error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'An error occurred while processing your submission. Please try again later.'
+    });
+  }
+};

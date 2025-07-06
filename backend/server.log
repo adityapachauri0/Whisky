@@ -1,0 +1,116 @@
+Simple server running on port 5001
+Test the server: http://localhost:5001/api/health
+2025-07-06T17:13:24.888Z - GET /api/health
+2025-07-06T17:15:00.394Z - POST /api/contact
+Contact form submitted: {
+  name: 'Aditya Pachauri',
+  email: 'adityapachaur7@gmail.com',
+  phone: '7376899943',
+  investmentInterest: 'starter',
+  subject: 'abc',
+  message: 'hello',
+  preferredContactMethod: 'email'
+}
+2025-07-06T17:16:29.514Z - POST /api/contact
+Contact form submitted: {
+  name: 'Aditya Pachauri',
+  email: 'adityapachaur7@gmail.com',
+  phone: '7376899943',
+  investmentInterest: 'premium',
+  subject: 'abc',
+  message: 'hello',
+  preferredContactMethod: 'email'
+}
+2025-07-06T17:29:16.368Z - POST /api/contact
+Contact form submitted: {
+  name: 'Aditya Pachauri',
+  email: 'adityapachaur7@gmail.com',
+  phone: '7376899943',
+  investmentInterest: 'premium',
+  subject: 'abc',
+  message: 'test',
+  preferredContactMethod: 'email'
+}
+2025-07-06T17:39:09.942Z - POST /api/contact
+Contact form submitted: {
+  name: 'Aditya Pachauri',
+  email: 'adityapachaur7@gmail.com',
+  phone: '7376899943',
+  investmentInterest: 'starter',
+  subject: 'abc',
+  message: 'hll',
+  preferredContactMethod: 'email'
+}
+2025-07-06T17:39:54.839Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:39:54.840Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:39:55.365Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:39:55.367Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:41:39.557Z - POST /api/contact
+Contact form submitted: {
+  name: 'Aditya Pachauri',
+  email: 'adityapachaur7@gmail.com',
+  phone: '7376899943',
+  investmentInterest: 'starter',
+  subject: 'abc',
+  message: 'gggg',
+  preferredContactMethod: 'email'
+}
+2025-07-06T17:43:58.885Z - POST /api/contact
+Contact form submitted: {
+  phone: '7376899943',
+  name: 'Aditya Pachauri',
+  investmentInterest: 'premium',
+  subject: 'abc',
+  message: 'hello',
+  email: 'adityapachaur7@gmail.com'
+}
+2025-07-06T17:47:06.523Z - POST /api/contact
+Contact form submitted: {
+  name: 'Aditya Pachauri',
+  email: 'adityapachaur7@gmail.com',
+  phone: '7376899943',
+  investmentInterest: 'premium',
+  subject: 'abc',
+  message: 'hell',
+  preferredContactMethod: 'email'
+}
+2025-07-06T17:50:04.803Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:50:04.804Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:50:05.332Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:50:05.334Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:54:17.207Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:54:17.209Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:54:17.734Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T17:54:17.735Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:05:44.936Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:05:44.937Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:05:51.539Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:05:51.539Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:08:58.982Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:08:58.983Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:13:38.577Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:13:38.578Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:13:38.670Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
+2025-07-06T18:13:38.671Z - GET /api/blog/featured
+404 - Not found: /api/blog/featured
