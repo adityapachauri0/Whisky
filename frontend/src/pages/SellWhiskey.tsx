@@ -135,7 +135,7 @@ const SellWhiskey: React.FC = () => {
                       {...register('phone')}
                       type="tel"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
-                      placeholder="+44 20 1234 5678"
+                      placeholder="020 3595 3910"
                     />
                   </div>
 

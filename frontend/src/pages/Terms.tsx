@@ -179,10 +179,12 @@ const Terms: React.FC = () => {
             </p>
             <p>
               ViticultWhisky<br />
-              123 Investment Avenue<br />
-              Dublin, Ireland<br />
+              3rd Floor<br />
+              35 Artillery Lane<br />
+              London<br />
+              E1 7LP<br />
               Email: legal@whiskeytradingco.com<br />
-              Phone: +353 1 234 5678
+              Phone: 020 3595 3910
             </p>
 
             <div className="mt-12 pt-8 border-t border-gray-200">

@@ -138,18 +138,19 @@ const Footer: React.FC = () => {
                 <span className="text-sm">invest@whiskeytradingco.com</span>
               </a>
               <a
-                href="tel:+442012345678"
+                href="tel:+442035953910"
                 className="flex items-center space-x-3 text-text-secondary hover:text-premium-gold transition-colors group"
               >
                 <PhoneIcon className="h-5 w-5 text-premium-gold/60 group-hover:text-premium-gold" />
-                <span className="text-sm">+44 20 1234 5678</span>
+                <span className="text-sm">020 3595 3910</span>
               </a>
               <div className="flex items-start space-x-3 text-text-secondary">
                 <MapPinIcon className="h-5 w-5 text-premium-gold/60 mt-0.5" />
                 <span className="text-sm">
-                  45 St. James's Place<br />
-                  London, SW1A 1NS<br />
-                  United Kingdom
+                  3rd Floor<br />
+                  35 Artillery Lane<br />
+                  London<br />
+                  E1 7LP
                 </span>
               </div>
             </div>

@@ -56,8 +56,8 @@ const Contact: React.FC = () => {
     {
       icon: PhoneIcon,
       title: 'Phone',
-      content: '+1 (234) 567-890',
-      link: 'tel:+1234567890',
+      content: '020 3595 3910',
+      link: 'tel:+442035953910',
     },
     {
       icon: EnvelopeIcon,
@@ -68,7 +68,7 @@ const Contact: React.FC = () => {
     {
       icon: MapPinIcon,
       title: 'Office',
-      content: '123 Investment Avenue, Dublin, Ireland',
+      content: '3rd Floor, 35 Artillery Lane, London, E1 7LP',
       link: 'https://maps.google.com',
     },
     {

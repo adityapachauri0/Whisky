@@ -88,7 +88,7 @@ class EmailService {
           </div>
           <div class="footer">
             <p>&copy; ${new Date().getFullYear()} ViticultWhisky. All rights reserved.</p>
-            <p>123 Investment Avenue, Dublin, Ireland</p>
+            <p>3rd Floor, 35 Artillery Lane, London, E1 7LP</p>
           </div>
         </div>
       </body>
@@ -139,7 +139,7 @@ class EmailService {
           </div>
           <div class="footer">
             <p>&copy; ${new Date().getFullYear()} ViticultWhisky. All rights reserved.</p>
-            <p>123 Investment Avenue, Dublin, Ireland</p>
+            <p>3rd Floor, 35 Artillery Lane, London, E1 7LP</p>
           </div>
         </div>
       </body>
@@ -251,7 +251,7 @@ class EmailService {
           </div>
           <div class="footer">
             <p>&copy; ${new Date().getFullYear()} ViticultWhisky. All rights reserved.</p>
-            <p>123 Investment Avenue, Dublin, Ireland</p>
+            <p>3rd Floor, 35 Artillery Lane, London, E1 7LP</p>
           </div>
         </div>
       </body>
