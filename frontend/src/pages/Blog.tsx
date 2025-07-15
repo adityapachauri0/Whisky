@@ -93,18 +93,18 @@ const Blog: React.FC = () => {
     slug: `post-${index + 1}`,
     excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     featuredImage: {
-      url: `https://images.unsplash.com/photo-${[
-        '1602166242292-991b55a466e4',
-        '1569529465841-dfecdab7503b',
-        '1578662996442-48f60103fc96',
-        '1551288880-83d5481a6af9',
-        '1510812431401-41d2bd2722f3',
-        '1556155092-490a1ba16284',
-        '1514362452804-4e61ee75b2d0',
-        '1572552064560-d6a930370658',
-        '1513714996878-fa6cc7877bdf',
-      ][index]}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`,
-      alt: 'Blog post image',
+      url: [
+        '/images/shop-bottle-5.webp',  // Premium single malt bottle
+        '/images/tfandr-whisky-barrels.webp',  // Oak whisky barrels
+        '/images/shop-bottle-8.webp',  // Highland whisky bottle
+        '/images/shop-daftmill-2011.webp',  // Rare Daftmill bottle
+        '/images/shop-bottle-10.webp',  // Premium whisky bottle
+        '/images/shop-secrets-smoke.webp',  // Smoky whisky bottle
+        '/images/shop-bottle-11.webp',  // Exclusive whisky bottle
+        '/images/shop-bottle-12.webp',  // Limited edition bottle
+        '/images/shop-hero-image.webp',  // Hero whisky image
+      ][index % 9],
+      alt: 'Premium whisky and cask imagery',
     },
     category: mockCategories[index % 4].name,
     publishedAt: new Date(Date.now() - index * 24 * 60 * 60 * 1000).toISOString(),

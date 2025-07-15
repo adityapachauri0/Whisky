@@ -5,7 +5,9 @@ import Features from '../components/sections/Features';
 import HowItWorksSection from '../components/sections/HowItWorksSection';
 import InvestmentOptions from '../components/sections/InvestmentOptions';
 import OurWhisky from '../components/sections/OurWhisky';
+import DistilleryPartners from '../components/sections/DistilleryPartners';
 import BuySellWhisky from '../components/sections/BuySellWhisky';
+import WhiskyGallery from '../components/sections/WhiskyGallery';
 import Testimonials from '../components/sections/Testimonials';
 import BlogPreview from '../components/sections/BlogPreview';
 import CTA from '../components/sections/CTA';
@@ -26,6 +28,8 @@ const Home: React.FC = () => {
       <Features />
       <HowItWorksSection />
       <OurWhisky />
+      <DistilleryPartners />
+      <WhiskyGallery />
       <BuySellWhisky />
       <InvestmentOptions />
       <Testimonials />

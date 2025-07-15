@@ -36,7 +36,7 @@ const FAQ: React.FC = () => {
     },
     {
       question: 'What is the minimum investment required?',
-      answer: 'Our minimum investment starts at €5,000 for our Starter package, which includes a single cask ownership. We also offer Premium packages starting at €25,000 and Exclusive packages for investments of €50,000 or more. Each tier provides different levels of service, portfolio options, and investment opportunities.',
+      answer: 'Our minimum investment starts at £5,000 for our Starter package, which includes a single cask ownership. We also offer Premium packages starting at £25,000 and Exclusive packages for investments of £50,000 or more. Each tier provides different levels of service, portfolio options, and investment opportunities.',
       category: 'investment',
     },
     {
@@ -109,43 +109,85 @@ const FAQ: React.FC = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[300px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal to-charcoal-light" />
+      <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/shop-secrets-smoke.webp"
+            alt="Premium whisky knowledge and expertise"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/50 via-charcoal/70 to-charcoal/90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent" />
+        </div>
+
+        {/* Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-premium-gold/50 to-transparent" />
+        
+        {/* Content */}
         <div className="relative z-10 h-full flex items-center">
           <div className="container-custom">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="max-w-3xl mx-auto text-center"
+              className="max-w-4xl mx-auto text-center"
             >
-              <h1 className="heading-1 text-white mb-6">Frequently Asked Questions</h1>
-              <p className="text-xl text-white/90">
-                Everything you need to know about whisky investment
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-6 py-2 bg-premium-gold/20 backdrop-blur-sm rounded-full mb-6"
+              >
+                <svg className="w-5 h-5 text-premium-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-premium-gold font-semibold tracking-wider text-sm uppercase">Knowledge Center</span>
+              </motion.div>
+              
+              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-white mb-6">
+                Frequently Asked
+                <span className="block text-gradient-gold italic mt-2">Questions</span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                Expert answers to guide your whisky investment journey
               </p>
             </motion.div>
           </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        >
+          <svg className="w-6 h-6 text-premium-gold animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </motion.div>
       </section>
 
       {/* FAQ Content */}
-      <section className="section bg-white">
+      <section className="section bg-gradient-to-b from-white to-whisky-50">
         <div className="container-custom">
           {/* Category Filter */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex flex-wrap justify-center gap-4 mb-12"
+            className="flex flex-wrap justify-center gap-3 mb-16"
           >
             {categories.map(category => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                   activeCategory === category.id
-                    ? 'bg-gold text-charcoal'
-                    : 'bg-whisky-100 text-charcoal/70 hover:bg-whisky-200'
+                    ? 'bg-gradient-to-r from-antique-gold to-premium-gold text-charcoal shadow-lg transform scale-105'
+                    : 'bg-white border border-whisky-200 text-charcoal/70 hover:bg-whisky-50 hover:border-premium-gold/30'
                 }`}
               >
                 {category.name}
@@ -161,18 +203,18 @@ const FAQ: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="bg-whisky-50 rounded-lg overflow-hidden"
+                className="bg-white border border-whisky-100 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <button
                   onClick={() => toggleItem(index)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-whisky-100 transition-colors duration-200"
+                  className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-whisky-50 transition-colors duration-200 group"
                 >
-                  <h3 className="font-semibold text-charcoal pr-4">{faq.question}</h3>
-                  <ChevronDownIcon 
-                    className={`h-5 w-5 text-charcoal/60 transition-transform duration-300 ${
-                      openItems.includes(index) ? 'rotate-180' : ''
-                    }`}
-                  />
+                  <h3 className="font-serif text-lg md:text-xl text-charcoal pr-4 group-hover:text-irish-green transition-colors">{faq.question}</h3>
+                  <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-whisky-100 group-hover:bg-premium-gold/20 transition-all duration-300 ${
+                    openItems.includes(index) ? 'rotate-180' : ''
+                  }`}>
+                    <ChevronDownIcon className="h-5 w-5 text-charcoal/60 group-hover:text-premium-gold" />
+                  </div>
                 </button>
                 <AnimatePresence>
                   {openItems.includes(index) && (
@@ -182,8 +224,8 @@ const FAQ: React.FC = () => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <div className="px-6 pb-4">
-                        <p className="text-charcoal/70 leading-relaxed">{faq.answer}</p>
+                      <div className="px-8 pb-6 border-t border-whisky-100">
+                        <p className="text-charcoal/80 leading-relaxed pt-4">{faq.answer}</p>
                       </div>
                     </motion.div>
                   )}

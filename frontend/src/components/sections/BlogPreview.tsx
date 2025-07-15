@@ -33,8 +33,8 @@ const BlogPreview: React.FC = () => {
       slug: 'difference-single-malt-blended-whisky',
       excerpt: 'Understanding the key distinctions between single malt and blended whisky can help investors make informed decisions about their portfolio.',
       featuredImage: {
-        url: 'https://images.unsplash.com/photo-1602166242292-991b55a466e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        alt: 'Whisky bottles',
+        url: '/images/shop-bottle-5.webp',
+        alt: 'Premium single malt whisky bottle',
       },
       category: 'whisky-education',
       publishedAt: '2024-01-15',
@@ -54,7 +54,7 @@ const BlogPreview: React.FC = () => {
       slug: 'climate-affects-whisky-maturation',
       excerpt: 'Explore how different climates impact the maturation process and ultimately influence the value of your whisky investment.',
       featuredImage: {
-        url: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        url: '/images/tfandr-whisky-barrels.webp',
         alt: 'Whisky barrels',
       },
       category: 'investment-guide',
@@ -75,8 +75,8 @@ const BlogPreview: React.FC = () => {
       slug: 'investors-turning-whisky-tangible-asset',
       excerpt: 'Discover why savvy investors are increasingly adding whisky to their portfolios as a hedge against market volatility.',
       featuredImage: {
-        url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        alt: 'Investment charts',
+        url: '/images/shop-daftmill-2011.webp',
+        alt: 'Rare Daftmill 2011 whisky bottle',
       },
       category: 'market-insights',
       publishedAt: '2024-01-05',

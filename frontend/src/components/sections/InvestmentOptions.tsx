@@ -7,40 +7,43 @@ const InvestmentOptions: React.FC = () => {
   const packages = [
     {
       name: 'Starter',
-      price: '€5,000',
-      description: 'Perfect for beginners looking to explore whisky investment',
+      price: '£5,000',
+      description: 'Perfect for beginners looking to explore sustainable whisky investment',
       features: [
         'Single cask ownership',
+        'Carbon-neutral distilleries',
         'Annual portfolio review',
         'Basic market insights',
         'Email support',
         'Quarterly updates',
       ],
       featured: false,
-      color: 'border-whisky-400',
+      color: 'border-eco-green',
     },
     {
       name: 'Premium',
-      price: '€25,000',
-      description: 'Ideal for serious investors seeking portfolio diversification',
+      price: '£25,000',
+      description: 'Ideal for serious investors seeking sustainable portfolio diversification',
       features: [
         'Multiple cask portfolio',
+        'Exclusively carbon-neutral',
         'Quarterly portfolio review',
         'Advanced market analytics',
         'Priority phone support',
         'Monthly updates',
         'Exit strategy planning',
-        'VIP distillery tours',
+        'VIP eco-distillery tours',
       ],
       featured: true,
       color: 'border-gold',
     },
     {
       name: 'Exclusive',
-      price: '€50,000+',
-      description: 'For connoisseurs seeking rare and exceptional opportunities',
+      price: '£50,000+',
+      description: 'For connoisseurs seeking rare and exceptional sustainable opportunities',
       features: [
-        'Rare & vintage casks',
+        'Rare & vintage eco-casks',
+        'Carbon-negative options',
         'Monthly portfolio review',
         'Personal investment advisor',
         '24/7 concierge support',
@@ -50,13 +53,23 @@ const InvestmentOptions: React.FC = () => {
         'Bespoke exit strategies',
       ],
       featured: false,
-      color: 'border-whisky-600',
+      color: 'border-carbon-neutral',
     },
   ];
 
   return (
-    <section className="section bg-gradient-to-br from-charcoal via-charcoal-light to-charcoal">
-      <div className="container-custom">
+    <section className="section relative overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src="/distillery.jpg" 
+          alt="Distillery background" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-charcoal/95 via-charcoal-light/90 to-charcoal/95" />
+      </div>
+      
+      <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -65,10 +78,10 @@ const InvestmentOptions: React.FC = () => {
           className="text-center mb-12 md:mb-16"
         >
           <h2 className="heading-2 text-white mb-4">
-            Investment Packages
+            <span className="text-eco-green">Sustainable</span> Investment Packages
           </h2>
           <p className="text-lg text-white/80 max-w-3xl mx-auto">
-            Choose the investment level that matches your goals and budget
+            Choose the investment level that matches your goals and commitment to carbon-neutral whisky
           </p>
         </motion.div>
 

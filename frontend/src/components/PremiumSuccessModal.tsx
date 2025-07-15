@@ -35,8 +35,8 @@ const investmentFacts = [
   "Rare whisky has outperformed gold, oil, and the S&P 500 over the last decade",
   "The Knight Frank Luxury Investment Index shows whisky up 586% over 10 years",
   "Japanese whisky values have increased by over 300% in the past 5 years",
-  "A bottle of Macallan 1926 sold for €1.9 million at auction in 2019",
-  "The global whisky market is expected to reach €90 billion by 2025",
+  "A bottle of Macallan 1926 sold for £1.9 million at auction in 2019",
+  "The global whisky market is expected to reach £90 billion by 2025",
   "Limited edition releases appreciate an average of 20% annually"
 ];
 

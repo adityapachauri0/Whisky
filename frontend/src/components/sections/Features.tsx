@@ -133,7 +133,7 @@ const Features: React.FC = () => {
             <div className="bg-primary-black rounded-xl py-12 px-8">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 {[
-                  { value: '€2B+', label: 'Market Value' },
+                  { value: '£2B+', label: 'Market Value' },
                   { value: '12.5%', label: 'Avg. Annual Return' },
                   { value: '1000+', label: 'Active Investors' },
                   { value: '98%', label: 'Client Satisfaction' },

@@ -18,10 +18,24 @@ module.exports = {
         'antique-gold': '#b89730',
         'champagne': '#f7e7ce',
         
+        // Natural Green Palette (Irish-inspired)
+        'irish-green': '#1e5e3e',
+        'forest-green': '#2d5540',
+        'sage-green': '#4a7c68',
+        'mint-green': '#7fb69e',
+        'pale-green': '#e8f3ed',
+        
+        // Sustainability & Trust Colors
+        'eco-green': '#3cb371',
+        'earth-brown': '#8b6f47',
+        'stone-gray': '#6c757d',
+        'carbon-neutral': '#2e8b57',
+        
         // Text Colors
         'text-primary': '#ffffff',
         'text-secondary': '#e6d5c4',
         'text-accent': '#d4af37',
+        'text-green': '#3cb371',
         
         // Legacy colors (keeping for compatibility)
         'whisky': {

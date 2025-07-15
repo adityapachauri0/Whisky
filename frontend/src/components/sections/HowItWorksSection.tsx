@@ -16,28 +16,28 @@ const HowItWorksSection: React.FC = () => {
       number: '01',
       title: 'Free Consultation',
       description: 'Speak with our whisky investment experts to understand your goals and explore opportunities tailored to your budget.',
-      image: 'https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/images/shop-hero-image.webp',
     },
     {
       icon: MagnifyingGlassIcon,
       number: '02',
       title: 'Cask Selection',
       description: 'Choose from our curated portfolio of premium casks from renowned distilleries, backed by detailed provenance and projections.',
-      image: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/images/tfandr-whisky-barrels.webp',
     },
     {
       icon: ShieldCheckIcon,
       number: '03',
       title: 'Secure Storage',
       description: 'Your casks are stored in government-bonded warehouses with 24/7 security, insurance, and optimal maturation conditions.',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/distillery.jpg',
     },
     {
       icon: BanknotesIcon,
       number: '04',
       title: 'Exit Strategy',
       description: 'When ready, we help you maximize returns through our global network of collectors, investors, and premium buyers.',
-      image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/whisky-glass.jpg',
     },
   ];
 

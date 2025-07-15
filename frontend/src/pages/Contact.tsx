@@ -216,9 +216,9 @@ const Contact: React.FC = () => {
                       className="form-input"
                     >
                       <option value="not-sure">Not Sure Yet</option>
-                      <option value="starter">Starter (€5,000+)</option>
-                      <option value="premium">Premium (€25,000+)</option>
-                      <option value="exclusive">Exclusive (€50,000+)</option>
+                      <option value="starter">Starter (£5,000+)</option>
+                      <option value="premium">Premium (£25,000+)</option>
+                      <option value="exclusive">Exclusive (£50,000+)</option>
                     </select>
                   </div>
                 </div>

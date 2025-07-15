@@ -5,8 +5,18 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const CTA: React.FC = () => {
   return (
-    <section className="section bg-gradient-to-br from-charcoal via-charcoal-light to-charcoal relative overflow-hidden">
-      {/* Background Pattern */}
+    <section className="section relative overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src="/images/tfandr-whisky-barrels.webp" 
+          alt="Whisky barrels background" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-black/95 via-primary-black/90 to-primary-black/95" />
+      </div>
+      
+      {/* Background Pattern Overlay */}
       <div className="absolute inset-0 opacity-10">
         <div className="bg-pattern-whisky h-full w-full" />
       </div>
@@ -20,11 +30,11 @@ const CTA: React.FC = () => {
           className="max-w-4xl mx-auto text-center"
         >
           <h2 className="heading-2 text-white mb-6">
-            Ready to Start Your Whisky Investment Journey?
+            Ready to Start Your <span className="text-eco-green">Sustainable</span> Whisky Investment Journey?
           </h2>
           <p className="text-xl text-white/80 mb-8 leading-relaxed">
             Join an exclusive community of investors who understand that the finest things in life 
-            can also be the smartest investments. Book your free consultation today.
+            can also be the most responsible investments. Partner with carbon-neutral distilleries today.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -48,11 +58,12 @@ const CTA: React.FC = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
-            className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto"
+            className="mt-12 grid grid-cols-1 sm:grid-cols-4 gap-8 max-w-3xl mx-auto"
           >
             {[
-              { label: 'Minimum Investment', value: '€5,000' },
+              { label: 'Minimum Investment', value: '£5,000' },
               { label: 'Average Returns', value: '12.5% p.a.' },
+              { label: 'Carbon Neutral', value: '100%' },
               { label: 'Investment Period', value: '3-10 years' },
             ].map((stat, index) => (
               <div key={index} className="text-center">
