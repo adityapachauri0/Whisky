@@ -3,12 +3,12 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 
-interface WhiskeyPourAnimationProps {
+interface WhiskyPourAnimationProps {
   isPouring: boolean;
   onAnimationComplete?: () => void;
 }
 
-function WhiskeyGlass({ liquidRef }: { liquidRef: React.RefObject<THREE.Mesh | null> }) {
+function WhiskyGlass({ liquidRef }: { liquidRef: React.RefObject<THREE.Mesh | null> }) {
   const glassRef = useRef<THREE.Mesh>(null);
   
   return (
@@ -74,7 +74,7 @@ function WhiskeyGlass({ liquidRef }: { liquidRef: React.RefObject<THREE.Mesh | n
         />
       </mesh>
       
-      {/* Whiskey Liquid */}
+      {/* Whisky Liquid */}
       <mesh ref={liquidRef} position={[0, -0.9, 0]}>
         <cylinderGeometry args={[0.65, 0.47, 0.01, 64]} />
         <meshPhysicalMaterial
@@ -93,7 +93,7 @@ function WhiskeyGlass({ liquidRef }: { liquidRef: React.RefObject<THREE.Mesh | n
   );
 }
 
-function WhiskeyBottle({ isPouring }: { isPouring: boolean }) {
+function WhiskyBottle({ isPouring }: { isPouring: boolean }) {
   const bottleRef = useRef<THREE.Group>(null);
   const [rotation, setRotation] = useState(0);
   
@@ -184,7 +184,7 @@ function WhiskeyBottle({ isPouring }: { isPouring: boolean }) {
         />
       </mesh>
       
-      {/* Whiskey Liquid Inside */}
+      {/* Whisky Liquid Inside */}
       <mesh position={[0, -0.3, 0]}>
         <cylinderGeometry args={[0.33, 0.38, 1.8, 64]} />
         <meshPhysicalMaterial
@@ -321,7 +321,7 @@ function PouringStream({ isPouring, onComplete, liquidRef }: {
   );
 }
 
-function Scene({ isPouring, onAnimationComplete }: WhiskeyPourAnimationProps) {
+function Scene({ isPouring, onAnimationComplete }: WhiskyPourAnimationProps) {
   const liquidRef = useRef<THREE.Mesh>(null);
   
   return (
@@ -367,15 +367,15 @@ function Scene({ isPouring, onAnimationComplete }: WhiskeyPourAnimationProps) {
         color="#ffffff"
       />
       
-      {/* Accent light for whiskey glow */}
+      {/* Accent light for whisky glow */}
       <pointLight
         position={[0, 0, 0]}
         intensity={0.3}
         color="#FF8C00"
       />
       
-      <WhiskeyGlass liquidRef={liquidRef} />
-      <WhiskeyBottle isPouring={isPouring} />
+      <WhiskyGlass liquidRef={liquidRef} />
+      <WhiskyBottle isPouring={isPouring} />
       <PouringStream isPouring={isPouring} onComplete={onAnimationComplete} liquidRef={liquidRef} />
       
       {/* Table Surface */}
@@ -413,7 +413,7 @@ function Scene({ isPouring, onAnimationComplete }: WhiskeyPourAnimationProps) {
   );
 }
 
-export default function WhiskeyPourAnimation({ isPouring, onAnimationComplete }: WhiskeyPourAnimationProps) {
+export default function WhiskyPourAnimation({ isPouring, onAnimationComplete }: WhiskyPourAnimationProps) {
   const [showMessage, setShowMessage] = useState(false);
   
   useEffect(() => {
@@ -446,7 +446,7 @@ export default function WhiskeyPourAnimation({ isPouring, onAnimationComplete }:
       >
         <div className="bg-amber-900/90 backdrop-blur-md px-8 py-6 rounded-2xl border border-amber-700/50 shadow-2xl">
           <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-2">
-            Let's have a premium whiskey
+            Let's have a premium whisky
           </h3>
           <p className="text-lg md:text-xl text-amber-100 text-center">
             before we discuss investment opportunities

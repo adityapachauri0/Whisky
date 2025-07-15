@@ -8,7 +8,7 @@ const InvestmentOptions: React.FC = () => {
     {
       name: 'Starter',
       price: '€5,000',
-      description: 'Perfect for beginners looking to explore whiskey investment',
+      description: 'Perfect for beginners looking to explore whisky investment',
       features: [
         'Single cask ownership',
         'Annual portfolio review',
@@ -17,7 +17,7 @@ const InvestmentOptions: React.FC = () => {
         'Quarterly updates',
       ],
       featured: false,
-      color: 'border-whiskey-400',
+      color: 'border-whisky-400',
     },
     {
       name: 'Premium',
@@ -50,7 +50,7 @@ const InvestmentOptions: React.FC = () => {
         'Bespoke exit strategies',
       ],
       featured: false,
-      color: 'border-whiskey-600',
+      color: 'border-whisky-600',
     },
   ];
 

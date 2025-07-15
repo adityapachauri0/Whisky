@@ -73,22 +73,22 @@ const Blog: React.FC = () => {
   const mockCategories = [
     { name: 'investment-guide', displayName: 'Investment Guide', count: 15 },
     { name: 'market-insights', displayName: 'Market Insights', count: 12 },
-    { name: 'whiskey-education', displayName: 'Whiskey Education', count: 18 },
+    { name: 'whisky-education', displayName: 'Whisky Education', count: 18 },
     { name: 'company-news', displayName: 'Company News', count: 8 },
   ];
 
   const mockPosts: BlogPost[] = Array(9).fill(null).map((_, index) => ({
     _id: `${index + 1}`,
     title: [
-      'The Complete Guide to Whiskey Cask Investment',
-      'Understanding Single Malt vs Blended Whiskey',
+      'The Complete Guide to Whisky Cask Investment',
+      'Understanding Single Malt vs Blended Whisky',
       'Top 5 Distilleries for Investment in 2024',
-      'How Climate Affects Whiskey Maturation',
-      'Rare Whiskey: A Growing Alternative Asset',
-      'Tax Benefits of Whiskey Investment',
-      'Building a Diversified Whiskey Portfolio',
-      'The Science Behind Whiskey Aging',
-      'Global Whiskey Market Trends 2024',
+      'How Climate Affects Whisky Maturation',
+      'Rare Whisky: A Growing Alternative Asset',
+      'Tax Benefits of Whisky Investment',
+      'Building a Diversified Whisky Portfolio',
+      'The Science Behind Whisky Aging',
+      'Global Whisky Market Trends 2024',
     ][index],
     slug: `post-${index + 1}`,
     excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -128,7 +128,7 @@ const Blog: React.FC = () => {
         <title>Blog & Insights - ViticultWhisky</title>
         <meta 
           name="description" 
-          content="Expert insights, market analysis, and education about whiskey investment." 
+          content="Expert insights, market analysis, and education about whisky investment." 
         />
       </Helmet>
 
@@ -153,7 +153,7 @@ const Blog: React.FC = () => {
       </section>
 
       {/* Search and Filter Section */}
-      <section className="py-8 bg-whiskey-50 sticky top-20 z-30">
+      <section className="py-8 bg-whisky-50 sticky top-20 z-30">
         <div className="container-custom">
           <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
             {/* Search Bar */}
@@ -180,7 +180,7 @@ const Blog: React.FC = () => {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   selectedCategory === 'all'
                     ? 'bg-gold text-charcoal'
-                    : 'bg-white text-charcoal/70 hover:bg-whiskey-100'
+                    : 'bg-white text-charcoal/70 hover:bg-whisky-100'
                 }`}
               >
                 All Articles
@@ -195,7 +195,7 @@ const Blog: React.FC = () => {
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     selectedCategory === category.name
                       ? 'bg-gold text-charcoal'
-                      : 'bg-white text-charcoal/70 hover:bg-whiskey-100'
+                      : 'bg-white text-charcoal/70 hover:bg-whisky-100'
                   }`}
                 >
                   {category.displayName} ({category.count})
@@ -270,7 +270,7 @@ const Blog: React.FC = () => {
                   <button
                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
-                    className="px-4 py-2 rounded-md bg-whiskey-100 text-charcoal disabled:opacity-50 disabled:cursor-not-allowed hover:bg-whiskey-200 transition-colors"
+                    className="px-4 py-2 rounded-md bg-whisky-100 text-charcoal disabled:opacity-50 disabled:cursor-not-allowed hover:bg-whisky-200 transition-colors"
                   >
                     Previous
                   </button>
@@ -283,7 +283,7 @@ const Blog: React.FC = () => {
                         className={`w-10 h-10 rounded-md ${
                           currentPage === page
                             ? 'bg-gold text-charcoal'
-                            : 'bg-whiskey-100 text-charcoal hover:bg-whiskey-200'
+                            : 'bg-whisky-100 text-charcoal hover:bg-whisky-200'
                         } transition-colors`}
                       >
                         {page}
@@ -294,7 +294,7 @@ const Blog: React.FC = () => {
                   <button
                     onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                     disabled={currentPage === totalPages}
-                    className="px-4 py-2 rounded-md bg-whiskey-100 text-charcoal disabled:opacity-50 disabled:cursor-not-allowed hover:bg-whiskey-200 transition-colors"
+                    className="px-4 py-2 rounded-md bg-whisky-100 text-charcoal disabled:opacity-50 disabled:cursor-not-allowed hover:bg-whisky-200 transition-colors"
                   >
                     Next
                   </button>
@@ -317,7 +317,7 @@ const Blog: React.FC = () => {
           >
             <h2 className="heading-2 text-white mb-4">Stay Updated</h2>
             <p className="text-white/80 mb-8">
-              Get the latest whiskey investment insights delivered to your inbox
+              Get the latest whisky investment insights delivered to your inbox
             </p>
             <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input

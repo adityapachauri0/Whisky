@@ -15,7 +15,7 @@
     "migrate": "node scripts/migrate.js"
   },
   "keywords": [
-    "whiskey",
+    "whisky",
     "investment",
     "api"
   ],

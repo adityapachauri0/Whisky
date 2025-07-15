@@ -18,7 +18,7 @@ const BarrelShowcase: React.FC = () => {
             Discover Our <span className="text-gradient-gold">Aged Collection</span>
           </h2>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto mb-8">
-            Explore premium whiskey casks from Scotland's finest distilleries, 
+            Explore premium whisky casks from Scotland's finest distilleries, 
             each with its own story and investment potential.
           </p>
         </motion.div>

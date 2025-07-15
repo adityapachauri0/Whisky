@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface WhiskeyRegion {
+interface WhiskyRegion {
   id: string;
   name: string;
   description: string;
@@ -10,11 +10,11 @@ interface WhiskeyRegion {
   distilleries: string[];
 }
 
-const OurWhiskey: React.FC = () => {
+const OurWhisky: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useState<string>('speyside');
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
-  const regions: WhiskeyRegion[] = [
+  const regions: WhiskyRegion[] = [
     {
       id: 'speyside',
       name: 'Speyside',
@@ -77,7 +77,7 @@ const OurWhiskey: React.FC = () => {
           className="text-center mb-16"
         >
           <h2 className="font-serif italic text-4xl md:text-5xl lg:text-6xl text-text-primary mb-6">
-            Our <span className="text-gradient-gold">Whiskey Selection</span>
+            Our <span className="text-gradient-gold">Whisky Selection</span>
           </h2>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto">
             Explore Scotland's five distinct whisky regions, each offering unique investment opportunities
@@ -122,8 +122,8 @@ const OurWhiskey: React.FC = () => {
               className="relative overflow-hidden rounded-lg shadow-2xl group"
             >
               <img
-                src={imageErrors[currentRegion.id] ? '/whiskey-glass.jpg' : currentRegion.image}
-                alt={`${currentRegion.name} whiskey`}
+                src={imageErrors[currentRegion.id] ? '/whisky-glass.jpg' : currentRegion.image}
+                alt={`${currentRegion.name} whisky`}
                 className="w-full h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
                 onError={() => {
                   setImageErrors(prev => ({ ...prev, [currentRegion.id]: true }));
@@ -240,4 +240,4 @@ const OurWhiskey: React.FC = () => {
   );
 };
 
-export default OurWhiskey;
+export default OurWhisky;

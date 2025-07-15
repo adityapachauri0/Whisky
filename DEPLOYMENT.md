@@ -25,7 +25,7 @@ Update the production environment variables in your hosting platform:
 
 ```env
 NODE_ENV=production
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/whiskey-investment?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/whisky-investment?retryWrites=true&w=majority
 JWT_SECRET=<generate-secure-random-string-min-32-chars>
 # ... (see .env.production for full list)
 ```
@@ -167,7 +167,7 @@ npm run build
 npm start
 
 # With PM2 (recommended)
-pm2 start server.js --name whiskey-backend
+pm2 start server.js --name whisky-backend
 pm2 save
 pm2 startup
 ```
@@ -236,4 +236,4 @@ npx serve -s build
 For deployment support:
 - Check hosting platform documentation
 - Review error logs
-- Contact: devops@whiskeytradingco.com
+- Contact: devops@whiskytradingco.com

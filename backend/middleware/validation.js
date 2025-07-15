@@ -134,8 +134,8 @@ exports.validateContactForm = [
     .withMessage('Invalid contact method')
 ];
 
-// Validation rules for sell whiskey form
-exports.validateSellWhiskey = [
+// Validation rules for sell whisky form
+exports.validateSellWhisky = [
   body('name')
     .trim()
     .notEmpty()
@@ -151,12 +151,12 @@ exports.validateSellWhiskey = [
     .withMessage('Phone number can only contain numbers, spaces, and +()-')
     .isLength({ min: 10, max: 20 })
     .withMessage('Phone number must be between 10 and 20 characters'),
-  body('whiskeyType')
+  body('whiskyType')
     .trim()
     .notEmpty()
-    .withMessage('Whiskey type is required')
+    .withMessage('Whisky type is required')
     .isLength({ max: 100 })
-    .withMessage('Whiskey type cannot exceed 100 characters'),
+    .withMessage('Whisky type cannot exceed 100 characters'),
   body('distillery')
     .trim()
     .notEmpty()

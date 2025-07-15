@@ -1,10 +1,10 @@
-# ViticultWhisky - Premium Whiskey Investment Platform
+# ViticultWhisky - Premium Whisky Investment Platform
 
-A modern, responsive web application for whiskey cask investment, built with React and Node.js.
+A modern, responsive web application for whisky cask investment, built with React and Node.js.
 
 ## 🥃 Overview
 
-This platform connects investors with premium whiskey cask opportunities, providing a seamless experience from initial consultation to portfolio management.
+This platform connects investors with premium whisky cask opportunities, providing a seamless experience from initial consultation to portfolio management.
 
 ## 🚀 Features
 
@@ -39,7 +39,7 @@ This platform connects investors with premium whiskey cask opportunities, provid
 ## 📁 Project Structure
 
 ```
-whiskey-investment-site/
+whisky-investment-site/
 ├── frontend/               # React application
 │   ├── src/
 │   │   ├── components/    # Reusable components
@@ -68,7 +68,7 @@ whiskey-investment-site/
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd whiskey-investment-site
+cd whisky-investment-site
 ```
 
 2. Install backend dependencies:
@@ -130,7 +130,7 @@ The application will be available at:
 ```
 PORT=5000
 NODE_ENV=development
-MONGODB_URI=mongodb://localhost:27017/whiskey-investment
+MONGODB_URI=mongodb://localhost:27017/whisky-investment
 JWT_SECRET=your-secret-key
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587

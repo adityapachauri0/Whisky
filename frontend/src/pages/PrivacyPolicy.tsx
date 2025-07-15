@@ -144,7 +144,7 @@ const PrivacyPolicy: React.FC = () => {
               35 Artillery Lane<br />
               London<br />
               E1 7LP<br />
-              Email: privacy@whiskeytradingco.com<br />
+              Email: privacy@whiskytradingco.com<br />
               Phone: 020 3595 3910
             </p>
 

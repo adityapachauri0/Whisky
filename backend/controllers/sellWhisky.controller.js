@@ -9,8 +9,8 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Handle sell whiskey submissions
-exports.submitSellWhiskey = async (req, res) => {
+// Handle sell whisky submissions
+exports.submitSellWhisky = async (req, res) => {
   try {
     const {
       name,
@@ -46,9 +46,9 @@ exports.submitSellWhiskey = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
-      subject: `New Whiskey Cask Sale Submission - ${distillery} ${year}`,
+      subject: `New Whisky Cask Sale Submission - ${distillery} ${year}`,
       html: `
-        <h2>New Whiskey Cask Sale Submission</h2>
+        <h2>New Whisky Cask Sale Submission</h2>
         
         <h3>Contact Information:</h3>
         <ul>
@@ -79,13 +79,13 @@ exports.submitSellWhiskey = async (req, res) => {
     const confirmationMail = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: 'We\'ve Received Your Whiskey Cask Submission',
+      subject: 'We\'ve Received Your Whisky Cask Submission',
       html: `
         <h2>Thank You for Your Submission</h2>
         
         <p>Dear ${name},</p>
         
-        <p>We've received your whiskey cask submission for the ${distillery} ${year} cask. Our team of experts will review your submission and provide a valuation within 48 hours.</p>
+        <p>We've received your whisky cask submission for the ${distillery} ${year} cask. Our team of experts will review your submission and provide a valuation within 48 hours.</p>
         
         <h3>What Happens Next?</h3>
         <ol>
@@ -97,7 +97,7 @@ exports.submitSellWhiskey = async (req, res) => {
         <p>If you have any questions in the meantime, please don't hesitate to contact us.</p>
         
         <p>Best regards,<br>
-        The Whiskey Investment Team</p>
+        The Whisky Investment Team</p>
       `
     };
 
@@ -111,7 +111,7 @@ exports.submitSellWhiskey = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Sell whiskey submission error:', error);
+    console.error('Sell whisky submission error:', error);
     res.status(500).json({
       success: false,
       message: 'An error occurred while processing your submission. Please try again later.'

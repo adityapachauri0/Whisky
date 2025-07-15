@@ -22,7 +22,7 @@ const Testimonials: React.FC = () => {
       role: 'Portfolio Manager',
       location: 'London, UK',
       rating: 5,
-      content: 'As someone who manages diverse portfolios, I appreciate the tangible nature of whiskey investment. The returns have exceeded my expectations, averaging 14% annually.',
+      content: 'As someone who manages diverse portfolios, I appreciate the tangible nature of whisky investment. The returns have exceeded my expectations, averaging 14% annually.',
       image: '/images/testimonials/sarah.jpg',
     },
     {
@@ -57,7 +57,7 @@ const Testimonials: React.FC = () => {
             What Our <span className="text-gradient-gold">Investors Say</span>
           </h2>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto">
-            Join thousands of satisfied investors who have discovered the potential of whiskey investment
+            Join thousands of satisfied investors who have discovered the potential of whisky investment
           </p>
           <div className="divider-gold mt-8" />
         </motion.div>

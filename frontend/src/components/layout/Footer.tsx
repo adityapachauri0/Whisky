@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
       { name: 'Blog', path: '/blog' },
       { name: 'Investment Guide', path: '/blog/investment-guide' },
       { name: 'Market Insights', path: '/blog/market-insights' },
-      { name: 'Whiskey Regions', path: '/#our-whiskey' },
+      { name: 'Whisky Regions', path: '/#our-whisky' },
       { name: 'Terms & Conditions', path: '/terms' },
       { name: 'Privacy Policy', path: '/privacy' },
     ],
@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
               </span>
             </h3>
             <p className="text-text-secondary text-base leading-relaxed">
-              Your trusted partner in premium whiskey cask investment. Connecting collectors with Scotland's finest distilleries since 2015.
+              Your trusted partner in premium whisky cask investment. Connecting collectors with Scotland's finest distilleries since 2015.
             </p>
             <div className="flex space-x-4 pt-2">
               {footerLinks.social.map((social) => (
@@ -131,11 +131,11 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-serif text-text-primary mb-6">Get in Touch</h4>
             <div className="space-y-4">
               <a
-                href="mailto:invest@whiskeytradingco.com"
+                href="mailto:invest@whiskytradingco.com"
                 className="flex items-center space-x-3 text-text-secondary hover:text-premium-gold transition-colors group"
               >
                 <EnvelopeIcon className="h-5 w-5 text-premium-gold/60 group-hover:text-premium-gold" />
-                <span className="text-sm">invest@whiskeytradingco.com</span>
+                <span className="text-sm">invest@whiskytradingco.com</span>
               </a>
               <a
                 href="tel:+442035953910"
@@ -199,7 +199,7 @@ const Footer: React.FC = () => {
             <p className="text-text-secondary text-xs leading-relaxed text-center">
               <strong className="text-premium-gold uppercase tracking-wider">Investment Risk Warning:</strong> The value of investments and any income from them can fall as well as rise. 
               You may not get back the amount you originally invested. Past performance is not a reliable indicator of future results. 
-              Whiskey cask investment is unregulated and may not be suitable for all investors. Please seek independent financial advice.
+              Whisky cask investment is unregulated and may not be suitable for all investors. Please seek independent financial advice.
             </p>
           </div>
         </motion.div>

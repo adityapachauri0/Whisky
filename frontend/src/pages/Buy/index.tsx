@@ -9,14 +9,14 @@ const Buy: React.FC = () => {
   const [sortBy, setSortBy] = useState('featured');
 
   const categories = [
-    { id: 'all', name: 'All Whiskeys' },
+    { id: 'all', name: 'All Whiskys' },
     { id: 'single-malt', name: 'Single Malt' },
     { id: 'rare-casks', name: 'Rare Casks' },
     { id: 'investment-grade', name: 'Investment Grade' },
     { id: 'limited-edition', name: 'Limited Edition' }
   ];
 
-  const whiskeys = [
+  const whiskys = [
     {
       id: 1,
       name: 'Macallan 18 Year Old',
@@ -97,20 +97,20 @@ const Buy: React.FC = () => {
     }
   ];
 
-  const filteredWhiskeys = whiskeys.filter(whiskey => {
-    if (selectedCategory !== 'all' && whiskey.category !== selectedCategory) return false;
+  const filteredWhiskys = whiskys.filter(whisky => {
+    if (selectedCategory !== 'all' && whisky.category !== selectedCategory) return false;
     
     if (priceRange !== 'all') {
-      if (priceRange === 'under-25k' && whiskey.price >= 25000) return false;
-      if (priceRange === '25k-50k' && (whiskey.price < 25000 || whiskey.price > 50000)) return false;
-      if (priceRange === '50k-100k' && (whiskey.price < 50000 || whiskey.price > 100000)) return false;
-      if (priceRange === 'over-100k' && whiskey.price < 100000) return false;
+      if (priceRange === 'under-25k' && whisky.price >= 25000) return false;
+      if (priceRange === '25k-50k' && (whisky.price < 25000 || whisky.price > 50000)) return false;
+      if (priceRange === '50k-100k' && (whisky.price < 50000 || whisky.price > 100000)) return false;
+      if (priceRange === 'over-100k' && whisky.price < 100000) return false;
     }
     
     return true;
   });
 
-  const sortedWhiskeys = [...filteredWhiskeys].sort((a, b) => {
+  const sortedWhiskys = [...filteredWhiskys].sort((a, b) => {
     if (sortBy === 'price-low') return a.price - b.price;
     if (sortBy === 'price-high') return b.price - a.price;
     if (sortBy === 'age') return parseInt(b.age) - parseInt(a.age);
@@ -139,10 +139,10 @@ const Buy: React.FC = () => {
               className="max-w-3xl"
             >
               <h1 className="font-serif italic text-5xl md:text-6xl lg:text-7xl text-text-primary mb-6">
-                Exceptional <span className="text-gradient-gold">Whiskey Collection</span>
+                Exceptional <span className="text-gradient-gold">Whisky Collection</span>
               </h1>
               <p className="text-xl text-text-secondary max-w-2xl">
-                Discover our curated selection of rare and investment-grade whiskeys from the world's most prestigious distilleries
+                Discover our curated selection of rare and investment-grade whiskys from the world's most prestigious distilleries
               </p>
             </motion.div>
           </div>
@@ -211,9 +211,9 @@ const Buy: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
           >
-            {sortedWhiskeys.map((whiskey, index) => (
+            {sortedWhiskys.map((whisky, index) => (
               <motion.div
-                key={whiskey.id}
+                key={whisky.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -223,8 +223,8 @@ const Buy: React.FC = () => {
                   {/* Image Container */}
                   <div className="relative h-80 overflow-hidden bg-gradient-to-b from-rich-brown/50 to-primary-black/50">
                     <img
-                      src={whiskey.image}
-                      alt={whiskey.name}
+                      src={whisky.image}
+                      alt={whisky.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -242,27 +242,27 @@ const Buy: React.FC = () => {
                     <div className="flex-1">
                       <div className="flex justify-between items-start mb-2">
                         <span className="text-xs font-medium tracking-widest uppercase text-premium-gold">
-                          {whiskey.region}
+                          {whisky.region}
                         </span>
                         <span className="text-xs font-medium tracking-wide text-text-secondary">
-                          {whiskey.age}
+                          {whisky.age}
                         </span>
                       </div>
                       
                       <h3 className="font-serif text-2xl text-text-primary mb-2 group-hover:text-premium-gold transition-colors duration-300">
-                        {whiskey.name}
+                        {whisky.name}
                       </h3>
                       
                       <p className="text-sm text-text-secondary mb-4 line-clamp-2">
-                        {whiskey.description}
+                        {whisky.description}
                       </p>
 
                       <div className="grid grid-cols-2 gap-2 text-xs text-text-secondary mb-4">
                         <div>
-                          <span className="text-premium-gold">ABV:</span> {whiskey.abv}
+                          <span className="text-premium-gold">ABV:</span> {whisky.abv}
                         </div>
                         <div>
-                          <span className="text-premium-gold">Cask:</span> {whiskey.caskType}
+                          <span className="text-premium-gold">Cask:</span> {whisky.caskType}
                         </div>
                       </div>
 
@@ -272,7 +272,7 @@ const Buy: React.FC = () => {
                         {[...Array(5)].map((_, i) => (
                           <svg
                             key={i}
-                            className={`w-4 h-4 ${i < whiskey.investmentRating ? 'text-premium-gold' : 'text-gray-700'}`}
+                            className={`w-4 h-4 ${i < whisky.investmentRating ? 'text-premium-gold' : 'text-gray-700'}`}
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -286,7 +286,7 @@ const Buy: React.FC = () => {
                     <div className="border-t border-premium-gold/20 pt-4">
                       <div className="flex justify-between items-center">
                         <span className="font-serif text-3xl text-text-primary">
-                          £{whiskey.price.toLocaleString()}
+                          £{whisky.price.toLocaleString()}
                         </span>
                         <button className="btn-premium-small group">
                           Enquire
@@ -313,12 +313,12 @@ const Buy: React.FC = () => {
             className="max-w-4xl mx-auto"
           >
             <h2 className="font-serif italic text-4xl md:text-5xl text-text-primary mb-6">
-              Looking to <span className="text-gradient-gold">Sell Your Whiskey?</span>
+              Looking to <span className="text-gradient-gold">Sell Your Whisky?</span>
             </h2>
             <p className="text-xl text-text-secondary mb-8 max-w-2xl mx-auto">
               Get expert valuation and access to our global network of collectors and investors
             </p>
-            <Link to="/sell-whiskey" className="btn-premium inline-flex items-center">
+            <Link to="/sell-whisky" className="btn-premium inline-flex items-center">
               Start Selling
               <ArrowRightIcon className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>

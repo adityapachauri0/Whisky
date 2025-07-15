@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRightIcon, ChartBarIcon, GlobeAltIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 
-const BuySellWhiskey: React.FC = () => {
+const BuySellWhisky: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
 
-  const buyWhiskeyCasks = [
+  const buyWhiskyCasks = [
     {
       id: 1,
       name: 'Highland Single Malt 2018',
@@ -25,7 +25,7 @@ const BuySellWhiskey: React.FC = () => {
       age: '4 Years',
       price: '£18,750',
       image: '/images/shop-bottle-3.webp',
-      description: 'Heavily peated Islay whiskey with strong investment growth',
+      description: 'Heavily peated Islay whisky with strong investment growth',
       abv: '46%',
       caskType: 'First Fill Sherry'
     },
@@ -47,7 +47,7 @@ const BuySellWhiskey: React.FC = () => {
       age: '3 Years',
       price: '£8,500',
       image: '/images/shop-bottle-7.webp',
-      description: 'Triple distilled Lowland whiskey, perfect entry investment',
+      description: 'Triple distilled Lowland whisky, perfect entry investment',
       abv: '40%',
       caskType: 'American Oak'
     }
@@ -57,7 +57,7 @@ const BuySellWhiskey: React.FC = () => {
     {
       icon: ChartBarIcon,
       title: 'Expert Valuation',
-      description: 'Get accurate market valuations from our whiskey investment specialists'
+      description: 'Get accurate market valuations from our whisky investment specialists'
     },
     {
       icon: GlobeAltIcon,
@@ -75,7 +75,7 @@ const BuySellWhiskey: React.FC = () => {
     {
       step: '01',
       title: 'Submit Details',
-      description: 'Provide information about your whiskey cask including age, distillery, and cask type'
+      description: 'Provide information about your whisky cask including age, distillery, and cask type'
     },
     {
       step: '02',
@@ -113,10 +113,10 @@ const BuySellWhiskey: React.FC = () => {
           className="text-center mb-12"
         >
           <h2 className="font-serif italic text-4xl md:text-5xl lg:text-6xl text-text-primary mb-6">
-            Buy & Sell <span className="text-gradient-gold">Premium Whiskey</span>
+            Buy & Sell <span className="text-gradient-gold">Premium Whisky</span>
           </h2>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto">
-            Whether you're looking to invest or liquidate, we provide expert guidance and access to the finest whiskey casks
+            Whether you're looking to invest or liquidate, we provide expert guidance and access to the finest whisky casks
           </p>
           <div className="divider-gold mt-8" />
         </motion.div>
@@ -132,7 +132,7 @@ const BuySellWhiskey: React.FC = () => {
                   : 'text-text-secondary hover:text-premium-gold'
               }`}
             >
-              Buy Whiskey
+              Buy Whisky
             </button>
             <button
               onClick={() => setActiveTab('sell')}
@@ -142,7 +142,7 @@ const BuySellWhiskey: React.FC = () => {
                   : 'text-text-secondary hover:text-premium-gold'
               }`}
             >
-              Sell Whiskey
+              Sell Whisky
             </button>
           </div>
         </div>
@@ -156,7 +156,7 @@ const BuySellWhiskey: React.FC = () => {
           >
             <div className="text-center mb-12">
               <h3 className="font-serif text-3xl text-text-primary mb-4">
-                Investment-Grade Whiskey Casks
+                Investment-Grade Whisky Casks
               </h3>
               <p className="text-lg text-text-secondary max-w-2xl mx-auto">
                 Carefully selected casks from Scotland's most prestigious distilleries with proven investment potential
@@ -165,7 +165,7 @@ const BuySellWhiskey: React.FC = () => {
 
             {/* Cask Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-              {buyWhiskeyCasks.map((cask, index) => (
+              {buyWhiskyCasks.map((cask, index) => (
                 <motion.div
                   key={cask.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -246,10 +246,10 @@ const BuySellWhiskey: React.FC = () => {
               {/* Sell Header */}
               <div className="text-center mb-12">
                 <h3 className="font-serif text-3xl text-text-primary mb-4">
-                  Turn Your Whiskey Investment Into Profit
+                  Turn Your Whisky Investment Into Profit
                 </h3>
                 <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-                  Our expert team helps you achieve the best possible return on your whiskey cask investment
+                  Our expert team helps you achieve the best possible return on your whisky cask investment
                 </p>
               </div>
 
@@ -300,7 +300,7 @@ const BuySellWhiskey: React.FC = () => {
               {/* CTA */}
               <div className="text-center">
                 <Link
-                  to="/sell-whiskey"
+                  to="/sell-whisky"
                   className="btn-premium inline-flex items-center group"
                 >
                   Start Selling Now
@@ -315,4 +315,4 @@ const BuySellWhiskey: React.FC = () => {
   );
 };
 
-export default BuySellWhiskey;
+export default BuySellWhisky;

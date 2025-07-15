@@ -19,7 +19,7 @@ const authRoutes = require('./routes/auth.routes');
 const contactRoutes = require('./routes/contact.routes');
 const consultationRoutes = require('./routes/consultation.routes');
 const blogRoutes = require('./routes/blog.routes');
-const sellWhiskeyRoutes = require('./routes/sellWhiskey.routes');
+const sellWhiskyRoutes = require('./routes/sellWhisky.routes');
 
 const app = express();
 
@@ -115,7 +115,7 @@ const authLimiter = rateLimit({
 });
 
 // MongoDB connection with error handling
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/whiskey-investment', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/whisky-investment', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   autoIndex: true,
@@ -144,7 +144,7 @@ mongoose.connection.on('disconnected', () => {
 app.use('/api/contact', contactRoutes);
 app.use('/api/consultation', consultationRoutes);
 app.use('/api/blog', blogRoutes);
-app.use('/api', sellWhiskeyRoutes);
+app.use('/api', sellWhiskyRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -190,7 +190,7 @@ app.get('/api', (req, res) => {
         getOne: 'GET /api/blog/posts/:slug',
         getCategories: 'GET /api/blog/categories'
       },
-      sellWhiskey: 'POST /api/sell-whiskey'
+      sellWhisky: 'POST /api/sell-whisky'
     }
   });
 });

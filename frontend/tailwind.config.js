@@ -24,7 +24,7 @@ module.exports = {
         'text-accent': '#d4af37',
         
         // Legacy colors (keeping for compatibility)
-        'whiskey': {
+        'whisky': {
           50: '#faf8f5',
           100: '#f5f1e8',
           200: '#e6d5c4',
@@ -93,7 +93,7 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-whiskey': 'linear-gradient(135deg, #1a0f08 0%, #2c1810 50%, #3e2418 100%)',
+        'gradient-whisky': 'linear-gradient(135deg, #1a0f08 0%, #2c1810 50%, #3e2418 100%)',
         'gradient-gold': 'linear-gradient(135deg, #b89730 0%, #d4af37 50%, #f4cf47 100%)',
         'gradient-dark': 'linear-gradient(180deg, #0a0604 0%, #1a0f08 100%)',
       },

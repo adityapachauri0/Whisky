@@ -128,8 +128,8 @@ const emailTemplate = (content) => `
     <div class="footer">
       <p>© 2024 ViticultWhisky. All rights reserved.</p>
       <p>
-        <a href="https://whiskeytradingco.com">Visit our website</a> | 
-        <a href="mailto:info@whiskeytradingco.com">Contact us</a>
+        <a href="https://whiskytradingco.com">Visit our website</a> | 
+        <a href="mailto:info@whiskytradingco.com">Contact us</a>
       </p>
       <p><small>This email was sent from ViticultWhisky. If you believe this was sent in error, please ignore this message.</small></p>
     </div>
@@ -145,7 +145,7 @@ exports.sendEmail = async (options) => {
     
     // Email options
     const mailOptions = {
-      from: `"ViticultWhisky" <${process.env.SMTP_USER || 'noreply@whiskeytradingco.com'}>`,
+      from: `"ViticultWhisky" <${process.env.SMTP_USER || 'noreply@whiskytradingco.com'}>`,
       to: options.to,
       subject: options.subject,
       html: emailTemplate(options.html),
@@ -174,23 +174,23 @@ exports.emailTemplates = {
   welcome: (name) => `
     <h2>Welcome to ViticultWhisky</h2>
     <p>Dear ${name},</p>
-    <p>Welcome to the world of premium whiskey investment!</p>
-    <p>We're thrilled to have you join our exclusive community of whiskey enthusiasts and savvy investors.</p>
+    <p>Welcome to the world of premium whisky investment!</p>
+    <p>We're thrilled to have you join our exclusive community of whisky enthusiasts and savvy investors.</p>
     <p>As a member of ViticultWhisky, you'll have access to:</p>
     <ul>
-      <li>Carefully curated investment opportunities in rare and premium whiskeys</li>
+      <li>Carefully curated investment opportunities in rare and premium whiskys</li>
       <li>Expert market insights and analysis</li>
       <li>Personalized investment consultations</li>
       <li>Exclusive access to limited edition casks and bottles</li>
     </ul>
-    <p>Ready to start your whiskey investment journey?</p>
-    <a href="https://whiskeytradingco.com/get-started" class="button">Get Started</a>
+    <p>Ready to start your whisky investment journey?</p>
+    <a href="https://whiskytradingco.com/get-started" class="button">Get Started</a>
   `,
   
   investmentInquiry: (data) => `
     <h2>Thank You for Your Investment Inquiry</h2>
     <p>Dear ${data.name},</p>
-    <p>We've received your inquiry about investing in whiskey and are excited about the opportunity to work with you.</p>
+    <p>We've received your inquiry about investing in whisky and are excited about the opportunity to work with you.</p>
     <p>Your investment profile:</p>
     <ul>
       <li><strong>Budget Range:</strong> ${data.budget}</li>
@@ -199,6 +199,6 @@ exports.emailTemplates = {
     </ul>
     <p>One of our investment specialists will review your information and contact you within 24-48 hours to discuss your personalized investment strategy.</p>
     <p>In the meantime, feel free to explore our investment guide and market insights on our website.</p>
-    <a href="https://whiskeytradingco.com/investment-guide" class="button">View Investment Guide</a>
+    <a href="https://whiskytradingco.com/investment-guide" class="button">View Investment Guide</a>
   `
 };

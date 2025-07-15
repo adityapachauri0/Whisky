@@ -8,35 +8,35 @@ interface PremiumSuccessModalProps {
   userName?: string;
 }
 
-const whiskeyQuotes = [
+const whiskyQuotes = [
   {
-    quote: "Too much of anything is bad, but too much good whiskey is barely enough.",
+    quote: "Too much of anything is bad, but too much good whisky is barely enough.",
     author: "Mark Twain"
   },
   {
-    quote: "Whiskey is liquid sunshine.",
+    quote: "Whisky is liquid sunshine.",
     author: "George Bernard Shaw"
   },
   {
-    quote: "The water was not fit to drink. To make it palatable, we had to add whiskey. By diligent effort, I learned to like it.",
+    quote: "The water was not fit to drink. To make it palatable, we had to add whisky. By diligent effort, I learned to like it.",
     author: "Winston Churchill"
   },
   {
-    quote: "Whiskey, like a beautiful woman, demands appreciation.",
+    quote: "Whisky, like a beautiful woman, demands appreciation.",
     author: "W.C. Fields"
   },
   {
-    quote: "There is no bad whiskey. There are only some whiskeys that aren't as good as others.",
+    quote: "There is no bad whisky. There are only some whiskys that aren't as good as others.",
     author: "Raymond Chandler"
   }
 ];
 
 const investmentFacts = [
-  "Rare whiskey has outperformed gold, oil, and the S&P 500 over the last decade",
-  "The Knight Frank Luxury Investment Index shows whiskey up 586% over 10 years",
-  "Japanese whiskey values have increased by over 300% in the past 5 years",
+  "Rare whisky has outperformed gold, oil, and the S&P 500 over the last decade",
+  "The Knight Frank Luxury Investment Index shows whisky up 586% over 10 years",
+  "Japanese whisky values have increased by over 300% in the past 5 years",
   "A bottle of Macallan 1926 sold for €1.9 million at auction in 2019",
-  "The global whiskey market is expected to reach €90 billion by 2025",
+  "The global whisky market is expected to reach €90 billion by 2025",
   "Limited edition releases appreciate an average of 20% annually"
 ];
 
@@ -48,7 +48,7 @@ export default function PremiumSuccessModal({ isOpen, onClose, userName }: Premi
     if (isOpen) {
       // Rotate quotes every 5 seconds
       const quoteInterval = setInterval(() => {
-        setCurrentQuoteIndex((prev) => (prev + 1) % whiskeyQuotes.length);
+        setCurrentQuoteIndex((prev) => (prev + 1) % whiskyQuotes.length);
       }, 5000);
 
       // Rotate facts every 4 seconds
@@ -208,7 +208,7 @@ export default function PremiumSuccessModal({ isOpen, onClose, userName }: Premi
                 </AnimatePresence>
               </motion.div>
 
-              {/* Whiskey Quote */}
+              {/* Whisky Quote */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -223,10 +223,10 @@ export default function PremiumSuccessModal({ isOpen, onClose, userName }: Premi
                     exit={{ opacity: 0, y: -10 }}
                   >
                     <p className="text-lg sm:text-xl md:text-2xl text-amber-800 italic mb-2">
-                      "{whiskeyQuotes[currentQuoteIndex].quote}"
+                      "{whiskyQuotes[currentQuoteIndex].quote}"
                     </p>
                     <p className="text-sm sm:text-base text-amber-700 font-semibold">
-                      — {whiskeyQuotes[currentQuoteIndex].author}
+                      — {whiskyQuotes[currentQuoteIndex].author}
                     </p>
                   </motion.div>
                 </AnimatePresence>
@@ -243,7 +243,7 @@ export default function PremiumSuccessModal({ isOpen, onClose, userName }: Premi
                 <ul className="space-y-2 text-sm sm:text-base">
                   <li className="flex items-start">
                     <span className="text-amber-300 mr-2">✓</span>
-                    <span>Portfolio analysis by our whiskey investment experts</span>
+                    <span>Portfolio analysis by our whisky investment experts</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-amber-300 mr-2">✓</span>
@@ -251,7 +251,7 @@ export default function PremiumSuccessModal({ isOpen, onClose, userName }: Premi
                   </li>
                   <li className="flex items-start">
                     <span className="text-amber-300 mr-2">✓</span>
-                    <span>Exclusive access to rare whiskey acquisition opportunities</span>
+                    <span>Exclusive access to rare whisky acquisition opportunities</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-amber-300 mr-2">✓</span>

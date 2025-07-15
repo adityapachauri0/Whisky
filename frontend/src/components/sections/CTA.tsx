@@ -8,7 +8,7 @@ const CTA: React.FC = () => {
     <section className="section bg-gradient-to-br from-charcoal via-charcoal-light to-charcoal relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="bg-pattern-whiskey h-full w-full" />
+        <div className="bg-pattern-whisky h-full w-full" />
       </div>
 
       <div className="container-custom relative z-10">
@@ -20,7 +20,7 @@ const CTA: React.FC = () => {
           className="max-w-4xl mx-auto text-center"
         >
           <h2 className="heading-2 text-white mb-6">
-            Ready to Start Your Whiskey Investment Journey?
+            Ready to Start Your Whisky Investment Journey?
           </h2>
           <p className="text-xl text-white/80 mb-8 leading-relaxed">
             Join an exclusive community of investors who understand that the finest things in life 

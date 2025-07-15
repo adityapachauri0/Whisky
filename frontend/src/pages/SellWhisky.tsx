@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-interface SellWhiskeyFormData {
+interface SellWhiskyFormData {
   name: string;
   email: string;
   phone: string;
@@ -17,18 +17,18 @@ interface SellWhiskeyFormData {
   message: string;
 }
 
-const SellWhiskey: React.FC = () => {
+const SellWhisky: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
   
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<SellWhiskeyFormData>();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<SellWhiskyFormData>();
 
-  const onSubmit = async (data: SellWhiskeyFormData) => {
+  const onSubmit = async (data: SellWhiskyFormData) => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/sell-whiskey`, data);
+      await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/sell-whisky`, data);
       setSubmitStatus('success');
       reset();
     } catch (error) {
@@ -41,8 +41,8 @@ const SellWhiskey: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Sell Your Whiskey Cask | Get Expert Valuation</title>
-        <meta name="description" content="Submit your whiskey cask for sale. Get expert valuation and access to our global network of buyers." />
+        <title>Sell Your Whisky Cask | Get Expert Valuation</title>
+        <meta name="description" content="Submit your whisky cask for sale. Get expert valuation and access to our global network of buyers." />
       </Helmet>
 
       {/* Hero Section */}
@@ -50,7 +50,7 @@ const SellWhiskey: React.FC = () => {
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80"
-            alt="Whiskey warehouse"
+            alt="Whisky warehouse"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-900/60 to-gray-900" />
@@ -63,7 +63,7 @@ const SellWhiskey: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-5xl md:text-6xl font-bold text-white mb-6"
           >
-            Sell Your Whiskey Cask
+            Sell Your Whisky Cask
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -316,4 +316,4 @@ const SellWhiskey: React.FC = () => {
   );
 };
 
-export default SellWhiskey;
+export default SellWhisky;

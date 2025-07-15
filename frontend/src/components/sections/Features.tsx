@@ -24,7 +24,7 @@ const Features: React.FC = () => {
     {
       icon: ChartBarIcon,
       title: 'High Performing Asset',
-      description: 'Whiskey has outperformed traditional investments with average annual returns of 12.5% over the past decade.',
+      description: 'Whisky has outperformed traditional investments with average annual returns of 12.5% over the past decade.',
     },
     {
       icon: CurrencyDollarIcon,
@@ -39,7 +39,7 @@ const Features: React.FC = () => {
     {
       icon: GlobeAltIcon,
       title: 'Global Market Access',
-      description: 'Tap into the growing global demand for premium whiskey with our international network of buyers.',
+      description: 'Tap into the growing global demand for premium whisky with our international network of buyers.',
     },
   ];
 
@@ -86,10 +86,10 @@ const Features: React.FC = () => {
           className="text-center mb-16 md:mb-20"
         >
           <h2 className="font-serif italic text-4xl md:text-5xl lg:text-6xl text-text-primary mb-6">
-            Why Choose <span className="text-gradient-gold">Whiskey Investment?</span>
+            Why Choose <span className="text-gradient-gold">Whisky Investment?</span>
           </h2>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
-            Discover the advantages of adding premium whiskey casks to your investment portfolio
+            Discover the advantages of adding premium whisky casks to your investment portfolio
           </p>
           <div className="divider-gold mt-8" />
         </motion.div>

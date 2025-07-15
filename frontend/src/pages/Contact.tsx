@@ -62,8 +62,8 @@ const Contact: React.FC = () => {
     {
       icon: EnvelopeIcon,
       title: 'Email',
-      content: 'info@whiskeytradingco.com',
-      link: 'mailto:info@whiskeytradingco.com',
+      content: 'info@whiskytradingco.com',
+      link: 'mailto:info@whiskytradingco.com',
     },
     {
       icon: MapPinIcon,
@@ -84,7 +84,7 @@ const Contact: React.FC = () => {
         <title>Contact Us - ViticultWhisky</title>
         <meta 
           name="description" 
-          content="Get in touch with our whiskey investment experts. Book a free consultation or send us a message." 
+          content="Get in touch with our whisky investment experts. Book a free consultation or send us a message." 
         />
       </Helmet>
 
@@ -101,7 +101,7 @@ const Contact: React.FC = () => {
             >
               <h1 className="heading-1 text-white mb-6">Get In Touch</h1>
               <p className="text-xl text-white/90">
-                Start your whiskey investment journey today
+                Start your whisky investment journey today
               </p>
             </motion.div>
           </div>
@@ -298,7 +298,7 @@ const Contact: React.FC = () => {
               <div>
                 <h2 className="heading-3 text-charcoal mb-6">Contact Information</h2>
                 <p className="text-charcoal/70 mb-8">
-                  Ready to explore whiskey investment opportunities? Our team is here to guide you 
+                  Ready to explore whisky investment opportunities? Our team is here to guide you 
                   through every step of your investment journey.
                 </p>
               </div>
@@ -306,7 +306,7 @@ const Contact: React.FC = () => {
               <div className="space-y-6">
                 {contactInfo.map((info, index) => (
                   <div key={index} className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-whiskey-100 rounded-lg flex items-center justify-center">
+                    <div className="flex-shrink-0 w-12 h-12 bg-whisky-100 rounded-lg flex items-center justify-center">
                       <info.icon className="h-6 w-6 text-gold" />
                     </div>
                     <div>
@@ -329,7 +329,7 @@ const Contact: React.FC = () => {
               </div>
 
               {/* Consultation Booking */}
-              <div className="bg-whiskey-50 rounded-xl p-6 mt-8">
+              <div className="bg-whisky-50 rounded-xl p-6 mt-8">
                 <h3 className="font-semibold text-charcoal mb-4">Book a Free Consultation</h3>
                 <p className="text-charcoal/70 mb-4">
                   Prefer to speak directly with an investment specialist? Schedule a 30-minute 
@@ -345,7 +345,7 @@ const Contact: React.FC = () => {
       </section>
 
       {/* Map Section (Placeholder) */}
-      <section className="h-96 bg-whiskey-100 relative">
+      <section className="h-96 bg-whisky-100 relative">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
             <MapPinIcon className="h-12 w-12 text-gold mx-auto mb-4" />

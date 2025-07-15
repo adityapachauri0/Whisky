@@ -25,13 +25,13 @@ const FAQ: React.FC = () => {
 
   const faqs: FAQItem[] = [
     {
-      question: 'What is whiskey cask investment?',
-      answer: 'Whiskey cask investment involves purchasing entire casks of whiskey directly from distilleries or through specialized brokers. As the whiskey ages, it typically increases in value due to maturation, evaporation (the "angel\'s share"), and growing market demand. Investors can hold casks for several years before selling them to collectors, independent bottlers, or back to distilleries.',
+      question: 'What is whisky cask investment?',
+      answer: 'Whisky cask investment involves purchasing entire casks of whisky directly from distilleries or through specialized brokers. As the whisky ages, it typically increases in value due to maturation, evaporation (the "angel\'s share"), and growing market demand. Investors can hold casks for several years before selling them to collectors, independent bottlers, or back to distilleries.',
       category: 'getting-started',
     },
     {
-      question: 'Why is whiskey investment so popular?',
-      answer: 'Whiskey has demonstrated its potential as an excellent alternative investment. As a tangible asset, it has provided more financial security than many traditional investments, with values typically appreciating over time. The global whiskey market has grown significantly, driven by increasing demand from emerging markets and collectors seeking rare and aged spirits.',
+      question: 'Why is whisky investment so popular?',
+      answer: 'Whisky has demonstrated its potential as an excellent alternative investment. As a tangible asset, it has provided more financial security than many traditional investments, with values typically appreciating over time. The global whisky market has grown significantly, driven by increasing demand from emerging markets and collectors seeking rare and aged spirits.',
       category: 'getting-started',
     },
     {
@@ -41,27 +41,27 @@ const FAQ: React.FC = () => {
     },
     {
       question: 'How do I know my investment is secure?',
-      answer: 'Your whiskey casks are stored in government-bonded warehouses with 24/7 security, comprehensive insurance, and strict inventory controls. You receive official ownership documentation from the distillery, and we provide regular authentication certificates. Additionally, all casks are uniquely numbered and tracked in the warehouse management system.',
+      answer: 'Your whisky casks are stored in government-bonded warehouses with 24/7 security, comprehensive insurance, and strict inventory controls. You receive official ownership documentation from the distillery, and we provide regular authentication certificates. Additionally, all casks are uniquely numbered and tracked in the warehouse management system.',
       category: 'storage',
     },
     {
-      question: 'What returns can I expect from whiskey investment?',
-      answer: 'While past performance doesn\'t guarantee future results, whiskey cask investments have historically averaged returns of 12-15% annually. Premium and rare casks have sometimes achieved even higher returns. Factors affecting returns include the distillery\'s reputation, the whiskey\'s age, rarity, and market demand.',
+      question: 'What returns can I expect from whisky investment?',
+      answer: 'While past performance doesn\'t guarantee future results, whisky cask investments have historically averaged returns of 12-15% annually. Premium and rare casks have sometimes achieved even higher returns. Factors affecting returns include the distillery\'s reputation, the whisky\'s age, rarity, and market demand.',
       category: 'returns',
     },
     {
-      question: 'Is whiskey investment tax-free?',
-      answer: 'In many jurisdictions, whiskey is classified as a "wasting asset" with a predictable lifespan of less than 50 years, making it exempt from capital gains tax. However, tax regulations vary by country, and we strongly recommend consulting with a tax professional about your specific situation.',
+      question: 'Is whisky investment tax-free?',
+      answer: 'In many jurisdictions, whisky is classified as a "wasting asset" with a predictable lifespan of less than 50 years, making it exempt from capital gains tax. However, tax regulations vary by country, and we strongly recommend consulting with a tax professional about your specific situation.',
       category: 'returns',
     },
     {
-      question: 'How long should I hold my whiskey investment?',
+      question: 'How long should I hold my whisky investment?',
       answer: 'We typically recommend holding casks for a minimum of 3-5 years to capitalize on optimal growth and returns. However, the ideal holding period depends on the specific cask, market conditions, and your investment goals. Generally, the longer you hold a cask, the more valuable it becomes, with some investors holding premium casks for 10-20 years.',
       category: 'investment',
     },
     {
-      question: 'Can I visit and taste my whiskey?',
-      answer: 'Yes! We arrange exclusive distillery visits for our investors, where you can see your casks and sample your whiskey (subject to distillery regulations). Premium and Exclusive package holders receive complimentary annual visits, while Starter package holders can arrange visits for a nominal fee.',
+      question: 'Can I visit and taste my whisky?',
+      answer: 'Yes! We arrange exclusive distillery visits for our investors, where you can see your casks and sample your whisky (subject to distillery regulations). Premium and Exclusive package holders receive complimentary annual visits, while Starter package holders can arrange visits for a nominal fee.',
       category: 'investment',
     },
     {
@@ -70,8 +70,8 @@ const FAQ: React.FC = () => {
       category: 'selling',
     },
     {
-      question: 'Can I bottle my whiskey instead of selling the cask?',
-      answer: 'Absolutely! Many investors choose to bottle their whiskey for personal consumption or as gifts. We can arrange professional bottling services, including custom labeling and packaging. This option is particularly popular for special occasions or when a cask has reached exceptional quality.',
+      question: 'Can I bottle my whisky instead of selling the cask?',
+      answer: 'Absolutely! Many investors choose to bottle their whisky for personal consumption or as gifts. We can arrange professional bottling services, including custom labeling and packaging. This option is particularly popular for special occasions or when a cask has reached exceptional quality.',
       category: 'selling',
     },
     {
@@ -104,7 +104,7 @@ const FAQ: React.FC = () => {
         <title>Frequently Asked Questions - ViticultWhisky</title>
         <meta 
           name="description" 
-          content="Find answers to common questions about whiskey cask investment, returns, storage, and more." 
+          content="Find answers to common questions about whisky cask investment, returns, storage, and more." 
         />
       </Helmet>
 
@@ -121,7 +121,7 @@ const FAQ: React.FC = () => {
             >
               <h1 className="heading-1 text-white mb-6">Frequently Asked Questions</h1>
               <p className="text-xl text-white/90">
-                Everything you need to know about whiskey investment
+                Everything you need to know about whisky investment
               </p>
             </motion.div>
           </div>
@@ -145,7 +145,7 @@ const FAQ: React.FC = () => {
                 className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
                   activeCategory === category.id
                     ? 'bg-gold text-charcoal'
-                    : 'bg-whiskey-100 text-charcoal/70 hover:bg-whiskey-200'
+                    : 'bg-whisky-100 text-charcoal/70 hover:bg-whisky-200'
                 }`}
               >
                 {category.name}
@@ -161,11 +161,11 @@ const FAQ: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="bg-whiskey-50 rounded-lg overflow-hidden"
+                className="bg-whisky-50 rounded-lg overflow-hidden"
               >
                 <button
                   onClick={() => toggleItem(index)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-whiskey-100 transition-colors duration-200"
+                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-whisky-100 transition-colors duration-200"
                 >
                   <h3 className="font-semibold text-charcoal pr-4">{faq.question}</h3>
                   <ChevronDownIcon 
@@ -195,7 +195,7 @@ const FAQ: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="section bg-gradient-to-br from-whiskey-100 to-white">
+      <section className="section bg-gradient-to-br from-whisky-100 to-white">
         <div className="container-custom">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -208,7 +208,7 @@ const FAQ: React.FC = () => {
               Still Have Questions?
             </h2>
             <p className="text-lg text-charcoal/70 mb-8">
-              Our investment specialists are here to help you understand every aspect of whiskey investment
+              Our investment specialists are here to help you understand every aspect of whisky investment
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact" className="btn-primary group">

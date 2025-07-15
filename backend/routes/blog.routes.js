@@ -18,7 +18,7 @@ const validatePost = [
     .notEmpty().withMessage('Content is required'),
   body('category')
     .notEmpty().withMessage('Category is required')
-    .isIn(['investment-guide', 'market-insights', 'whiskey-education', 'company-news', 'case-studies'])
+    .isIn(['investment-guide', 'market-insights', 'whisky-education', 'company-news', 'case-studies'])
     .withMessage('Invalid category'),
   body('author.name')
     .trim()

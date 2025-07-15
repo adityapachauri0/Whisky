@@ -19,7 +19,7 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import BuySell from './pages/BuySell';
 import Buy from './pages/Buy';
-import SellWhiskey from './pages/SellWhiskey';
+import SellWhisky from './pages/SellWhisky';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 
@@ -52,7 +52,7 @@ function App() {
                   <Route path="/how-it-works" element={<HowItWorks />} />
                   <Route path="/buy-sell" element={<BuySell />} />
                   <Route path="/buy" element={<Buy />} />
-                  <Route path="/sell-whiskey" element={<SellWhiskey />} />
+                  <Route path="/sell-whisky" element={<SellWhisky />} />
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/blog" element={<Blog />} />

@@ -10,7 +10,7 @@ const Terms: React.FC = () => {
         <title>Terms of Service - ViticultWhisky</title>
         <meta 
           name="description" 
-          content="Terms of Service for ViticultWhisky. Read our terms and conditions for using our whiskey investment platform." 
+          content="Terms of Service for ViticultWhisky. Read our terms and conditions for using our whisky investment platform." 
         />
       </Helmet>
 
@@ -60,18 +60,18 @@ const Terms: React.FC = () => {
             <h2>3. Investment Services</h2>
             <h3>3.1 Nature of Services</h3>
             <p>
-              ViticultWhisky provides a platform for investing in whiskey casks. Our services include:
+              ViticultWhisky provides a platform for investing in whisky casks. Our services include:
             </p>
             <ul>
-              <li>Sourcing and authentication of whiskey casks</li>
+              <li>Sourcing and authentication of whisky casks</li>
               <li>Storage and insurance arrangements</li>
               <li>Market analysis and investment information</li>
-              <li>Facilitating the purchase and sale of whiskey casks</li>
+              <li>Facilitating the purchase and sale of whisky casks</li>
             </ul>
 
             <h3>3.2 Investment Risks</h3>
             <p>
-              <strong>Important:</strong> Investing in whiskey casks involves significant risks, including:
+              <strong>Important:</strong> Investing in whisky casks involves significant risks, including:
             </p>
             <ul>
               <li>Market volatility and price fluctuations</li>
@@ -101,7 +101,7 @@ const Terms: React.FC = () => {
               You agree to pay all fees associated with your use of our services, including:
             </p>
             <ul>
-              <li>Purchase prices for whiskey casks</li>
+              <li>Purchase prices for whisky casks</li>
               <li>Storage and insurance fees</li>
               <li>Transaction fees</li>
               <li>Any applicable taxes</li>
@@ -183,7 +183,7 @@ const Terms: React.FC = () => {
               35 Artillery Lane<br />
               London<br />
               E1 7LP<br />
-              Email: legal@whiskeytradingco.com<br />
+              Email: legal@whiskytradingco.com<br />
               Phone: 020 3595 3910
             </p>
 

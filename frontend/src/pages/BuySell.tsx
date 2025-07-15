@@ -1,14 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import BuySellWhiskey from '../components/sections/BuySellWhiskey';
+import BuySellWhisky from '../components/sections/BuySellWhisky';
 
 const BuySell: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Buy & Sell Whiskey Casks | Premium Investment Opportunities</title>
-        <meta name="description" content="Buy premium whiskey casks or sell your existing investments through our expert network." />
+        <title>Buy & Sell Whisky Casks | Premium Investment Opportunities</title>
+        <meta name="description" content="Buy premium whisky casks or sell your existing investments through our expert network." />
       </Helmet>
 
       {/* Hero Section */}
@@ -17,7 +17,7 @@ const BuySell: React.FC = () => {
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1568835983906-85fb67128025?w=1920&q=80"
-            alt="Whiskey barrels in warehouse"
+            alt="Whisky barrels in warehouse"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-900/60 to-gray-900" />
@@ -32,7 +32,7 @@ const BuySell: React.FC = () => {
             className="text-6xl md:text-7xl font-bold text-white mb-6"
           >
             Buy & Sell
-            <span className="block text-amber-400">Whiskey Casks</span>
+            <span className="block text-amber-400">Whisky Casks</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -46,7 +46,7 @@ const BuySell: React.FC = () => {
       </section>
 
       {/* Buy & Sell Section */}
-      <BuySellWhiskey />
+      <BuySellWhisky />
 
       {/* Additional Info Section */}
       <section className="bg-gray-100 py-20">
@@ -63,7 +63,7 @@ const BuySell: React.FC = () => {
                 Why Trade With Us?
               </h2>
               <p className="text-xl text-gray-600">
-                Over 20 years of expertise in the whiskey investment market
+                Over 20 years of expertise in the whisky investment market
               </p>
             </motion.div>
 

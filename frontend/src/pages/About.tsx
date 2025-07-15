@@ -21,7 +21,7 @@ const About: React.FC = () => {
     {
       name: 'James McCullough',
       role: 'Master Distiller Advisor',
-      bio: '30+ years crafting and evaluating premium whiskeys',
+      bio: '30+ years crafting and evaluating premium whiskys',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80',
     },
     {
@@ -38,7 +38,7 @@ const About: React.FC = () => {
         <title>About Us - ViticultWhisky</title>
         <meta 
           name="description" 
-          content="Learn about ViticultWhisky's mission, team, and heritage in premium whiskey investment." 
+          content="Learn about ViticultWhisky's mission, team, and heritage in premium whisky investment." 
         />
       </Helmet>
 
@@ -47,7 +47,7 @@ const About: React.FC = () => {
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&w=1920&q=80"
-            alt="Whiskey warehouse with barrels"
+            alt="Whisky warehouse with barrels"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/70 to-gray-900" />
@@ -64,7 +64,7 @@ const About: React.FC = () => {
                 About ViticultWhisky
               </h1>
               <p className="text-xl md:text-2xl text-gray-200 font-light">
-                A Legacy of Excellence in Whiskey Investment
+                A Legacy of Excellence in Whisky Investment
               </p>
             </motion.div>
           </div>
@@ -83,7 +83,7 @@ const About: React.FC = () => {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-6">
-                The Art of Whiskey Investment
+                The Art of Whisky Investment
               </h2>
               <div className="w-24 h-1 bg-amber-600 mx-auto mb-8" />
             </motion.div>
@@ -97,7 +97,7 @@ const About: React.FC = () => {
               >
                 <h3 className="text-3xl font-serif text-gray-900 mb-6">Our Heritage</h3>
                 <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                  Founded by whiskey enthusiasts and investment professionals, ViticultWhisky bridges
+                  Founded by whisky enthusiasts and investment professionals, ViticultWhisky bridges
                   the gap between traditional craftsmanship and modern investment strategies. We've spent
                   decades building relationships with Scotland's most prestigious distilleries.
                 </p>
@@ -123,7 +123,7 @@ const About: React.FC = () => {
               >
                 <img
                   src="https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?ixlib=rb-4.0.3&w=800&q=80"
-                  alt="Premium whiskey casks in warehouse"
+                  alt="Premium whisky casks in warehouse"
                   className="rounded-lg shadow-2xl"
                 />
                 <div className="absolute -bottom-8 -left-8 bg-amber-600 text-white p-6 rounded-lg shadow-xl max-w-xs">
@@ -143,7 +143,7 @@ const About: React.FC = () => {
               >
                 <img
                   src="https://images.unsplash.com/photo-1569529465841-dfecdab7503b?ixlib=rb-4.0.3&w=800&q=80"
-                  alt="Master distiller examining whiskey"
+                  alt="Master distiller examining whisky"
                   className="rounded-lg shadow-2xl"
                 />
               </motion.div>
@@ -162,7 +162,7 @@ const About: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Unrivalled Expertise</h4>
-                      <p className="text-gray-700">Over 100 years of combined experience in whiskey and investments</p>
+                      <p className="text-gray-700">Over 100 years of combined experience in whisky and investments</p>
                     </div>
                   </div>
                   <div className="flex items-start">
@@ -204,7 +204,7 @@ const About: React.FC = () => {
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?ixlib=rb-4.0.3&w=1920&q=80"
-            alt="Whiskey aging in barrels"
+            alt="Whisky aging in barrels"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gray-900/80" />
@@ -221,7 +221,7 @@ const About: React.FC = () => {
                 Our Investment Philosophy
               </h2>
               <p className="text-xl md:text-2xl font-light mb-12 leading-relaxed">
-                "Great whiskey, like great investments, requires patience, expertise, and an
+                "Great whisky, like great investments, requires patience, expertise, and an
                 unwavering commitment to quality. We believe in the intrinsic value of aged spirits
                 – not just as a beverage, but as a tangible asset that appreciates with time."
               </p>
@@ -287,7 +287,7 @@ const About: React.FC = () => {
               Ready to Join Our Investment Community?
             </h2>
             <p className="text-xl text-white/80 mb-8">
-              Let's discuss how whiskey investment can enhance your portfolio
+              Let's discuss how whisky investment can enhance your portfolio
             </p>
             <Link to="/contact" className="btn-primary">
               Book Your Consultation

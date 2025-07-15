@@ -30,7 +30,7 @@ const blogPostSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['investment-guide', 'market-insights', 'whiskey-education', 'company-news', 'case-studies']
+    enum: ['investment-guide', 'market-insights', 'whisky-education', 'company-news', 'case-studies']
   },
   tags: [{
     type: String,

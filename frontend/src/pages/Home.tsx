@@ -4,8 +4,8 @@ import Hero from '../components/sections/Hero';
 import Features from '../components/sections/Features';
 import HowItWorksSection from '../components/sections/HowItWorksSection';
 import InvestmentOptions from '../components/sections/InvestmentOptions';
-import OurWhiskey from '../components/sections/OurWhiskey';
-import BuySellWhiskey from '../components/sections/BuySellWhiskey';
+import OurWhisky from '../components/sections/OurWhisky';
+import BuySellWhisky from '../components/sections/BuySellWhisky';
 import Testimonials from '../components/sections/Testimonials';
 import BlogPreview from '../components/sections/BlogPreview';
 import CTA from '../components/sections/CTA';
@@ -14,19 +14,19 @@ const Home: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>ViticultWhisky - Premium Whiskey Investment Platform</title>
+        <title>ViticultWhisky - Premium Whisky Investment Platform</title>
         <meta 
           name="description" 
-          content="Invest in premium whiskey casks with ViticultWhisky. Build a portfolio of rare and exclusive whiskeys with potential returns that mature over time." 
+          content="Invest in premium whisky casks with ViticultWhisky. Build a portfolio of rare and exclusive whiskys with potential returns that mature over time." 
         />
-        <meta name="keywords" content="whiskey investment, cask investment, alternative investments, Irish whiskey, premium spirits" />
+        <meta name="keywords" content="whisky investment, cask investment, alternative investments, Irish whisky, premium spirits" />
       </Helmet>
 
       <Hero />
       <Features />
       <HowItWorksSection />
-      <OurWhiskey />
-      <BuySellWhiskey />
+      <OurWhisky />
+      <BuySellWhisky />
       <InvestmentOptions />
       <Testimonials />
       <BlogPreview />

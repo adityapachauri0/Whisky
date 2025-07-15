@@ -27,7 +27,7 @@ exports.createConsultation = async (req, res) => {
     // Send notification email to admin
     try {
       await sendEmail({
-        to: process.env.ADMIN_EMAIL || 'admin@whiskeytradingco.com',
+        to: process.env.ADMIN_EMAIL || 'admin@whiskytradingco.com',
         subject: `New Consultation Booking - ${consultation.name}`,
         html: `
           <h2>New Consultation Request</h2>
@@ -51,7 +51,7 @@ exports.createConsultation = async (req, res) => {
         html: `
           <h2>Consultation Booking Confirmed</h2>
           <p>Dear ${consultation.name},</p>
-          <p>Thank you for booking a consultation with ViticultWhisky. We're excited to discuss your whiskey investment journey!</p>
+          <p>Thank you for booking a consultation with ViticultWhisky. We're excited to discuss your whisky investment journey!</p>
           
           <h3>Booking Details:</h3>
           <ul>
@@ -65,7 +65,7 @@ exports.createConsultation = async (req, res) => {
           <h3>What to Expect:</h3>
           <ul>
             <li>30-45 minute personalized consultation</li>
-            <li>Overview of whiskey investment opportunities</li>
+            <li>Overview of whisky investment opportunities</li>
             <li>Portfolio recommendations based on your budget and goals</li>
             <li>Q&A session to address all your questions</li>
           </ul>
@@ -232,7 +232,7 @@ exports.getUpcomingConsultations = async (req, res) => {
       try {
         await sendEmail({
           to: consultation.email,
-          subject: 'Reminder: Your Whiskey Investment Consultation Tomorrow',
+          subject: 'Reminder: Your Whisky Investment Consultation Tomorrow',
           html: `
             <h2>Consultation Reminder</h2>
             <p>Dear ${consultation.name},</p>

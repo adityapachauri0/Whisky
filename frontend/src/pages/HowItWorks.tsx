@@ -9,7 +9,7 @@ const HowItWorks: React.FC = () => {
     {
       number: '01',
       title: 'Select Your Cask',
-      description: 'Browse our curated selection of premium whiskey casks from Scotland\'s finest distilleries. Each cask is carefully vetted for quality, provenance, and investment potential.',
+      description: 'Browse our curated selection of premium whisky casks from Scotland\'s finest distilleries. Each cask is carefully vetted for quality, provenance, and investment potential.',
       image: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?ixlib=rb-4.0.3&w=800&q=80',
       features: [
         'Expert cask recommendations',
@@ -58,7 +58,7 @@ const HowItWorks: React.FC = () => {
         <title>How It Works - ViticultWhisky</title>
         <meta 
           name="description" 
-          content="Learn about our simple 5-step process for investing in premium whiskey casks." 
+          content="Learn about our simple 5-step process for investing in premium whisky casks." 
         />
       </Helmet>
 
@@ -67,7 +67,7 @@ const HowItWorks: React.FC = () => {
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1602166242292-991b55a466e4?ixlib=rb-4.0.3&w=1920&q=80"
-            alt="Premium whiskey barrels in warehouse"
+            alt="Premium whisky barrels in warehouse"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-gray-900/70 to-gray-900" />
@@ -84,7 +84,7 @@ const HowItWorks: React.FC = () => {
                 How It Works
               </h1>
               <p className="text-xl md:text-2xl text-gray-200 font-light mb-8">
-                Your whiskey investment journey in three simple steps
+                Your whisky investment journey in three simple steps
               </p>
               <div className="w-32 h-1 bg-amber-600 mx-auto" />
             </motion.div>
@@ -106,7 +106,7 @@ const HowItWorks: React.FC = () => {
               Three Steps to Ownership
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We've simplified whiskey cask investment into a straightforward process that takes the complexity out of alternative asset ownership.
+              We've simplified whisky cask investment into a straightforward process that takes the complexity out of alternative asset ownership.
             </p>
           </motion.div>
 
@@ -168,7 +168,7 @@ const HowItWorks: React.FC = () => {
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?ixlib=rb-4.0.3&w=1920&q=80"
-            alt="Aged whiskey barrels"
+            alt="Aged whisky barrels"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gray-900/85" />
@@ -225,7 +225,7 @@ const HowItWorks: React.FC = () => {
               Ready to Start Your Journey?
             </h2>
             <p className="text-xl text-gray-300 mb-10">
-              Join thousands of investors who have discovered the rewards of whiskey cask ownership
+              Join thousands of investors who have discovered the rewards of whisky cask ownership
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/buy-sell" className="inline-flex items-center bg-amber-600 hover:bg-amber-700 text-white text-lg font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-amber-600/30">

@@ -38,7 +38,7 @@ class EmailService {
   async sendEmail(options) {
     try {
       const mailOptions = {
-        from: `${process.env.EMAIL_FROM_NAME || 'ViticultWhisky'} <${process.env.EMAIL_FROM || 'noreply@whiskeytradingco.com'}>`,
+        from: `${process.env.EMAIL_FROM_NAME || 'ViticultWhisky'} <${process.env.EMAIL_FROM || 'noreply@whiskytradingco.com'}>`,
         to: options.to,
         subject: options.subject,
         text: options.text,
@@ -77,7 +77,7 @@ class EmailService {
           </div>
           <div class="content">
             <h2>Verify Your Email Address</h2>
-            <p>Thank you for registering with ViticultWhisky. To complete your registration and access our exclusive whiskey investment opportunities, please verify your email address.</p>
+            <p>Thank you for registering with ViticultWhisky. To complete your registration and access our exclusive whisky investment opportunities, please verify your email address.</p>
             <p style="text-align: center;">
               <a href="${verificationUrl}" class="button">Verify Email</a>
             </p>
@@ -215,7 +215,7 @@ class EmailService {
 
     // Send to admin
     await this.sendEmail({
-      to: process.env.ADMIN_EMAIL || 'admin@whiskeytradingco.com',
+      to: process.env.ADMIN_EMAIL || 'admin@whiskytradingco.com',
       subject: `New Contact Form Submission - ${data.subject}`,
       text: `New contact form submission from ${data.name} (${data.email})`,
       html,
@@ -246,7 +246,7 @@ class EmailService {
           <div class="content">
             <p>Dear ${name},</p>
             <p>Thank you for reaching out to ViticultWhisky. We've received your message and one of our investment specialists will get back to you within 24-48 hours.</p>
-            <p>In the meantime, feel free to explore our website to learn more about whiskey cask investment opportunities.</p>
+            <p>In the meantime, feel free to explore our website to learn more about whisky cask investment opportunities.</p>
             <p>Best regards,<br>The ViticultWhisky Team</p>
           </div>
           <div class="footer">
@@ -287,7 +287,7 @@ class EmailService {
           </div>
           <div class="content">
             <h2>Your Investment is Being Processed</h2>
-            <p>Thank you for your investment in premium whiskey casks. Your investment details are being reviewed by our team.</p>
+            <p>Thank you for your investment in premium whisky casks. Your investment details are being reviewed by our team.</p>
             <div class="investment-details">
               <h3>Investment Summary:</h3>
               <p><strong>Package:</strong> ${investmentData.package}</p>

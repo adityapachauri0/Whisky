@@ -15,7 +15,7 @@ const HowItWorksSection: React.FC = () => {
       icon: ChatBubbleBottomCenterTextIcon,
       number: '01',
       title: 'Free Consultation',
-      description: 'Speak with our whiskey investment experts to understand your goals and explore opportunities tailored to your budget.',
+      description: 'Speak with our whisky investment experts to understand your goals and explore opportunities tailored to your budget.',
       image: 'https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     },
     {
@@ -52,10 +52,10 @@ const HowItWorksSection: React.FC = () => {
           className="text-center mb-12 md:mb-16"
         >
           <h2 className="heading-2 text-charcoal mb-4">
-            Your Journey to Whiskey Investment
+            Your Journey to Whisky Investment
           </h2>
           <p className="text-lg text-charcoal/70 max-w-3xl mx-auto">
-            Four simple steps to start building your premium whiskey portfolio
+            Four simple steps to start building your premium whisky portfolio
           </p>
         </motion.div>
 
@@ -74,7 +74,7 @@ const HowItWorksSection: React.FC = () => {
               {/* Image */}
               <div className="w-full lg:w-1/2">
                 <div className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-whiskey-600/20 rounded-2xl transform rotate-3 group-hover:rotate-6 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-whisky-600/20 rounded-2xl transform rotate-3 group-hover:rotate-6 transition-transform duration-500" />
                   <img
                     src={step.image}
                     alt={step.title}
@@ -88,7 +88,7 @@ const HowItWorksSection: React.FC = () => {
 
               {/* Content */}
               <div className="w-full lg:w-1/2 space-y-6">
-                <div className="inline-flex p-4 bg-whiskey-100 rounded-xl">
+                <div className="inline-flex p-4 bg-whisky-100 rounded-xl">
                   <step.icon className="h-8 w-8 text-gold" />
                 </div>
                 <h3 className="heading-3 text-charcoal">{step.title}</h3>

@@ -271,7 +271,7 @@ interface BarrelData {
   position: [number, number, number];
 }
 
-export default function WhiskeyBarrelAnimation() {
+export default function WhiskyBarrelAnimation() {
   const [selectedBarrel, setSelectedBarrel] = useState<BarrelData | null>(null);
   
   const barrels: BarrelData[] = [

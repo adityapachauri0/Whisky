@@ -29,14 +29,14 @@ const BlogPreview: React.FC = () => {
   const mockPosts: BlogPost[] = [
     {
       _id: '1',
-      title: 'The Difference Between Single Malt and Blended Whiskey',
-      slug: 'difference-single-malt-blended-whiskey',
-      excerpt: 'Understanding the key distinctions between single malt and blended whiskey can help investors make informed decisions about their portfolio.',
+      title: 'The Difference Between Single Malt and Blended Whisky',
+      slug: 'difference-single-malt-blended-whisky',
+      excerpt: 'Understanding the key distinctions between single malt and blended whisky can help investors make informed decisions about their portfolio.',
       featuredImage: {
         url: 'https://images.unsplash.com/photo-1602166242292-991b55a466e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        alt: 'Whiskey bottles',
+        alt: 'Whisky bottles',
       },
-      category: 'whiskey-education',
+      category: 'whisky-education',
       publishedAt: '2024-01-15',
       readTime: 5,
       author: { name: 'John Smith' },
@@ -50,12 +50,12 @@ const BlogPreview: React.FC = () => {
     },
     {
       _id: '2',
-      title: 'How Climate Affects Whiskey Maturation',
-      slug: 'climate-affects-whiskey-maturation',
-      excerpt: 'Explore how different climates impact the maturation process and ultimately influence the value of your whiskey investment.',
+      title: 'How Climate Affects Whisky Maturation',
+      slug: 'climate-affects-whisky-maturation',
+      excerpt: 'Explore how different climates impact the maturation process and ultimately influence the value of your whisky investment.',
       featuredImage: {
         url: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        alt: 'Whiskey barrels',
+        alt: 'Whisky barrels',
       },
       category: 'investment-guide',
       publishedAt: '2024-01-10',
@@ -71,9 +71,9 @@ const BlogPreview: React.FC = () => {
     },
     {
       _id: '3',
-      title: 'Why Investors Are Turning to Whiskey as a Tangible Asset',
-      slug: 'investors-turning-whiskey-tangible-asset',
-      excerpt: 'Discover why savvy investors are increasingly adding whiskey to their portfolios as a hedge against market volatility.',
+      title: 'Why Investors Are Turning to Whisky as a Tangible Asset',
+      slug: 'investors-turning-whisky-tangible-asset',
+      excerpt: 'Discover why savvy investors are increasingly adding whisky to their portfolios as a hedge against market volatility.',
       featuredImage: {
         url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
         alt: 'Investment charts',

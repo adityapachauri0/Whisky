@@ -10,8 +10,8 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ 
-  videoUrl = 'https://cdn.coverr.co/videos/coverr-pouring-whiskey-into-a-glass-4066/1080p.mp4',
-  imageUrl = '/whiskey-barrels.jpg'
+  videoUrl = 'https://cdn.coverr.co/videos/coverr-pouring-whisky-into-a-glass-4066/1080p.mp4',
+  imageUrl = '/whisky-barrels.jpg'
 }) => {
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
@@ -41,7 +41,7 @@ const Hero: React.FC<HeroProps> = ({
       <div className="absolute inset-0">
         <OptimizedImage
           src={heroImages[currentImageIndex]}
-          alt="Premium whiskey collection"
+          alt="Premium whisky collection"
           className="w-full h-full object-cover transition-opacity duration-1000"
           width="100%"
           height="100%"
@@ -83,8 +83,8 @@ const Hero: React.FC<HeroProps> = ({
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               className="text-xl md:text-2xl text-text-secondary mb-12 leading-relaxed max-w-2xl"
             >
-              Join the exclusive world of whiskey investment. 
-              Build a portfolio of premium casks with potential returns that mature like fine whiskey.
+              Join the exclusive world of whisky investment. 
+              Build a portfolio of premium casks with potential returns that mature like fine whisky.
             </motion.p>
 
             <motion.div

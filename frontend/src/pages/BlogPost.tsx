@@ -61,24 +61,24 @@ const BlogPost: React.FC = () => {
   // Mock data for demo
   const mockPost: BlogPostType = {
     _id: '1',
-    title: 'The Complete Guide to Whiskey Cask Investment',
-    slug: 'complete-guide-whiskey-cask-investment',
-    excerpt: 'Everything you need to know about investing in whiskey casks, from selection to exit strategies.',
+    title: 'The Complete Guide to Whisky Cask Investment',
+    slug: 'complete-guide-whisky-cask-investment',
+    excerpt: 'Everything you need to know about investing in whisky casks, from selection to exit strategies.',
     content: `
-      <h2>Introduction to Whiskey Cask Investment</h2>
-      <p>Whiskey cask investment has emerged as one of the most exciting alternative investment opportunities of the 21st century. As traditional markets face increasing volatility, savvy investors are turning to tangible assets that offer both passion and profit.</p>
+      <h2>Introduction to Whisky Cask Investment</h2>
+      <p>Whisky cask investment has emerged as one of the most exciting alternative investment opportunities of the 21st century. As traditional markets face increasing volatility, savvy investors are turning to tangible assets that offer both passion and profit.</p>
       
-      <h2>Why Invest in Whiskey Casks?</h2>
-      <p>The appeal of whiskey cask investment lies in its unique combination of factors:</p>
+      <h2>Why Invest in Whisky Casks?</h2>
+      <p>The appeal of whisky cask investment lies in its unique combination of factors:</p>
       <ul>
         <li><strong>Tangible Asset:</strong> Unlike stocks or bonds, you own a physical asset</li>
-        <li><strong>Natural Appreciation:</strong> Whiskey improves with age, increasing in value</li>
-        <li><strong>Limited Supply:</strong> As whiskey evaporates (the "angel's share"), supply decreases</li>
-        <li><strong>Growing Demand:</strong> Global whiskey consumption continues to rise</li>
+        <li><strong>Natural Appreciation:</strong> Whisky improves with age, increasing in value</li>
+        <li><strong>Limited Supply:</strong> As whisky evaporates (the "angel's share"), supply decreases</li>
+        <li><strong>Growing Demand:</strong> Global whisky consumption continues to rise</li>
       </ul>
       
       <h2>Understanding the Investment Process</h2>
-      <p>Investing in whiskey casks involves several key steps:</p>
+      <p>Investing in whisky casks involves several key steps:</p>
       <ol>
         <li>Research and select reputable distilleries</li>
         <li>Choose casks based on age, type, and potential</li>
@@ -88,7 +88,7 @@ const BlogPost: React.FC = () => {
       </ol>
       
       <h2>Risk Considerations</h2>
-      <p>Like all investments, whiskey casks come with risks:</p>
+      <p>Like all investments, whisky casks come with risks:</p>
       <ul>
         <li>Market fluctuations can affect demand</li>
         <li>Storage costs and insurance are ongoing expenses</li>
@@ -97,11 +97,11 @@ const BlogPost: React.FC = () => {
       </ul>
       
       <h2>Conclusion</h2>
-      <p>Whiskey cask investment offers a unique opportunity to diversify your portfolio while owning a piece of liquid history. With proper guidance and careful selection, it can be both a rewarding and profitable venture.</p>
+      <p>Whisky cask investment offers a unique opportunity to diversify your portfolio while owning a piece of liquid history. With proper guidance and careful selection, it can be both a rewarding and profitable venture.</p>
     `,
     featuredImage: {
       url: 'https://images.unsplash.com/photo-1602166242292-991b55a466e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      alt: 'Whiskey barrels in warehouse',
+      alt: 'Whisky barrels in warehouse',
     },
     category: 'investment-guide',
     tags: ['investment', 'guide', 'beginners'],
@@ -143,16 +143,16 @@ const BlogPost: React.FC = () => {
     },
     {
       _id: '3',
-      title: 'Understanding Whiskey Maturation',
-      slug: 'understanding-whiskey-maturation',
-      excerpt: 'Learn how time and environment affect your whiskey investment.',
+      title: 'Understanding Whisky Maturation',
+      slug: 'understanding-whisky-maturation',
+      excerpt: 'Learn how time and environment affect your whisky investment.',
       featuredImage: {
         url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3',
-        alt: 'Whiskey aging',
+        alt: 'Whisky aging',
       },
       publishedAt: new Date().toISOString(),
       readTime: 6,
-      category: 'whiskey-education',
+      category: 'whisky-education',
       author: { name: 'Michael Chen' },
       tags: [],
       status: 'published',
@@ -256,7 +256,7 @@ const BlogPost: React.FC = () => {
               transition={{ duration: 0.8 }}
             >
               {/* Author Info */}
-              <div className="flex items-center justify-between mb-8 pb-8 border-b border-whiskey-200">
+              <div className="flex items-center justify-between mb-8 pb-8 border-b border-whisky-200">
                 <div className="flex items-center space-x-4">
                   {post.author.avatar && (
                     <img
@@ -289,13 +289,13 @@ const BlogPost: React.FC = () => {
 
               {/* Tags */}
               {post.tags && post.tags.length > 0 && (
-                <div className="mt-12 pt-8 border-t border-whiskey-200">
+                <div className="mt-12 pt-8 border-t border-whisky-200">
                   <div className="flex items-center flex-wrap gap-2">
                     <span className="text-charcoal/60 mr-2">Tags:</span>
                     {post.tags.map((tag, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-whiskey-100 text-charcoal/70 rounded-full text-sm"
+                        className="px-3 py-1 bg-whisky-100 text-charcoal/70 rounded-full text-sm"
                       >
                         #{tag}
                       </span>
@@ -310,7 +310,7 @@ const BlogPost: React.FC = () => {
 
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
-        <section className="section bg-whiskey-50">
+        <section className="section bg-whisky-50">
           <div className="container-custom">
             <h2 className="heading-2 text-charcoal text-center mb-12">Related Articles</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -361,7 +361,7 @@ const BlogPost: React.FC = () => {
               Ready to Start Your Investment Journey?
             </h2>
             <p className="text-xl text-white/80 mb-8">
-              Learn how whiskey cask investment can enhance your portfolio
+              Learn how whisky cask investment can enhance your portfolio
             </p>
             <Link to="/contact" className="btn-primary">
               Book Free Consultation
