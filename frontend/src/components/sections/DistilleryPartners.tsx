@@ -21,7 +21,7 @@ const DistilleryPartners: React.FC = () => {
       name: 'The Dalmore Distillery',
       location: 'Northern Highlands',
       description: 'Carbon-neutral since 2019, The Dalmore creates exceptional single malts matured in exclusive sherry casks from González Byass.',
-      image: '/images/hero/hero-4.jpg',
+      image: '/images/distilleries/dalmore-distillery-building.jpg',
       features: ['100% Renewable Energy', 'Exclusive Sherry Casks', 'Royal Warrant Holder'],
       carbonNeutralSince: '2019'
     },
@@ -30,7 +30,7 @@ const DistilleryPartners: React.FC = () => {
       name: 'The Macallan Estate',
       location: 'Speyside',
       description: 'Setting the standard for sustainable luxury whisky production with their state-of-the-art eco-distillery.',
-      image: '/images/regions/speyside.jpg',
+      image: '/images/distilleries/dalmore-production.jpg',
       features: ['Zero Waste Facility', 'Solar Powered', 'Estate Grown Barley'],
       carbonNeutralSince: '2020'
     },
@@ -39,7 +39,7 @@ const DistilleryPartners: React.FC = () => {
       name: 'Lagavulin Distillery',
       location: 'Islay',
       description: 'Harnessing renewable energy to craft intensely peated single malts that command premium prices globally.',
-      image: '/images/regions/islay.jpg',
+      image: '/images/distilleries/dalmore-whisky-glass.jpg',
       features: ['Wind Powered', 'Traditional Floor Maltings', '200+ Years Heritage'],
       carbonNeutralSince: '2021'
     }

@@ -13,42 +13,42 @@ const WhiskyGallery: React.FC = () => {
   const images: GalleryImage[] = [
     {
       id: 'warehouse',
-      src: '/images/tfandr-whisky-barrels.webp',
-      alt: 'Premium whisky warehouse with oak casks',
+      src: '/images/casks/dalmore-warehouse-casks.jpg',
+      alt: 'Premium Dalmore whisky warehouse with oak casks',
       title: 'Secure Warehouse Storage',
       description: 'Government-bonded facilities with 24/7 security and climate control'
     },
     {
       id: 'barrels',
-      src: '/images/hero/hero-3.jpg',
-      alt: 'Premium oak casks aging whisky',
+      src: '/images/casks/dalmore-premium-casks.jpg',
+      alt: 'Premium Dalmore oak casks aging whisky',
       title: 'Premium Oak Casks',
       description: 'Hand-selected European and American oak for optimal maturation'
     },
     {
       id: 'distillery',
-      src: '/images/regions/speyside.jpg',
-      alt: 'Historic Scottish distillery',
+      src: '/images/distilleries/dalmore-whisky-glass.jpg',
+      alt: 'The Dalmore whisky glass and distillery',
       title: 'Partner Distilleries',
       description: 'Exclusive access to Scotland\'s most prestigious producers'
     },
     {
       id: 'tasting',
-      src: '/images/shop-secrets-smoke.webp',
-      alt: 'Premium whisky tasting experience',
+      src: '/images/casks/dalmore-21-casks.jpg',
+      alt: 'Premium Dalmore 21 year old whisky',
       title: 'Expert Curation',
       description: 'Selected by master distillers and investment specialists'
     },
     {
       id: 'collection',
-      src: '/images/shop-daftmill-2011.webp',
-      alt: 'Rare and collectible whisky',
+      src: '/images/distilleries/dalmore-rare-luminary.jpg',
+      alt: 'Rare Dalmore Luminary collection',
       title: 'Rare Collections',
       description: 'Limited releases with exceptional appreciation potential'
     },
     {
       id: 'investment',
-      src: '/images/shop-hero-image.webp',
+      src: '/images/casks/dalmore-oak-barrels.jpg',
       alt: 'Premium whisky investment portfolio',
       title: 'Portfolio Excellence',
       description: 'Track performance with real-time market valuations'

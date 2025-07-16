@@ -20,7 +20,7 @@ const OurWhisky: React.FC = () => {
       name: 'Speyside',
       description: 'The heartland of Scotch whisky production, home to over half of Scotland\'s distilleries. Speyside whiskies are renowned for their elegance and complexity, offering exceptional investment potential.',
       characteristics: ['Elegant & refined', 'Fruity & floral notes', 'Often sherry-cask influenced', 'Smooth & sophisticated'],
-      image: '/images/regions/speyside.jpg',
+      image: '/images/casks/dalmore-21-casks.jpg',
       distilleries: ['The Macallan', 'Glenfiddich', 'The Glenlivet', 'Aberlour', 'Balvenie']
     },
     {
@@ -28,7 +28,7 @@ const OurWhisky: React.FC = () => {
       name: 'Highland',
       description: 'The largest whisky-producing region in Scotland, offering incredible diversity from light and delicate to rich and sherried expressions. Highland whiskies command premium prices in the investment market.',
       characteristics: ['Diverse flavor profiles', 'Heather & honey notes', 'Medium to full-bodied', 'Often slightly peated'],
-      image: '/images/hero/hero-2.jpg',
+      image: '/images/hero/dalmore-principal-collection.jpg',
       distilleries: ['Glenmorangie', 'The Dalmore', 'Oban', 'GlenDronach', 'Highland Park']
     },
     {
@@ -36,7 +36,7 @@ const OurWhisky: React.FC = () => {
       name: 'Islay',
       description: 'Known as "Whisky Island," Islay produces the most distinctive and powerful whiskies in Scotland. These intensely peated expressions are highly sought after by collectors and investors worldwide.',
       characteristics: ['Intensely peated', 'Maritime & medicinal', 'Seaweed & salt spray', 'Bold & powerful'],
-      image: '/images/regions/islay.jpg',
+      image: '/images/distilleries/dalmore-rare-luminary.jpg',
       distilleries: ['Ardbeg', 'Lagavulin', 'Laphroaig', 'Bowmore', 'Bruichladdich']
     },
     {
@@ -44,7 +44,7 @@ const OurWhisky: React.FC = () => {
       name: 'Campbeltown',
       description: 'Once home to over 30 distilleries, this small region now has just three, making their whiskies increasingly rare and valuable for investment portfolios.',
       characteristics: ['Maritime influence', 'Slightly salty', 'Complex & oily', 'Fruit & smoke balance'],
-      image: '/images/tfandr-whisky-barrels.webp',
+      image: '/images/casks/dalmore-warehouse-casks.jpg',
       distilleries: ['Springbank', 'Glen Scotia', 'Glengyle']
     },
     {
@@ -52,7 +52,7 @@ const OurWhisky: React.FC = () => {
       name: 'Lowland',
       description: 'Known for producing lighter, more delicate whiskies, often triple-distilled. These accessible expressions offer steady appreciation potential for new whisky investors.',
       characteristics: ['Light & delicate', 'Grassy & fresh', 'Triple distilled', 'Aperitif style'],
-      image: '/images/regions/lowland.jpg',
+      image: '/images/casks/dalmore-premium-casks.jpg',
       distilleries: ['Auchentoshan', 'Glenkinchie', 'Bladnoch', 'Ailsa Bay']
     }
   ];
