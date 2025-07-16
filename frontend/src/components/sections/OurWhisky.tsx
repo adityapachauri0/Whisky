@@ -18,7 +18,7 @@ const OurWhisky: React.FC = () => {
     {
       id: 'speyside',
       name: 'Speyside',
-      description: 'The heartland of Scotch whisky production, home to over half of Scotland\'s distilleries. Speyside whiskies are renowned for their elegance and complexity.',
+      description: 'The heartland of Scotch whisky production, home to over half of Scotland\'s distilleries. Speyside whiskies are renowned for their elegance and complexity, offering exceptional investment potential.',
       characteristics: ['Elegant & refined', 'Fruity & floral notes', 'Often sherry-cask influenced', 'Smooth & sophisticated'],
       image: '/images/regions/speyside.jpg',
       distilleries: ['The Macallan', 'Glenfiddich', 'The Glenlivet', 'Aberlour', 'Balvenie']
@@ -26,15 +26,15 @@ const OurWhisky: React.FC = () => {
     {
       id: 'highland',
       name: 'Highland',
-      description: 'The largest whisky-producing region in Scotland, offering incredible diversity from light and delicate to rich and sherried expressions.',
+      description: 'The largest whisky-producing region in Scotland, offering incredible diversity from light and delicate to rich and sherried expressions. Highland whiskies command premium prices in the investment market.',
       characteristics: ['Diverse flavor profiles', 'Heather & honey notes', 'Medium to full-bodied', 'Often slightly peated'],
-      image: '/images/regions/speyside.jpg',
-      distilleries: ['Glenmorangie', 'Dalmore', 'Oban', 'GlenDronach', 'Highland Park']
+      image: '/images/hero/hero-2.jpg',
+      distilleries: ['Glenmorangie', 'The Dalmore', 'Oban', 'GlenDronach', 'Highland Park']
     },
     {
       id: 'islay',
       name: 'Islay',
-      description: 'Known as "Whisky Island," Islay produces the most distinctive and powerful whiskies in Scotland, famous for their intense peat smoke and maritime character.',
+      description: 'Known as "Whisky Island," Islay produces the most distinctive and powerful whiskies in Scotland. These intensely peated expressions are highly sought after by collectors and investors worldwide.',
       characteristics: ['Intensely peated', 'Maritime & medicinal', 'Seaweed & salt spray', 'Bold & powerful'],
       image: '/images/regions/islay.jpg',
       distilleries: ['Ardbeg', 'Lagavulin', 'Laphroaig', 'Bowmore', 'Bruichladdich']
@@ -42,15 +42,15 @@ const OurWhisky: React.FC = () => {
     {
       id: 'campbeltown',
       name: 'Campbeltown',
-      description: 'Once home to over 30 distilleries, this small region now has just three, producing whiskies with distinctive maritime and slightly salty characteristics.',
+      description: 'Once home to over 30 distilleries, this small region now has just three, making their whiskies increasingly rare and valuable for investment portfolios.',
       characteristics: ['Maritime influence', 'Slightly salty', 'Complex & oily', 'Fruit & smoke balance'],
-      image: '/images/regions/islay.jpg',
+      image: '/images/tfandr-whisky-barrels.webp',
       distilleries: ['Springbank', 'Glen Scotia', 'Glengyle']
     },
     {
       id: 'lowland',
       name: 'Lowland',
-      description: 'Known for producing lighter, more delicate whiskies, often triple-distilled. Perfect entry point for new whisky investors.',
+      description: 'Known for producing lighter, more delicate whiskies, often triple-distilled. These accessible expressions offer steady appreciation potential for new whisky investors.',
       characteristics: ['Light & delicate', 'Grassy & fresh', 'Triple distilled', 'Aperitif style'],
       image: '/images/regions/lowland.jpg',
       distilleries: ['Auchentoshan', 'Glenkinchie', 'Bladnoch', 'Ailsa Bay']

@@ -10,10 +10,10 @@ const BuySellWhisky: React.FC = () => {
     {
       id: 1,
       name: 'Highland Single Malt 2018',
-      distillery: 'Glenmorangie',
+      distillery: 'The Dalmore',
       age: '5 Years',
       price: '£12,500',
-      image: '/images/shop-bottle-1.webp',
+      image: '/images/shop-bottle-12.webp',
       description: 'Premium Highland single malt with exceptional aging potential',
       abv: '43%',
       caskType: 'Ex-Bourbon'
@@ -21,7 +21,7 @@ const BuySellWhisky: React.FC = () => {
     {
       id: 2,
       name: 'Islay Peated Cask 2019',
-      distillery: 'Ardbeg',
+      distillery: 'Lagavulin',
       age: '4 Years',
       price: '£18,750',
       image: '/images/shop-bottle-3.webp',
@@ -32,7 +32,7 @@ const BuySellWhisky: React.FC = () => {
     {
       id: 3,
       name: 'Speyside Reserve 2017',
-      distillery: 'Macallan',
+      distillery: 'The Macallan',
       age: '6 Years',
       price: '£45,000',
       image: '/images/shop-daftmill-2011.webp',
@@ -42,14 +42,14 @@ const BuySellWhisky: React.FC = () => {
     },
     {
       id: 4,
-      name: 'Lowland Grain 2020',
-      distillery: 'Auchentoshan',
-      age: '3 Years',
-      price: '£8,500',
+      name: 'Highland Park 2016',
+      distillery: 'Highland Park',
+      age: '7 Years',
+      price: '£28,500',
       image: '/images/shop-bottle-7.webp',
-      description: 'Triple distilled Lowland whisky, perfect entry investment',
-      abv: '40%',
-      caskType: 'American Oak'
+      description: 'Exceptional Orkney single malt with complex character',
+      abv: '45%',
+      caskType: 'Sherry Butt'
     }
   ];
 

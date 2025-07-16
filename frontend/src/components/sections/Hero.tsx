@@ -17,10 +17,10 @@ const Hero: React.FC<HeroProps> = ({
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
   
   const heroImages = [
-    '/images/tfandr-whisky-barrels.webp',
-    '/distillery.jpg',
+    '/images/tfandr-whisky-barrels.webp', // Using existing premium image
     '/images/shop-hero-image.webp',
-    '/whisky-glass.jpg'
+    '/images/shop-secrets-smoke.webp',
+    '/images/shop-daftmill-2011.webp'
   ];
   
   React.useEffect(() => {
@@ -68,12 +68,10 @@ const Hero: React.FC<HeroProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <h1 className="font-serif italic text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-text-primary mb-8 leading-tight text-shadow-luxury">
-                Invest in the Future of{' '}
-                <span className="text-gradient-gold">Sustainable</span>
-                <br />
-                <span className="text-eco-green">Carbon-Neutral</span>{' '}
-                Whisky
+              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-text-primary mb-8 leading-tight text-shadow-luxury">
+                INVEST IN{' '}
+                <span className="text-gradient-gold block text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] uppercase tracking-tight">RARE</span>
+                <span className="text-gradient-luxury text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">WHISKY CASKS</span>
               </h1>
             </motion.div>
 
@@ -81,10 +79,10 @@ const Hero: React.FC<HeroProps> = ({
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="text-xl md:text-2xl text-text-secondary mb-12 leading-relaxed max-w-2xl"
+              className="text-xl md:text-2xl text-text-secondary mb-12 leading-relaxed max-w-3xl tracking-wide"
             >
-              Join the exclusive world of sustainable whisky investment. 
-              Partner with carbon-neutral distilleries and build a portfolio that's good for your future and our planet.
+              For over 180 years, whisky has proven itself as a high-performing alternative asset. 
+              Access exclusive casks from Scotland's most prestigious distilleries with proven investment potential.
             </motion.p>
 
             <motion.div

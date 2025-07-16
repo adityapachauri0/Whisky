@@ -17,30 +17,30 @@ interface Distillery {
 const DistilleryPartners: React.FC = () => {
   const distilleries: Distillery[] = [
     {
-      id: 'highland-heritage',
-      name: 'Highland Heritage Distillery',
-      location: 'Scottish Highlands',
-      description: 'Carbon-neutral since 2019, producing exceptional single malts using renewable energy.',
-      image: '/distillery.jpg',
-      features: ['100% Renewable Energy', 'Traditional Methods', 'Award-Winning Spirits'],
+      id: 'the-dalmore',
+      name: 'The Dalmore Distillery',
+      location: 'Northern Highlands',
+      description: 'Carbon-neutral since 2019, The Dalmore creates exceptional single malts matured in exclusive sherry casks from González Byass.',
+      image: '/images/hero/hero-4.jpg',
+      features: ['100% Renewable Energy', 'Exclusive Sherry Casks', 'Royal Warrant Holder'],
       carbonNeutralSince: '2019'
     },
     {
-      id: 'green-valley',
-      name: 'Green Valley Distillery',
+      id: 'the-macallan',
+      name: 'The Macallan Estate',
       location: 'Speyside',
-      description: 'Pioneering sustainable whisky production with zero-waste processes.',
+      description: 'Setting the standard for sustainable luxury whisky production with their state-of-the-art eco-distillery.',
       image: '/images/regions/speyside.jpg',
-      features: ['Zero Waste Facility', 'Solar Powered', 'Organic Ingredients'],
+      features: ['Zero Waste Facility', 'Solar Powered', 'Estate Grown Barley'],
       carbonNeutralSince: '2020'
     },
     {
-      id: 'coastal-spirits',
-      name: 'Coastal Spirits',
+      id: 'lagavulin',
+      name: 'Lagavulin Distillery',
       location: 'Islay',
-      description: 'Harnessing wind power to create distinctive peated whiskies by the sea.',
+      description: 'Harnessing renewable energy to craft intensely peated single malts that command premium prices globally.',
       image: '/images/regions/islay.jpg',
-      features: ['Wind Powered', 'Ocean-Aged Casks', 'Sustainable Packaging'],
+      features: ['Wind Powered', 'Traditional Floor Maltings', '200+ Years Heritage'],
       carbonNeutralSince: '2021'
     }
   ];

@@ -80,6 +80,15 @@
            focus:outline-none focus:ring-4 focus:ring-premium-gold/30;
   }
   
+  .btn-premium-small {
+    @apply inline-flex items-center justify-center px-4 py-2
+           bg-gradient-to-r from-antique-gold via-premium-gold to-bright-gold
+           text-primary-black font-semibold text-sm tracking-wide uppercase
+           transition-all duration-300 hover:shadow-lg hover:shadow-premium-gold/20
+           transform hover:-translate-y-0.5
+           focus:outline-none focus:ring-2 focus:ring-premium-gold/30;
+  }
+  
   /* Luxury Heading Styles */
   .heading-1 {
     @apply font-serif text-5xl md:text-6xl lg:text-7xl xl:text-8xl
@@ -114,6 +123,12 @@
            border border-transparent transition-all duration-500
            hover:border-premium-gold hover:shadow-2xl hover:shadow-premium-gold/20
            hover:transform hover:-translate-y-1;
+  }
+  
+  .card-dark {
+    @apply bg-primary-black/50 backdrop-blur-sm rounded-lg overflow-hidden
+           border border-warm-brown/30 transition-all duration-500
+           hover:border-premium-gold/50 hover:shadow-xl hover:shadow-premium-gold/10;
   }
   
   /* Gold Glow Effect */

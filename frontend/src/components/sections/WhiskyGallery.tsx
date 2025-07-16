@@ -14,44 +14,44 @@ const WhiskyGallery: React.FC = () => {
     {
       id: 'warehouse',
       src: '/images/tfandr-whisky-barrels.webp',
-      alt: 'Whisky warehouse',
+      alt: 'Premium whisky warehouse with oak casks',
       title: 'Secure Warehouse Storage',
-      description: 'Government-bonded facilities with 24/7 security'
+      description: 'Government-bonded facilities with 24/7 security and climate control'
     },
     {
       id: 'barrels',
-      src: '/distillery.jpg',
-      alt: 'Oak barrels',
+      src: '/images/hero/hero-3.jpg',
+      alt: 'Premium oak casks aging whisky',
       title: 'Premium Oak Casks',
-      description: 'Carefully selected casks for optimal maturation'
+      description: 'Hand-selected European and American oak for optimal maturation'
     },
     {
       id: 'distillery',
       src: '/images/regions/speyside.jpg',
-      alt: 'Distillery',
+      alt: 'Historic Scottish distillery',
       title: 'Partner Distilleries',
-      description: 'Working with Scotland\'s finest producers'
+      description: 'Exclusive access to Scotland\'s most prestigious producers'
     },
     {
       id: 'tasting',
-      src: '/whisky-glass.jpg',
-      alt: 'Whisky tasting',
-      title: 'Expert Selection',
-      description: 'Curated by industry professionals'
+      src: '/images/shop-secrets-smoke.webp',
+      alt: 'Premium whisky tasting experience',
+      title: 'Expert Curation',
+      description: 'Selected by master distillers and investment specialists'
     },
     {
       id: 'collection',
       src: '/images/shop-daftmill-2011.webp',
-      alt: 'Rare whisky',
+      alt: 'Rare and collectible whisky',
       title: 'Rare Collections',
-      description: 'Access to exclusive and limited releases'
+      description: 'Limited releases with exceptional appreciation potential'
     },
     {
       id: 'investment',
       src: '/images/shop-hero-image.webp',
-      alt: 'Investment portfolio',
-      title: 'Portfolio Growth',
-      description: 'Track your investment performance'
+      alt: 'Premium whisky investment portfolio',
+      title: 'Portfolio Excellence',
+      description: 'Track performance with real-time market valuations'
     }
   ];
 
