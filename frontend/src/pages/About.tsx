@@ -46,8 +46,8 @@ const About: React.FC = () => {
       <section className="relative h-[70vh] min-h-[500px] overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&w=1920&q=80"
-            alt="Whisky warehouse with barrels"
+            src="/images/casks/dalmore-warehouse-casks.jpg"
+            alt="Dalmore whisky warehouse with premium oak casks"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/70 to-gray-900" />
@@ -122,8 +122,8 @@ const About: React.FC = () => {
                 className="relative"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?ixlib=rb-4.0.3&w=800&q=80"
-                  alt="Premium whisky casks in warehouse"
+                  src="/images/casks/dalmore-premium-casks.jpg"
+                  alt="Premium Dalmore whisky casks aging in warehouse"
                   className="rounded-lg shadow-2xl"
                 />
                 <div className="absolute -bottom-8 -left-8 bg-amber-600 text-white p-6 rounded-lg shadow-xl max-w-xs">
@@ -142,8 +142,8 @@ const About: React.FC = () => {
                 className="order-2 lg:order-1"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1569529465841-dfecdab7503b?ixlib=rb-4.0.3&w=800&q=80"
-                  alt="Master distiller examining whisky"
+                  src="/images/distilleries/dalmore-whisky-glass.jpg"
+                  alt="Premium Dalmore whisky in crystal glass"
                   className="rounded-lg shadow-2xl"
                 />
               </motion.div>
@@ -203,8 +203,8 @@ const About: React.FC = () => {
       <section className="relative py-20">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?ixlib=rb-4.0.3&w=1920&q=80"
-            alt="Whisky aging in barrels"
+            src="/images/hero/dalmore-distillery-overhead.jpg"
+            alt="The Dalmore distillery aerial view"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gray-900/80" />
