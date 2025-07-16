@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const contactController = require('../controllers/contact.controller');
 const { protect, restrictTo } = require('../middleware/auth');
+const { verifyAdmin } = require('../controllers/admin.controller');
 const { validateContactForm, validateObjectId, handleValidationErrors } = require('../middleware/validation');
 const rateLimit = require('express-rate-limit');
 
@@ -29,9 +30,8 @@ router.post(
   contactController.createContact
 );
 
-// Protected routes (admin only) - TEMPORARILY DISABLED FOR DEVELOPMENT
-// router.use(protect); // All routes after this require authentication
-// router.use(restrictTo('admin')); // All routes after this require admin role
+// Protected routes (admin only)
+router.use(verifyAdmin); // All routes after this require admin authentication
 
 router.get('/', contactController.getAllContacts);
 

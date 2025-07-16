@@ -5,24 +5,21 @@ import { Link } from 'react-router-dom';
 import { 
   CalendarIcon, 
   ClockIcon, 
-  TagIcon,
   MagnifyingGlassIcon 
 } from '@heroicons/react/24/outline';
 import { blogAPI, BlogPost } from '../services/api';
 
 const Blog: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  // Removed category filtering - only showing all articles
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     fetchPosts();
-    fetchCategories();
-  }, [selectedCategory, currentPage]);
+  }, [currentPage]);
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -31,10 +28,6 @@ const Blog: React.FC = () => {
         page: currentPage,
         limit: 9,
       };
-      
-      if (selectedCategory !== 'all') {
-        params.category = selectedCategory;
-      }
       
       if (searchQuery) {
         params.search = searchQuery;
@@ -52,16 +45,7 @@ const Blog: React.FC = () => {
     }
   };
 
-  const fetchCategories = async () => {
-    try {
-      const response = await blogAPI.getCategories();
-      setCategories(response.data.data);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      // Use mock categories
-      setCategories(mockCategories);
-    }
-  };
+  // Removed fetchCategories - no longer needed
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,12 +54,6 @@ const Blog: React.FC = () => {
   };
 
   // Mock data for demo
-  const mockCategories = [
-    { name: 'investment-guide', displayName: 'Investment Guide', count: 15 },
-    { name: 'market-insights', displayName: 'Market Insights', count: 12 },
-    { name: 'whisky-education', displayName: 'Whisky Education', count: 18 },
-    { name: 'company-news', displayName: 'Company News', count: 8 },
-  ];
 
   const mockPosts: BlogPost[] = Array(9).fill(null).map((_, index) => ({
     _id: `${index + 1}`,
@@ -91,7 +69,17 @@ const Blog: React.FC = () => {
       'Global Whisky Market Trends 2024',
     ][index],
     slug: `post-${index + 1}`,
-    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    excerpt: [
+      'Discover the fundamentals of whisky cask investment, from selecting the right distillery to understanding market dynamics and exit strategies.',
+      'Learn the key differences between single malt and blended whiskies, and how each category performs as an investment asset.',
+      'Explore our analysis of the top Scottish distilleries offering the best investment potential for 2024 and beyond.',
+      'Understanding how temperature, humidity, and seasonal changes impact whisky maturation is crucial for maximizing investment returns.',
+      'The rare whisky market has outperformed traditional assets by 12.5% annually. Learn why collectors are driving unprecedented demand.',
+      'Whisky investments can offer significant tax advantages. Discover how to structure your portfolio for optimal tax efficiency.',
+      'Learn strategies for building a balanced whisky portfolio that maximizes returns while minimizing risk through diversification.',
+      'Delve into the chemical processes that transform new make spirit into premium aged whisky, adding value over time.',
+      'Stay ahead with our comprehensive analysis of global whisky market trends, emerging markets, and future growth projections.',
+    ][index],
     featuredImage: {
       url: [
         '/images/shop-bottle-5.webp',  // Premium single malt bottle
@@ -106,7 +94,7 @@ const Blog: React.FC = () => {
       ][index % 9],
       alt: 'Premium whisky and cask imagery',
     },
-    category: mockCategories[index % 4].name,
+    category: 'whisky-investment',
     publishedAt: new Date(Date.now() - index * 24 * 60 * 60 * 1000).toISOString(),
     readTime: 5 + (index % 3),
     author: { name: ['John Smith', 'Emma Wilson', 'Michael Chen'][index % 3] },
@@ -120,7 +108,6 @@ const Blog: React.FC = () => {
   }));
 
   const displayPosts = posts.length > 0 ? posts : mockPosts;
-  const displayCategories = categories.length > 0 ? categories : mockCategories;
 
   return (
     <>
@@ -170,37 +157,13 @@ const Blog: React.FC = () => {
               </div>
             </form>
 
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-2 justify-center">
+            {/* Category Filter - Only All Articles */}
+            <div className="flex justify-center">
               <button
-                onClick={() => {
-                  setSelectedCategory('all');
-                  setCurrentPage(1);
-                }}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedCategory === 'all'
-                    ? 'bg-gold text-charcoal'
-                    : 'bg-white text-charcoal/70 hover:bg-whisky-100'
-                }`}
+                className="px-6 py-3 rounded-full text-sm font-medium bg-gold text-charcoal"
               >
                 All Articles
               </button>
-              {displayCategories.map((category) => (
-                <button
-                  key={category.name}
-                  onClick={() => {
-                    setSelectedCategory(category.name);
-                    setCurrentPage(1);
-                  }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedCategory === category.name
-                      ? 'bg-gold text-charcoal'
-                      : 'bg-white text-charcoal/70 hover:bg-whisky-100'
-                  }`}
-                >
-                  {category.displayName} ({category.count})
-                </button>
-              ))}
             </div>
           </div>
         </div>
@@ -235,12 +198,8 @@ const Blog: React.FC = () => {
                       <div className="p-6">
                         <div className="flex items-center gap-4 text-sm text-charcoal/60 mb-3">
                           <span className="flex items-center">
-                            <TagIcon className="h-4 w-4 mr-1" />
-                            {displayCategories.find(c => c.name === post.category)?.displayName || post.category}
-                          </span>
-                          <span className="flex items-center">
                             <ClockIcon className="h-4 w-4 mr-1" />
-                            {post.readTime} min
+                            {post.readTime} min read
                           </span>
                         </div>
                         <h2 className="heading-4 text-charcoal mb-3 group-hover:text-gold transition-colors line-clamp-2">

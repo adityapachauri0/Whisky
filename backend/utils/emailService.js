@@ -38,7 +38,7 @@ class EmailService {
   async sendEmail(options) {
     try {
       const mailOptions = {
-        from: `${process.env.EMAIL_FROM_NAME || 'ViticultWhisky'} <${process.env.EMAIL_FROM || 'noreply@whiskytradingco.com'}>`,
+        from: `${process.env.EMAIL_FROM_NAME || 'ViticultWhisky'} <${process.env.EMAIL_FROM || 'noreply@viticult.co.uk'}>`,
         to: options.to,
         subject: options.subject,
         text: options.text,
@@ -215,7 +215,7 @@ class EmailService {
 
     // Send to admin
     await this.sendEmail({
-      to: process.env.ADMIN_EMAIL || 'admin@whiskytradingco.com',
+      to: process.env.ADMIN_EMAIL || 'admin@viticult.co.uk',
       subject: `New Contact Form Submission - ${data.subject}`,
       text: `New contact form submission from ${data.name} (${data.email})`,
       html,

@@ -140,7 +140,7 @@ mongoose.connection.on('disconnected', () => {
 });
 
 // Routes
-// app.use('/api/auth', authLimiter, authRoutes); // Temporarily disabled
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/consultation', consultationRoutes);
 app.use('/api/blog', blogRoutes);
@@ -175,7 +175,10 @@ app.get('/api', (req, res) => {
         getMe: 'GET /api/auth/me',
         updatePassword: 'PATCH /api/auth/update-password',
         updateProfile: 'PATCH /api/auth/update-me',
-        deleteAccount: 'DELETE /api/auth/delete-me'
+        deleteAccount: 'DELETE /api/auth/delete-me',
+        adminLogin: 'POST /api/auth/admin/login',
+        adminChangePassword: 'POST /api/auth/admin/change-password (admin)',
+        adminExportSubmissions: 'GET /api/auth/admin/export-submissions (admin)'
       },
       contact: {
         submit: 'POST /api/contact',
@@ -222,6 +225,23 @@ process.on('SIGTERM', () => {
       process.exit(0);
     });
   });
+});
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err) => {
+  logger.error('UNHANDLED REJECTION! 💥 Shutting down...');
+  logger.error(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+  console.error('Error:', err);
+  console.error('Stack:', err.stack);
+  process.exit(1);
 });
 
 module.exports = app;

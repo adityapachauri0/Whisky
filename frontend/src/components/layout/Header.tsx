@@ -28,7 +28,6 @@ const Header: React.FC = () => {
     { name: 'Buy & Sell', path: '/buy-sell' },
     { name: 'FAQ', path: '/faq' },
     { name: 'Blog', path: '/blog' },
-    { name: 'Contact', path: '/contact' },
   ];
 
   return (
@@ -88,9 +87,182 @@ const Header: React.FC = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
+              className="relative"
             >
-              <Link to="/contact" className="btn-premium text-sm">
-                Start Investing
+              {/* Fizzing bubble effect */}
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute pointer-events-none"
+                  initial={{ 
+                    opacity: 0,
+                    scale: 0,
+                  }}
+                  animate={{
+                    y: [-10, -60, -100],
+                    x: [
+                      0, 
+                      Math.sin(i * 0.8) * 20,
+                      Math.sin(i * 0.8) * 30
+                    ],
+                    opacity: [0, 0.7, 0],
+                    scale: [0.3, 0.6 + (i % 3) * 0.2, 0.2],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    delay: i * 0.3,
+                    ease: [0.2, 0.65, 0.3, 0.9],
+                  }}
+                  style={{
+                    left: `${15 + (i * 10)}%`,
+                    bottom: '0%',
+                  }}
+                >
+                  <div className={`
+                    ${i % 3 === 0 ? 'w-2 h-2' : i % 3 === 1 ? 'w-1.5 h-1.5' : 'w-1 h-1'}
+                    bg-gradient-to-br from-amber-300 to-yellow-200 rounded-full
+                    shadow-[0_0_6px_rgba(251,191,36,0.4)]
+                  `} />
+                </motion.div>
+              ))}
+              
+              {/* Subtle carbonation glow */}
+              <motion.div
+                className="absolute -inset-1 bg-gradient-to-t from-amber-400/30 to-transparent rounded-full blur-xl"
+                animate={{
+                  opacity: [0.3, 0.5, 0.3],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+              
+              <Link to="/contact" className="relative btn-premium text-sm group overflow-hidden">
+                <span className="flex items-center gap-2">
+                  {/* Icon transformation container */}
+                  <motion.div
+                    className="relative w-5 h-5"
+                    whileHover={{ scale: 1.2 }}
+                  >
+                    {/* Wallet icon */}
+                    <motion.svg
+                      className="absolute inset-0 w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      animate={{ 
+                        opacity: [1, 1, 0, 0, 0, 0, 1, 1],
+                        scale: [1, 1.1, 0.8, 0.8, 0.8, 0.8, 1, 1],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        times: [0, 0.1, 0.2, 0.3, 0.7, 0.8, 0.9, 1],
+                      }}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </motion.svg>
+                    
+                    {/* Currency icon - Pound Sterling */}
+                    <motion.div
+                      className="absolute inset-0 w-5 h-5 flex items-center justify-center text-amber-600 font-bold text-lg"
+                      animate={{ 
+                        opacity: [0, 0, 0, 1, 1, 0, 0, 0],
+                        scale: [0.8, 0.8, 0.8, 1, 1.1, 0.8, 0.8, 0.8],
+                        rotate: [0, 0, 0, 0, 360, 360, 360, 360],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        times: [0, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 1],
+                      }}
+                    >
+                      £
+                    </motion.div>
+                    
+                    {/* Chart icon */}
+                    <motion.svg
+                      className="absolute inset-0 w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      animate={{ 
+                        opacity: [0, 0, 1, 1, 0, 0, 0, 0],
+                        scale: [0.8, 0.8, 1, 1.1, 0.8, 0.8, 0.8, 0.8],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        times: [0, 0.1, 0.2, 0.3, 0.4, 0.7, 0.8, 1],
+                      }}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                    </motion.svg>
+                    
+                    {/* Glow effect on icon change */}
+                    <motion.div
+                      className="absolute inset-0 bg-amber-400 rounded-full blur-md"
+                      animate={{
+                        opacity: [0, 0.6, 0, 0.6, 0, 0.6, 0],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        times: [0, 0.2, 0.3, 0.5, 0.6, 0.8, 1],
+                      }}
+                    />
+                  </motion.div>
+                  
+                  <span>Start Investing</span>
+                  
+                  <motion.svg
+                    className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </motion.svg>
+                </span>
+                
+                {/* Additional hover bubbles */}
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  whileHover="hover"
+                  variants={{
+                    hover: {
+                      transition: {
+                        staggerChildren: 0.1,
+                      },
+                    },
+                  }}
+                >
+                  {[...Array(4)].map((_, i) => (
+                    <motion.div
+                      key={`hover-${i}`}
+                      className="absolute w-1 h-1 bg-amber-300 rounded-full opacity-0"
+                      variants={{
+                        hover: {
+                          opacity: [0, 0.6, 0],
+                          y: [0, -30],
+                          x: [(i - 2) * 10, (i - 2) * 15],
+                          scale: [0.5, 1, 0.3],
+                        },
+                      }}
+                      transition={{
+                        duration: 1,
+                        ease: "easeOut",
+                      }}
+                      style={{
+                        left: '50%',
+                        bottom: '20%',
+                      }}
+                    />
+                  ))}
+                </motion.div>
               </Link>
             </motion.div>
           </div>
@@ -132,9 +304,64 @@ const Header: React.FC = () => {
                     {item.name}
                   </Link>
                 ))}
-                <Link to="/contact" className="btn-premium inline-block text-center mt-4">
-                  Start Investing
-                </Link>
+                <div className="relative inline-block mt-4">
+                  {/* Mobile floating particles */}
+                  {[...Array(4)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-yellow-400 rounded-full pointer-events-none"
+                      initial={{ 
+                        x: 0, 
+                        y: 0,
+                        opacity: 0 
+                      }}
+                      animate={{
+                        x: [0, (i % 2 ? 1 : -1) * 30],
+                        y: [-15, -40],
+                        opacity: [0, 1, 0],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: i * 0.4,
+                        ease: "easeOut"
+                      }}
+                      style={{
+                        left: `${25 + i * 20}%`,
+                        bottom: '0%',
+                      }}
+                    />
+                  ))}
+                  
+                  {/* Mobile subtle glow */}
+                  <motion.div
+                    className="absolute -inset-1 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full opacity-40 blur-md"
+                    animate={{
+                      scale: [1, 1.05, 1],
+                      opacity: [0.3, 0.4, 0.3],
+                    }}
+                    transition={{
+                      duration: 3,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                    }}
+                  />
+                  
+                  <Link to="/contact" className="relative btn-premium inline-flex items-center justify-center text-center group">
+                    <span className="relative flex items-center gap-2">
+                      <span className="text-lg">✨</span>
+                      <span>Start Investing</span>
+                      <motion.svg
+                        className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </motion.svg>
+                    </span>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           )}

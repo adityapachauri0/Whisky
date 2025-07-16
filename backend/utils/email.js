@@ -128,8 +128,8 @@ const emailTemplate = (content) => `
     <div class="footer">
       <p>© 2024 ViticultWhisky. All rights reserved.</p>
       <p>
-        <a href="https://whiskytradingco.com">Visit our website</a> | 
-        <a href="mailto:info@whiskytradingco.com">Contact us</a>
+        <a href="https://viticult.co.uk">Visit our website</a> | 
+        <a href="mailto:admin@viticult.co.uk">Contact us</a>
       </p>
       <p><small>This email was sent from ViticultWhisky. If you believe this was sent in error, please ignore this message.</small></p>
     </div>
@@ -145,7 +145,7 @@ exports.sendEmail = async (options) => {
     
     // Email options
     const mailOptions = {
-      from: `"ViticultWhisky" <${process.env.SMTP_USER || 'noreply@whiskytradingco.com'}>`,
+      from: `"ViticultWhisky" <${process.env.SMTP_USER || 'noreply@viticult.co.uk'}>`,
       to: options.to,
       subject: options.subject,
       html: emailTemplate(options.html),
@@ -184,7 +184,7 @@ exports.emailTemplates = {
       <li>Exclusive access to limited edition casks and bottles</li>
     </ul>
     <p>Ready to start your whisky investment journey?</p>
-    <a href="https://whiskytradingco.com/get-started" class="button">Get Started</a>
+    <a href="https://viticult.co.uk/get-started" class="button">Get Started</a>
   `,
   
   investmentInquiry: (data) => `
@@ -199,6 +199,6 @@ exports.emailTemplates = {
     </ul>
     <p>One of our investment specialists will review your information and contact you within 24-48 hours to discuss your personalized investment strategy.</p>
     <p>In the meantime, feel free to explore our investment guide and market insights on our website.</p>
-    <a href="https://whiskytradingco.com/investment-guide" class="button">View Investment Guide</a>
+    <a href="https://viticult.co.uk/investment-guide" class="button">View Investment Guide</a>
   `
 };

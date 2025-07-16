@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth.controller');
+const adminController = require('../controllers/admin.controller');
 const { protect } = require('../middleware/auth');
 const {
   validateRegister,
@@ -24,6 +25,13 @@ router.post('/login',
   handleValidationErrors, 
   authController.login
 );
+
+// Admin login route
+router.post('/admin/login', adminController.adminLogin);
+
+// Admin protected routes
+router.post('/admin/change-password', adminController.verifyAdmin, adminController.changePassword);
+router.get('/admin/export-submissions', adminController.verifyAdmin, adminController.exportSubmissions);
 
 router.post('/logout', authController.logout);
 

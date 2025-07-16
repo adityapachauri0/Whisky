@@ -5,33 +5,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const About: React.FC = () => {
-  const team = [
-    {
-      name: 'Patrick O\'Brien',
-      role: 'CEO & Founder',
-      bio: '20+ years in alternative investments and premium spirits',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80',
-    },
-    {
-      name: 'Sarah Mitchell',
-      role: 'Head of Investments',
-      bio: 'Former portfolio manager with expertise in tangible assets',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80',
-    },
-    {
-      name: 'James McCullough',
-      role: 'Master Distiller Advisor',
-      bio: '30+ years crafting and evaluating premium whiskys',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80',
-    },
-    {
-      name: 'Emma Chen',
-      role: 'Client Relations Director',
-      bio: 'Dedicated to providing exceptional investor experiences',
-      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80',
-    },
-  ];
-
   return (
     <>
       <Helmet>
@@ -225,53 +198,103 @@ const About: React.FC = () => {
                 unwavering commitment to quality. We believe in the intrinsic value of aged spirits
                 – not just as a beverage, but as a tangible asset that appreciates with time."
               </p>
-              <p className="text-lg text-amber-400 font-semibold">
-                – Patrick O'Brien, CEO & Founder
-              </p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="section bg-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="heading-2 text-charcoal mb-4">Meet Our Team</h2>
-            <p className="text-lg text-charcoal/70 max-w-3xl mx-auto">
-              Industry experts dedicated to your investment success
-            </p>
-          </motion.div>
+      {/* AFC Wimbledon Sponsorship Section */}
+      <section className="section bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-6">
+                Supporting Our Community
+              </h2>
+              <div className="w-24 h-1 bg-amber-600 mx-auto mb-8" />
+              <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+                We believe in giving back to the community that has supported our growth
+              </p>
+            </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: index * 0.1 }}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="text-center"
               >
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-48 h-48 rounded-full mx-auto mb-4 object-cover shadow-lg"
-                />
-                <h3 className="font-semibold text-charcoal text-lg">{member.name}</h3>
-                <p className="text-gold text-sm mb-2">{member.role}</p>
-                <p className="text-charcoal/60 text-sm">{member.bio}</p>
+                <div className="bg-white rounded-2xl shadow-xl p-8">
+                  <div className="flex items-center mb-6">
+                    <div className="bg-blue-900 text-yellow-400 px-6 py-3 rounded-lg">
+                      <h3 className="text-2xl font-bold">AFC WIMBLEDON</h3>
+                    </div>
+                  </div>
+                  <h3 className="text-3xl font-serif text-gray-900 mb-4">Proud Sponsors of AFC Wimbledon</h3>
+                  <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                    ViticultWhisky is honored to be an official sponsor of AFC Wimbledon Football Club. 
+                    This partnership represents our commitment to supporting local communities and investing 
+                    in grassroots football.
+                  </p>
+                  <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                    AFC Wimbledon's remarkable story of resilience, community spirit, and determination 
+                    mirrors our own values of patience, authenticity, and long-term growth. Just as fine 
+                    whisky matures over time, we believe in nurturing relationships that stand the test of time.
+                  </p>
+                  <div className="flex items-center space-x-4">
+                    <a 
+                      href="https://www.afcwimbledon.co.uk" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-amber-600 font-semibold hover:text-amber-700 transition-colors group"
+                    >
+                      Visit AFC Wimbledon
+                      <ArrowRightIcon className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  </div>
+                </div>
               </motion.div>
-            ))}
+              
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="space-y-6"
+              >
+                <div className="bg-blue-900 text-white rounded-lg p-6 shadow-xl">
+                  <h4 className="text-xl font-semibold mb-3">Community Partnership</h4>
+                  <p className="text-blue-100">
+                    Our sponsorship helps fund youth development programs, community outreach initiatives, 
+                    and supports the club's mission to be at the heart of the local community.
+                  </p>
+                </div>
+                <div className="bg-amber-600 text-white rounded-lg p-6 shadow-xl">
+                  <h4 className="text-xl font-semibold mb-3">Shared Values</h4>
+                  <p className="text-amber-100">
+                    Both ViticultWhisky and AFC Wimbledon believe in authenticity, tradition, and building 
+                    something meaningful that lasts for generations.
+                  </p>
+                </div>
+                <div className="bg-gray-800 text-white rounded-lg p-6 shadow-xl">
+                  <h4 className="text-xl font-semibold mb-3">Long-term Commitment</h4>
+                  <p className="text-gray-300">
+                    Just as whisky investment requires patience and dedication, we're committed to supporting 
+                    AFC Wimbledon's journey for years to come.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
+
 
       {/* CTA Section */}
       <section className="section bg-gradient-to-br from-charcoal to-charcoal-light">

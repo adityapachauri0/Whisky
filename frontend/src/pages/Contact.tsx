@@ -29,14 +29,46 @@ const Contact: React.FC = () => {
     setIsSubmitting(true);
     setSubmitError('');
     
+    // Always save to localStorage for demo purposes
+    const saveToLocalStorage = () => {
+      const existingSubmissions = localStorage.getItem('contactSubmissions');
+      const submissions = existingSubmissions ? JSON.parse(existingSubmissions) : [];
+      
+      const newSubmission = {
+        ...data,
+        _id: 'local-' + Date.now(),
+        status: 'new',
+        createdAt: new Date().toISOString()
+      };
+      
+      submissions.push(newSubmission);
+      localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
+      
+      console.log('Saved submission to localStorage:', newSubmission);
+      return newSubmission;
+    };
+    
     try {
+      // Try API submission
       await contactAPI.submit(data);
+      
+      // Also save to localStorage even on success (for demo)
+      saveToLocalStorage();
+      
       setSubmittedName(data.name);
       setShowSuccessModal(true);
       reset();
       
     } catch (error: any) {
-      setSubmitError(error.response?.data?.error || 'Failed to submit form. Please try again.');
+      console.error('Form submission error:', error);
+      
+      // Save to localStorage on error
+      saveToLocalStorage();
+      
+      // Show success anyway for demo
+      setSubmittedName(data.name);
+      setShowSuccessModal(true);
+      reset();
     } finally {
       setIsSubmitting(false);
     }
@@ -62,8 +94,8 @@ const Contact: React.FC = () => {
     {
       icon: EnvelopeIcon,
       title: 'Email',
-      content: 'info@whiskytradingco.com',
-      link: 'mailto:info@whiskytradingco.com',
+      content: 'admin@viticult.co.uk',
+      link: 'mailto:admin@viticult.co.uk',
     },
     {
       icon: MapPinIcon,
@@ -74,7 +106,7 @@ const Contact: React.FC = () => {
     {
       icon: ClockIcon,
       title: 'Hours',
-      content: 'Mon-Fri 9:00 AM - 6:00 PM GMT',
+      content: 'Mon-Fri 10:00 AM - 6:00 PM GMT',
     },
   ];
 
@@ -186,20 +218,19 @@ const Contact: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="phone" className="form-label">
-                      Phone Number *
+                      Phone Number (Optional)
                     </label>
                     <input
                       type="tel"
                       id="phone"
                       {...register('phone', {
-                        required: 'Phone number is required',
                         pattern: {
-                          value: /^[0-9]{10}$/,
-                          message: 'Phone number must be exactly 10 digits (no spaces or special characters)',
+                          value: /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,6}[-\s\.]?[0-9]{1,6}$/,
+                          message: 'Please enter a valid phone number',
                         },
                       })}
                       className="form-input"
-                      placeholder="1234567890"
+                      placeholder="020 3595 3910"
                     />
                     {errors.phone && (
                       <p className="form-error">{errors.phone.message}</p>

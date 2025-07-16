@@ -257,8 +257,8 @@ const FAQ: React.FC = () => {
                 Book Free Consultation
                 <ArrowRightIcon className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
-              <a href="tel:+1234567890" className="btn-secondary">
-                Call Us: +1 (234) 567-890
+              <a href="tel:+442035953910" className="btn-secondary">
+                Call Us: 020 3595 3910
               </a>
             </div>
           </motion.div>

@@ -17,13 +17,13 @@ const Hero: React.FC<HeroProps> = ({
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
   
   const heroImages = [
+    '/images/tfandr-whisky-barrels.webp', // Premium whisky barrels
     '/images/hero/dalmore-luminary-rare.jpg', // Premium Dalmore Luminary edition
     '/images/hero/dalmore-18-lifestyle.jpg', // Dalmore 18 year old lifestyle shot
     '/images/hero/dalmore-bottle-closeup.jpg', // Dalmore bottle closeup shot
     '/images/hero/dalmore-21-lifestyle.jpg', // Dalmore 21 year old premium
     '/images/hero/dalmore-distillery-overhead.jpg', // Dalmore distillery aerial view
     '/images/hero/dalmore-principal-collection.jpg', // Dalmore principal collection
-    '/images/tfandr-whisky-barrels.webp', // Premium whisky barrels
     '/images/shop-hero-image.webp'
   ];
   

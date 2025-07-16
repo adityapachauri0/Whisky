@@ -131,11 +131,11 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-serif text-text-primary mb-6">Get in Touch</h4>
             <div className="space-y-4">
               <a
-                href="mailto:invest@whiskytradingco.com"
+                href="mailto:admin@viticult.co.uk"
                 className="flex items-center space-x-3 text-text-secondary hover:text-premium-gold transition-colors group"
               >
                 <EnvelopeIcon className="h-5 w-5 text-premium-gold/60 group-hover:text-premium-gold" />
-                <span className="text-sm">invest@whiskytradingco.com</span>
+                <span className="text-sm">admin@viticult.co.uk</span>
               </a>
               <a
                 href="tel:+442035953910"
@@ -157,13 +157,33 @@ const Footer: React.FC = () => {
           </motion.div>
         </div>
 
+        {/* Sponsorship Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="mt-12 bg-gradient-to-r from-blue-900/90 to-blue-800/90 rounded-lg p-6 text-center"
+        >
+          <p className="text-white text-sm uppercase tracking-wider mb-2">Proud Sponsors of</p>
+          <a 
+            href="https://www.afcwimbledon.co.uk" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-block text-yellow-400 hover:text-yellow-300 transition-colors"
+          >
+            <span className="text-2xl font-bold">AFC WIMBLEDON</span>
+          </a>
+          <p className="text-blue-100 text-xs mt-2">Supporting grassroots football and community development</p>
+        </motion.div>
+
         {/* Bottom Bar */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
           viewport={{ once: true }}
-          className="mt-16 pt-8 border-t border-premium-gold/10"
+          className="mt-8 pt-8 border-t border-premium-gold/10"
         >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-text-secondary text-sm">

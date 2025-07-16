@@ -1,4 +1,7 @@
 const nodemailer = require('nodemailer');
+const SellWhisky = require('../models/SellWhisky');
+const logger = require('../utils/logger');
+const { validationResult } = require('express-validator');
 
 // Create reusable transporter
 const transporter = nodemailer.createTransport({
@@ -101,20 +104,145 @@ exports.submitSellWhisky = async (req, res) => {
       `
     };
 
-    // Send emails
-    await transporter.sendMail(mailOptions);
-    await transporter.sendMail(confirmationMail);
+    // Save to database
+    const sellWhiskyData = {
+      name,
+      email,
+      phone,
+      caskType,
+      distillery,
+      year,
+      litres,
+      abv,
+      askingPrice,
+      message,
+      ipAddress: req.ip,
+      userAgent: req.get('user-agent')
+    };
 
-    res.status(200).json({
+    const submission = await SellWhisky.create(sellWhiskyData);
+
+    // Send emails
+    try {
+      await transporter.sendMail(mailOptions);
+      await transporter.sendMail(confirmationMail);
+      logger.info(`Sell whisky submission created: ${submission._id}`);
+    } catch (emailError) {
+      logger.error('Email sending failed:', emailError);
+      // Don't fail the request if email fails
+    }
+
+    res.status(201).json({
       success: true,
-      message: 'Your submission has been received successfully. We will contact you within 48 hours.'
+      message: 'Your submission has been received successfully. We will contact you within 48 hours.',
+      data: {
+        id: submission._id,
+        name: submission.name,
+        email: submission.email
+      }
     });
 
   } catch (error) {
     console.error('Sell whisky submission error:', error);
+    logger.error('Sell whisky submission error:', error);
     res.status(500).json({
       success: false,
       message: 'An error occurred while processing your submission. Please try again later.'
+    });
+  }
+};
+
+// Get all sell whisky submissions (admin only)
+exports.getAllSubmissions = async (req, res) => {
+  try {
+    const {
+      page = 1,
+      limit = 20,
+      status,
+      startDate,
+      endDate,
+      search
+    } = req.query;
+
+    // Build query
+    const query = {};
+    
+    if (status) {
+      query.status = status;
+    }
+    
+    if (startDate || endDate) {
+      query.createdAt = {};
+      if (startDate) query.createdAt.$gte = new Date(startDate);
+      if (endDate) query.createdAt.$lte = new Date(endDate);
+    }
+    
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+        { distillery: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    const submissions = await SellWhisky.find(query)
+      .sort({ createdAt: -1 })
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    const total = await SellWhisky.countDocuments(query);
+
+    res.json({
+      success: true,
+      data: submissions,
+      pagination: {
+        total,
+        page: parseInt(page),
+        pages: Math.ceil(total / limit)
+      }
+    });
+
+  } catch (error) {
+    logger.error('Get sell whisky submissions error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve submissions'
+    });
+  }
+};
+
+// Update submission status (admin only)
+exports.updateSubmissionStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, notes } = req.body;
+
+    const submission = await SellWhisky.findByIdAndUpdate(
+      id,
+      { 
+        status, 
+        notes
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: submission
+    });
+
+  } catch (error) {
+    logger.error('Update submission error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update submission'
     });
   }
 };
