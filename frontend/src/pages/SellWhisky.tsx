@@ -49,7 +49,7 @@ const SellWhisky: React.FC = () => {
       <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80"
+            src="/images/casks/dalmore-21-casks.jpg"
             alt="Whisky warehouse"
             className="w-full h-full object-cover"
           />

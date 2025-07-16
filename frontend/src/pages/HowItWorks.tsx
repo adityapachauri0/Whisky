@@ -10,7 +10,7 @@ const HowItWorks: React.FC = () => {
       number: '01',
       title: 'Select Your Cask',
       description: 'Browse our curated selection of premium whisky casks from Scotland\'s finest distilleries. Each cask is carefully vetted for quality, provenance, and investment potential.',
-      image: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?ixlib=rb-4.0.3&w=800&q=80',
+      image: '/images/casks/dalmore-premium-casks.jpg',
       features: [
         'Expert cask recommendations',
         'Detailed provenance reports',
@@ -22,7 +22,7 @@ const HowItWorks: React.FC = () => {
       number: '02',
       title: 'Secure Ownership',
       description: 'Complete your purchase with full legal protection and documentation. Your cask remains safely stored in government-bonded warehouses while it matures.',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&w=800&q=80',
+      image: '/images/casks/dalmore-warehouse-casks.jpg',
       features: [
         'Legal ownership transfer',
         'Bonded warehouse storage',
@@ -34,7 +34,7 @@ const HowItWorks: React.FC = () => {
       number: '03',
       title: 'Monitor & Exit',
       description: 'Track your investment\'s performance with regular valuations and market insights. When ready, we facilitate the sale through our global network.',
-      image: 'https://images.unsplash.com/photo-1551288880-83d5481a6af9?ixlib=rb-4.0.3&w=800&q=80',
+      image: '/images/hero/dalmore-principal-collection.jpg',
       features: [
         'Quarterly valuations',
         'Market performance reports',
@@ -66,7 +66,7 @@ const HowItWorks: React.FC = () => {
       <section className="relative h-[80vh] min-h-[600px] overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1602166242292-991b55a466e4?ixlib=rb-4.0.3&w=1920&q=80"
+            src="/images/hero/dalmore-distillery-overhead.jpg"
             alt="Premium whisky barrels in warehouse"
             className="w-full h-full object-cover"
           />
@@ -167,7 +167,7 @@ const HowItWorks: React.FC = () => {
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?ixlib=rb-4.0.3&w=1920&q=80"
+            src="/images/casks/dalmore-oak-barrels.jpg"
             alt="Aged whisky barrels"
             className="w-full h-full object-cover"
           />
