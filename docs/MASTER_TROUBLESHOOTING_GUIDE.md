@@ -19,7 +19,8 @@ This comprehensive guide consolidates ALL troubleshooting information for the Wh
 13. [Testing Scripts & Validation](#testing-scripts--validation)
 14. [Export Download Issues](#export-download-issues)
 15. [Site Configuration Issues](#site-configuration-issues)
-16. [Quick Reference Commands](#quick-reference-commands)
+16. [Hero Image Deployment Issues (Recurring)](#️-hero-image-deployment-issues-recurring)
+17. [Quick Reference Commands](#quick-reference-commands)
 
 ---
 
@@ -355,6 +356,370 @@ Admin Dashboard showing:
 ---
 
 ## 🚨 Latest Critical Fixes
+
+### 🔥 CASE STUDY: The Great Admin Authentication Failure (July 28, 2025)
+
+### **Case Study: Why Local Worked But VPS Failed Spectacularly**
+
+**Duration:** Multiple hours of troubleshooting  
+**Issue:** Admin login returning "Invalid email or password" despite multiple "successful" admin user creation attempts  
+**Root Cause:** Over-engineered authentication system with multiple compounding failures  
+
+### **Timeline of Failures**
+
+#### **Phase 1: The Phantom Admin User (Ghost Success Messages)**
+```bash
+# What we saw:
+✅ Admin user created successfully
+✅ Admin password updated successfully  
+✅ Admin setup completed successfully
+
+# Reality check revealed:
+Users in database: 0  # NO ADMIN USER EXISTED
+```
+
+**❌ Failure Point:** Interactive `setup-admin.js` script was completely broken
+- Displayed success messages but never saved to database
+- This script failed identically on both local and VPS
+- Trusted script output instead of verifying database state
+
+**✅ Fix:** Always verify database after any "successful" operation
+```bash
+node -e "
+const mongoose = require('mongoose');
+(async () => {
+  await mongoose.connect('mongodb://localhost:27017/viticult-whisky');
+  const count = await mongoose.connection.db.collection('users').countDocuments();
+  console.log('Actual users in database:', count);
+  process.exit(0);
+})();
+"
+```
+
+#### **Phase 2: The Over-Engineered Security Trap**
+```javascript
+// The problematic User model
+password: {
+  type: String,
+  required: [true, 'Password is required'],
+  minlength: [8, 'Password must be at least 8 characters'],
+  select: false  // ❌ This blocked ALL password operations
+},
+
+// Pre-save middleware that caused double-hashing
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt); // ❌ Double-hashing
+});
+```
+
+**❌ Failure Point:** User requested "simple production-ready setup" but got over-engineered security
+- `select: false` prevented password field access
+- Pre-save hook double-hashed manually hashed passwords
+- Complex validation blocked basic user creation
+
+**✅ Fix:** Keep authentication simple until basic functionality works
+```javascript
+// Simplified working version
+password: {
+  type: String,
+  required: true
+  // Removed select: false and other barriers
+},
+```
+
+#### **Phase 3: The Port Configuration Chaos**
+```bash
+# Local setup (working):
+Frontend: http://localhost:3001
+Backend: http://localhost:5001
+
+# VPS setup (broken):
+Nginx proxy: http://localhost:5000  
+Backend running: http://localhost:5001
+Result: 502 Bad Gateway
+```
+
+**❌ Failure Point:** Port misalignment between services
+- Nginx configured to proxy to port 5000
+- Backend actually running on port 5001
+- Environment files had inconsistent PORT settings
+
+**✅ Fix:** Verify port alignment across all services
+```bash
+# Check all port configurations
+grep -r "PORT\|5000\|5001" .env nginx.conf package.json
+```
+
+#### **Phase 4: The Double-Hashing Password Trap**
+```bash
+# Testing password comparison
+Password matches: false  # Even after "successful" creation
+
+# Root cause investigation
+const bcrypt = require('bcryptjs');
+const hash1 = await bcrypt.hash('admin123', 12);        // Manual hash
+const hash2 = await bcrypt.hash(hash1, 12);            // Pre-save hook hash
+// Result: Double-hashed password that never matches
+```
+
+**❌ Failure Point:** Password hashing workflow was broken
+- Manually hashed password in creation script
+- Pre-save hook hashed it again automatically
+- Result: Double-hashed password that could never match
+
+**✅ Fix:** Use plain text password and let middleware handle hashing
+```javascript
+// Wrong approach
+admin.password = await bcrypt.hash('admin123', 12); // Manual hash
+await admin.save(); // Pre-save hook hashes again = double hash
+
+// Correct approach  
+admin.password = 'admin123'; // Plain text
+await admin.save(); // Let pre-save hook handle hashing once
+```
+
+#### **Phase 5: The Deployment Script SSH Loop**
+```bash
+# Script running ON VPS tried to SSH to itself
+🧪 Testing VPS connectivity...
+root@31.97.57.193's password:  # ❌ SSH to itself!
+```
+
+**❌ Failure Point:** Deployment script couldn't detect local vs remote execution
+- Script running on VPS tried to SSH to same VPS
+- Wrong IP addresses hardcoded in script
+- No local environment detection
+
+**✅ Fix:** Add environment detection
+```bash
+# Check if running locally on VPS
+if [ "$(hostname)" = "srv897225" ] || [ -d "/var/www/whisky/backend" ]; then
+    # Run locally without SSH
+    run_local_commands
+else
+    # SSH to remote VPS
+    ssh $VPS_USER@$VPS_IP "commands"
+fi
+```
+
+---
+
+## 🎯 Root Cause Analysis
+
+### **Why Local Environment Worked**
+1. ✅ **Simple authentication** - No over-engineered security barriers
+2. ✅ **Proper admin user** - Created through functional method (not broken script)
+3. ✅ **Port consistency** - All services aligned on correct ports
+4. ✅ **Environment parity** - Configuration actually worked
+
+### **Why VPS Environment Failed**
+1. ❌ **Over-engineered security** - Complex User model blocked basic operations
+2. ❌ **Phantom admin user** - Script claimed success but saved nothing
+3. ❌ **Port misalignment** - Services running on different ports than expected
+4. ❌ **Double-hashing** - Password workflow fundamentally broken
+5. ❌ **Deployment complexity** - Scripts that couldn't handle their own environment
+
+---
+
+## 🛡️ Case Study Prevention Strategies
+
+### **1. Database-First Verification**
+```bash
+# ALWAYS verify database state after any operation claiming success
+verify_database() {
+    node -e "
+    const mongoose = require('mongoose');
+    (async () => {
+      await mongoose.connect('mongodb://localhost:27017/viticult-whisky');
+      const users = await mongoose.connection.db.collection('users').find({}).toArray();
+      console.log('=== DATABASE VERIFICATION ===');
+      console.log('Total users:', users.length);
+      users.forEach((u, i) => {
+        console.log(\`User \${i+1}: \${u.email} | Role: \${u.role} | Active: \${u.active} | Has Password: \${!!u.password}\`);
+      });
+      process.exit(0);
+    })();
+    "
+}
+
+# Call after every admin creation attempt
+verify_database
+```
+
+### **2. Environment Parity Principle**
+```bash
+# VPS should exactly mirror working local environment
+deploy_with_parity() {
+    echo "🔄 Ensuring VPS matches local environment..."
+    
+    # Copy working local configs
+    scp backend/.env root@VPS_IP:/var/www/whisky/backend/
+    scp backend/models/User.js root@VPS_IP:/var/www/whisky/backend/models/
+    
+    # Verify port alignment
+    echo "Checking port configuration..."
+    LOCAL_PORT=$(grep "PORT=" backend/.env | cut -d= -f2)
+    ssh root@VPS_IP "grep 'proxy_pass.*localhost:' /etc/nginx/sites-available/* | grep -o 'localhost:[0-9]*'"
+    
+    echo "Local backend port: $LOCAL_PORT"
+    echo "Nginx expects: [shown above]"
+    echo "⚠️  These MUST match!"
+}
+```
+
+### **3. Keep It Simple (KISS) Principle**
+```bash
+# Avoid over-engineering until basic functionality works
+create_simple_admin() {
+    echo "🎯 Creating admin user with MINIMAL complexity..."
+    
+    # Simple User model (no select: false, minimal validation)
+    # Plain text password (let middleware handle hashing)
+    # No complex security until basic auth works
+    
+    node -e "
+    const mongoose = require('mongoose');
+    const User = require('./models/User');
+    (async () => {
+      await mongoose.connect('mongodb://localhost:27017/viticult-whisky');
+      
+      // Delete any existing admin to start fresh
+      await User.deleteMany({ email: 'admin@viticultwhisky.co.uk' });
+      
+      // Create with minimal data
+      const admin = new User({
+        email: 'admin@viticultwhisky.co.uk',
+        password: 'admin123', // Plain text - let pre-save hook handle it
+        firstName: 'Admin',
+        lastName: 'User',
+        role: 'admin',
+        active: true
+      });
+      
+      await admin.save({ validateBeforeSave: false });
+      console.log('✅ Simple admin created');
+      process.exit(0);
+    })();
+    "
+}
+```
+
+## 🎓 Lessons Learned
+
+### **The Core Truth**
+
+**When local works but VPS doesn't, the problem is almost always that you've added unnecessary complexity during deployment instead of replicating the working local environment exactly.**
+
+**Prevention:** Use the unified `deploy-whisky.sh` script which includes all these fixes and proper environment detection.
+
+### Hero Image Loading Fix (July 28, 2025)
+**Problem**: First hero image (`resized_winery_Viticult-7513835-compressed`) not loading while other images work fine.
+
+**Root Cause**: Filename contains spaces and parentheses `resized_winery_Viticult-7513835 (1)` causing URL encoding issues in browsers.
+
+**Symptoms**:
+- Hero section shows blank/loading state for first image
+- Other hero images load correctly
+- Browser network tab shows 404 errors for the hero image
+- Direct URL access fails due to special characters
+
+**Solution Applied**:
+```bash
+# Create URL-safe versions of hero image files
+node fix-hero-image.js
+
+# This creates copies with URL-safe names:
+# resized_winery_Viticult-7513835 (1) → resized_winery_Viticult-7513835-1
+
+# Update Hero.tsx component to use new filename
+# Rebuild frontend: npm run build
+# Deploy with: ./deploy-hero-image-fix.sh
+```
+
+**Files Created**:
+- `resized_winery_Viticult-7513835-1-640w.webp`
+- `resized_winery_Viticult-7513835-1-768w.webp`
+- `resized_winery_Viticult-7513835-1-1280w.webp`
+- `resized_winery_Viticult-7513835-1-1920w.webp`
+
+**Prevention**: Avoid spaces, parentheses, and special characters in image filenames for web use.
+
+### 🔄 RECURRING ISSUE: Images in Build Directory Not Copied to Web Root (July 28, 2025)
+**Problem**: Images don't load on production website despite being present in the build directory.
+
+**Root Cause**: Deployment process copies frontend build files but doesn't properly copy the `/whisky/` image directory to the web root.
+
+**Symptoms**:
+- Hero images show as broken/blank
+- Browser network tab shows 404 errors for `/whisky/hero/optimized/*.webp`
+- Images exist in `/var/www/whisky/frontend/build/whisky/` but not in `/var/www/whisky/whisky/`
+- Other parts of website work fine
+
+**Why This Keeps Happening**:
+- Deployment scripts focus on copying HTML/CSS/JS files
+- Image directories are treated as "assets" and often missed
+- Build process puts images in `frontend/build/whisky/` but nginx serves from `/var/www/whisky/whisky/`
+- No verification step to ensure images are accessible via web URLs
+
+**Permanent Fix Applied**:
+```bash
+#!/bin/bash
+# Copy images from build to web root (add to all deployment scripts)
+copy_images_to_webroot() {
+    echo "📸 Copying images from build to web root..."
+    
+    # Create whisky directory in web root if it doesn't exist
+    mkdir -p /var/www/whisky/whisky
+    
+    # Copy all images from build to web root
+    if [ -d "/var/www/whisky/frontend/build/whisky" ]; then
+        cp -r /var/www/whisky/frontend/build/whisky/* /var/www/whisky/whisky/
+        chown -R www-data:www-data /var/www/whisky/whisky/
+        echo "✅ Images copied to web root"
+    else
+        echo "❌ Build directory not found"
+        return 1
+    fi
+    
+    # Verify hero images are accessible
+    if [ -f "/var/www/whisky/whisky/hero/optimized/dalmore-18-lifestyle-1280w.webp" ]; then
+        echo "✅ Hero images verified in web root"
+    else
+        echo "❌ Hero images missing in web root"
+        return 1
+    fi
+}
+
+# Always call this function after any deployment
+copy_images_to_webroot
+```
+
+**Emergency Quick Fix**:
+```bash
+# Run this on VPS when images are missing
+mkdir -p /var/www/whisky/whisky
+cp -r /var/www/whisky/frontend/build/whisky/* /var/www/whisky/whisky/
+chown -R www-data:www-data /var/www/whisky/whisky/
+```
+
+**Verification Commands**:
+```bash
+# Check if images exist in web root
+ls -la /var/www/whisky/whisky/hero/optimized/ | head -5
+
+# Test image accessibility
+curl -I https://viticultwhisky.co.uk/whisky/hero/optimized/dalmore-18-lifestyle-1280w.webp
+```
+
+**Prevention Strategy**:
+1. **Always include image copying** in deployment scripts
+2. **Add verification step** to check image accessibility after deployment
+3. **Update deploy-whisky.sh** to include automatic image copying
+4. **Test image URLs** as part of deployment health checks
+
+**This issue has occurred multiple times because image deployment is often treated as secondary to code deployment, but images are critical for user experience.**
 
 ### VPS Deployment Image Loading Fix (July 25, 2025)
 **Problem**: After VPS deployment, website loads but images don't display - recurring issue where one fix breaks another part.
@@ -2562,4 +2927,217 @@ node test-site-config-complete.js | grep "Production Ready"
 
 ---
 
-*Last Updated: July 2025 | Includes Site Configuration troubleshooting, MongoDB auth, secrets management, comprehensive API troubleshooting, email template fixes, export download fixes, and all previous fixes*
+---
+
+## 🖼️ HERO IMAGE DEPLOYMENT ISSUES (RECURRING)
+
+**CRITICAL RECURRING ISSUE**: Images exist in frontend build but not copied to web root during deployment.
+
+### Problem Description
+The first hero image (`resized_winery_Viticult-7513835`) was not loading due to:
+1. **URL Encoding Issues**: Original filename contained spaces and parentheses: `resized_winery_Viticult-7513835 (1)`
+2. **Deployment Gap**: Images built locally but not copied to VPS web root
+3. **Recurring Pattern**: This image deployment issue happens repeatedly
+
+### Root Cause Analysis
+- **Frontend Build**: Images correctly placed in `frontend/build/whisky/`
+- **Web Root Gap**: Images not copied from build directory to `/var/www/whisky/whisky/`
+- **Deployment Scripts**: Focus on HTML/CSS/JS but treat images as secondary
+- **URL Encoding**: Spaces and special characters in filenames cause 404 errors
+
+### Complete Solution Applied
+
+#### 1. Fixed URL-Safe Filenames
+```bash
+# ❌ Old problematic filename
+resized_winery_Viticult-7513835 (1).webp
+
+# ✅ New URL-safe filename
+resized_winery_Viticult-7513835-1.webp
+```
+
+#### 2. Updated All References
+**Files Fixed**:
+- `frontend/src/components/sections/Hero.tsx` - Line 9
+- `frontend/src/pages/Home.tsx` - Lines 90, 120
+- `frontend/public/index.html` - Line 20
+
+**Hero Component Fix**:
+```javascript
+const heroImageSets = [
+  {
+    base: 'resized_winery_Viticult-7513835-1', // Fixed from problematic filename
+    alt: 'Premium whisky cask investment opportunity'
+  },
+  // ... other images
+];
+```
+
+#### 3. Created URL-Safe Image Files
+Generated all responsive variants:
+- `resized_winery_Viticult-7513835-1-640w.webp`
+- `resized_winery_Viticult-7513835-1-768w.webp` 
+- `resized_winery_Viticult-7513835-1-1280w.webp`
+- `resized_winery_Viticult-7513835-1-1920w.webp`
+
+### Emergency Fix Commands
+
+#### Immediate Image Access Fix (On VPS)
+```bash
+# Emergency: Copy all images from build to web root
+cp -r /var/www/whisky/frontend/build/whisky/* /var/www/whisky/whisky/
+
+# Set proper permissions
+chown -R www-data:www-data /var/www/whisky/whisky/
+
+# Verify hero images are accessible
+ls -la /var/www/whisky/whisky/hero/optimized/ | grep "winery_Viticult-7513835"
+
+# Test image accessibility
+curl -I https://viticultwhisky.co.uk/whisky/hero/optimized/resized_winery_Viticult-7513835-1-1280w.webp
+```
+
+#### Verify Fix is Applied
+```bash
+# Check which filename is used in Hero component
+grep -n "resized_winery_Viticult-7513835" /var/www/whisky/frontend/src/components/sections/Hero.tsx
+# Should show: base: 'resized_winery_Viticult-7513835-1',
+
+# Check preload references
+grep "resized_winery_Viticult-7513835" /var/www/whisky/frontend/src/pages/Home.tsx
+grep "resized_winery_Viticult-7513835" /var/www/whisky/frontend/public/index.html
+```
+
+### Permanent Solution (Deploy Script Enhancement)
+
+#### Enhanced deploy-whisky.sh (Add Image Copying Function)
+```bash
+# Add this function to deploy-whisky.sh
+copy_images_to_webroot() {
+    log_step "Copying images from build to web root..."
+    
+    # Copy all built assets including images
+    if [ -d "/var/www/whisky/frontend/build/whisky" ]; then
+        cp -r /var/www/whisky/frontend/build/whisky/* /var/www/whisky/whisky/
+        chown -R www-data:www-data /var/www/whisky/whisky/
+        log_success "Images copied to web root"
+        
+        # Verify hero images specifically
+        if [ -f "/var/www/whisky/whisky/hero/optimized/resized_winery_Viticult-7513835-1-1280w.webp" ]; then
+            log_success "Hero images verified in web root"
+        else
+            log_warning "Hero images not found - check image paths"
+        fi
+    else
+        log_error "Frontend build directory not found"
+    fi
+}
+
+# Call in deployment functions:
+# After frontend build: copy_images_to_webroot
+```
+
+### Prevention Strategy
+
+#### 1. Filename Standards
+- ❌ **Avoid**: Spaces, parentheses, special characters
+- ✅ **Use**: Hyphens, underscores, alphanumeric only
+- ✅ **Pattern**: `descriptive-name-variant.extension`
+
+#### 2. Deployment Checklist
+- [ ] Frontend build completed
+- [ ] Images copied from build to web root  
+- [ ] Proper permissions set (www-data:www-data)
+- [ ] Hero images specifically verified
+- [ ] Test image URLs directly in browser
+
+#### 3. Automated Verification
+```bash
+# Add to deployment verification
+verify_hero_images() {
+    echo "🔍 Verifying hero images..."
+    
+    HERO_IMAGES=(
+        "resized_winery_Viticult-7513835-1-1280w.webp"
+        "viticult_whisky_cask_investment43-1280w.webp"
+        "dalmore-21-lifestyle-1280w.webp"
+    )
+    
+    for img in "${HERO_IMAGES[@]}"; do
+        if curl -I "https://viticultwhisky.co.uk/whisky/hero/optimized/$img" 2>/dev/null | grep -q "200 OK"; then
+            echo "✅ $img accessible"
+        else
+            echo "❌ $img NOT accessible"
+        fi
+    done
+}
+```
+
+### Troubleshooting Checklist
+
+#### If Hero Images Not Loading
+1. **Check filename encoding**:
+   ```bash
+   # Look for problematic characters
+   ls -la /var/www/whisky/whisky/hero/optimized/ | grep "winery"
+   ```
+
+2. **Verify web root has images**:
+   ```bash
+   # Images should exist in both locations
+   ls /var/www/whisky/frontend/build/whisky/hero/optimized/
+   ls /var/www/whisky/whisky/hero/optimized/
+   ```
+
+3. **Test direct image access**:
+   ```bash
+   curl -I https://viticultwhisky.co.uk/whisky/hero/optimized/resized_winery_Viticult-7513835-1-1280w.webp
+   ```
+
+4. **Check Hero component references**:
+   ```bash
+   grep -n "base:" /var/www/whisky/frontend/src/components/sections/Hero.tsx
+   ```
+
+#### If Build Process Issues
+1. **Clear build cache**:
+   ```bash
+   cd /var/www/whisky/frontend
+   rm -rf node_modules/.cache
+   npm run build
+   ```
+
+2. **Force image copy**:
+   ```bash
+   cp -rf /var/www/whisky/frontend/build/* /var/www/whisky/
+   ```
+
+### Related Files and Locations
+
+**Source Files**:
+- `frontend/src/components/sections/Hero.tsx` - Hero component with image references
+- `frontend/src/pages/Home.tsx` - Preload references  
+- `frontend/public/index.html` - HTML template preload
+- `frontend/public/whisky/hero/optimized/` - Source images
+
+**Build Output**:
+- `frontend/build/whisky/hero/optimized/` - Built images
+- `frontend/build/index.html` - Built HTML with references
+
+**Production Locations**:
+- `/var/www/whisky/whisky/hero/optimized/` - Web-accessible images
+- `/var/www/whisky/frontend/build/whisky/` - Build artifacts
+
+**Deployment Scripts**:
+- `deploy-whisky.sh` - Main deployment script (needs image copy enhancement)
+- `deploy-hero-image-fix.sh` - Specialized hero image deployment
+
+### Documentation References
+- This issue was first reported: "first image on the hero section is not getting populated"
+- User emphasized: "this issues keep repeating also documnet this in master troubleshooting"
+- Root cause: URL encoding of filename with spaces and parentheses
+- Solution: URL-safe filenames + proper deployment image copying
+
+---
+
+*Last Updated: July 2025 | Includes Hero Image deployment fix, Site Configuration troubleshooting, MongoDB auth, secrets management, comprehensive API troubleshooting, email template fixes, export download fixes, and all previous fixes*

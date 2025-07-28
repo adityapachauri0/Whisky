@@ -6,7 +6,7 @@ import { ArrowRightIcon, PlayIcon, PauseIcon } from '@heroicons/react/24/outline
 // Hero image configurations with responsive sources
 const heroImageSets = [
   {
-    base: 'resized_winery_Viticult-7513835 (1)',
+    base: 'resized_winery_Viticult-7513835-1',
     alt: 'Premium whisky cask investment opportunity'
   },
   {

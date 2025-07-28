@@ -72,6 +72,13 @@ show_help() {
 
 # Test VPS connectivity
 test_connectivity() {
+    # Check if running locally on VPS
+    if [ "$(hostname)" = "srv897225" ] || [ -d "/var/www/whisky/backend" ]; then
+        log_test "Running locally on VPS - skipping connectivity test"
+        log_success "Local VPS access confirmed"
+        return 0
+    fi
+    
     log_test "Testing VPS connectivity..."
     if ! ssh -o ConnectTimeout=10 $VPS_USER@$VPS_IP "echo 'Connection successful'" > /dev/null 2>&1; then
         log_error "Cannot connect to VPS at $VPS_IP"
@@ -222,7 +229,61 @@ EOF
 fix_deployment() {
     log_step "Applying comprehensive deployment fixes..."
     
-    ssh $VPS_USER@$VPS_IP << 'EOF'
+    # Check if running locally on VPS or remotely
+    if [ "$(hostname)" = "srv897225" ] || [ -d "/var/www/whisky/backend" ]; then
+        # Running locally on VPS
+        fix_local_deployment
+    else
+        # Running remotely, use SSH
+        ssh $VPS_USER@$VPS_IP << 'EOF'
+            $(declare -f fix_local_deployment)
+            fix_local_deployment
+EOF
+    fi
+}
+
+# Local deployment fix function
+# Copy images from build to web root (NEW - Hero Image Fix)
+copy_images_to_webroot() {
+    echo "📸 Copying images from build to web root..."
+    
+    # Copy all built assets including images
+    if [ -d "/var/www/whisky/frontend/build/whisky" ]; then
+        cp -r /var/www/whisky/frontend/build/whisky/* /var/www/whisky/whisky/
+        chown -R www-data:www-data /var/www/whisky/whisky/
+        echo "✅ Images copied to web root"
+        
+        # Verify hero images specifically
+        if [ -f "/var/www/whisky/whisky/hero/optimized/resized_winery_Viticult-7513835-1-1280w.webp" ]; then
+            echo "✅ Hero images verified in web root"
+        else
+            echo "⚠️ Hero images not found - check image paths"
+        fi
+    else
+        echo "❌ Frontend build directory not found"
+    fi
+}
+
+# Verify hero images are accessible
+verify_hero_images() {
+    echo "🔍 Verifying hero images..."
+    
+    HERO_IMAGES=(
+        "resized_winery_Viticult-7513835-1-1280w.webp"
+        "viticult_whisky_cask_investment43-1280w.webp"
+        "dalmore-21-lifestyle-1280w.webp"
+    )
+    
+    for img in "${HERO_IMAGES[@]}"; do
+        if [ -f "/var/www/whisky/whisky/hero/optimized/$img" ]; then
+            echo "✅ $img found"
+        else
+            echo "❌ $img NOT found"
+        fi
+    done
+}
+
+fix_local_deployment() {
         echo "🔧 ViticultWhisky Deployment Fix"
         echo "==============================="
         echo ""
@@ -311,9 +372,15 @@ ENVFILE
             echo "⚠️  Nginx configuration file not found"
         fi
         
-        # Fix 5: Final Verification
+        # Fix 5: Image Deployment (NEW - Hero Image Fix)
         echo ""
-        echo "5️⃣ Final Verification..."
+        echo "5️⃣ Image Deployment..."
+        copy_images_to_webroot
+        verify_hero_images
+        
+        # Fix 6: Final Verification
+        echo ""
+        echo "6️⃣ Final Verification..."
         sleep 3
         
         RESPONSE=$(curl -s -X POST http://localhost:5000/api/auth/admin/login \
@@ -334,8 +401,6 @@ ENVFILE
             echo ""
             echo "Additional debugging required."
         fi
-        
-EOF
 }
 
 # Deploy fresh installation
@@ -366,6 +431,13 @@ deploy_fresh() {
             npm install
             npm run build
             echo "✅ Frontend built"
+            
+            # Copy images to web root (Hero Image Fix)
+            if [ -d "frontend/build/whisky" ]; then
+                cp -r frontend/build/whisky/* whisky/
+                chown -R www-data:www-data whisky/
+                echo "✅ Images copied to web root"
+            fi
 EOF
         log_success "Dependencies installed and built"
     fi
@@ -390,6 +462,10 @@ update_deployment() {
     if [ "$skip_build" != "true" ]; then
         log_info "Rebuilding frontend..."
         ssh $VPS_USER@$VPS_IP "cd /var/www/whisky/frontend && npm run build"
+        
+        # Copy images after rebuild (Hero Image Fix)
+        log_info "Copying images to web root..."
+        ssh $VPS_USER@$VPS_IP "cd /var/www/whisky && if [ -d 'frontend/build/whisky' ]; then cp -r frontend/build/whisky/* whisky/ && chown -R www-data:www-data whisky/; fi"
     fi
     
     # Restart services

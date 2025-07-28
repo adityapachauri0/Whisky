@@ -87,7 +87,7 @@ const Home: React.FC = () => {
         <meta name="ICBM" content="55.9533, -3.1883" />
         
         {/* Preload critical resources */}
-        <link rel="preload" as="image" href="/whisky/hero/optimized/resized_winery_Viticult-7513835 (1)-1280w.webp" />
+        <link rel="preload" as="image" href="/whisky/hero/optimized/resized_winery_Viticult-7513835-1-1280w.webp" />
         <link rel="preload" as="font" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" crossOrigin="anonymous" />
         
         {/* Canonical URL */}
@@ -117,7 +117,7 @@ const Home: React.FC = () => {
       {/* SEO Performance Optimizations */}
       <SEOOptimizations
         preloadImages={[
-          '/whisky/hero/optimized/resized_winery_Viticult-7513835 (1)-1280w.webp',
+          '/whisky/hero/optimized/resized_winery_Viticult-7513835-1-1280w.webp',
           '/whisky/hero/optimized/viticult_whisky_cask_investment43-1280w.webp'
         ]}
         prefetchUrls={[
