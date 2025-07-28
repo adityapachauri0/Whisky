@@ -135,17 +135,9 @@ mongoose.connection.on('disconnected', () => {
   logger.warn('MongoDB disconnected');
 });
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/config', configRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/consultation', consultationRoutes);
-app.use('/api/blog', blogRoutes);
-app.use('/api', sellWhiskyRoutes);
-
-// Health check endpoint
+// Health check endpoint - MUST be before routes to avoid auth middleware
 app.get('/api/health', (req, res) => {
+  logger.info('Health endpoint accessed');
   const health = {
     status: 'ok',
     timestamp: new Date().toISOString(),
@@ -156,6 +148,15 @@ app.get('/api/health', (req, res) => {
   
   res.status(200).json(health);
 });
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/config', configRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/consultation', consultationRoutes);
+app.use('/api/blog', blogRoutes);
+app.use('/api/sell-whisky', sellWhiskyRoutes);
 
 // API documentation endpoint
 app.get('/api', (req, res) => {

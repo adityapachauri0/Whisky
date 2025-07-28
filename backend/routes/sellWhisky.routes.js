@@ -12,18 +12,18 @@ const sellWhiskyLimiter = rateLimiter({
 });
 
 // POST /api/sell-whisky
-router.post('/sell-whisky', sellWhiskyLimiter, submitSellWhisky);
+router.post('/', sellWhiskyLimiter, submitSellWhisky);
 
-// Protected routes (admin only)
-router.use(verifyAdmin);
+// Protected routes (admin only) - TODO: Re-enable after fixing global middleware issue
+// router.use(verifyAdmin);
 
-// GET /api/sell-whisky/submissions
-router.get('/sell-whisky/submissions', getAllSubmissions);
+// GET /api/sell-whisky/submissions  
+router.get('/submissions', verifyAdmin, getAllSubmissions);
 
 // PATCH /api/sell-whisky/submissions/:id/status
-router.patch('/sell-whisky/submissions/:id/status', updateSubmissionStatus);
+router.patch('/submissions/:id/status', verifyAdmin, updateSubmissionStatus);
 
 // DELETE /api/sell-whisky/submissions/:id
-router.delete('/sell-whisky/submissions/:id', deleteSubmission);
+router.delete('/submissions/:id', verifyAdmin, deleteSubmission);
 
 module.exports = router;
