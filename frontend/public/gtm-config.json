@@ -1,0 +1,14 @@
+{
+  "gtm": {
+    "containerId": "GTM-XXXXXXX",
+    "enabled": false
+  },
+  "searchConsole": {
+    "verificationCode": "your-search-console-verification-code",
+    "enabled": false
+  },
+  "googleAnalytics": {
+    "measurementId": "G-XXXXXXXXXX", 
+    "enabled": false
+  }
+}

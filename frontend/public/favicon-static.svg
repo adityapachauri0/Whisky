@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Static cask for ICO conversion -->
+  <style>
+    .cask-body { fill: #8B4513; }
+    .cask-hoop { fill: #333; stroke: #555; stroke-width: 0.5; }
+    .whisky-shine { fill: #FFD700; opacity: 0.6; }
+  </style>
+  
+  <!-- Main barrel body -->
+  <ellipse cx="16" cy="8" rx="11" ry="3" class="cask-body"/>
+  <rect x="5" y="8" width="22" height="16" class="cask-body"/>
+  <ellipse cx="16" cy="24" rx="11" ry="3" class="cask-body"/>
+  
+  <!-- Shine effect -->
+  <ellipse cx="13" cy="10" rx="4" ry="1.5" class="whisky-shine"/>
+  <rect x="9" y="10" width="8" height="14" class="whisky-shine"/>
+  
+  <!-- Metal hoops -->
+  <ellipse cx="16" cy="12" rx="11.5" ry="1" class="cask-hoop"/>
+  <ellipse cx="16" cy="16" rx="12" ry="1" class="cask-hoop"/>
+  <ellipse cx="16" cy="20" rx="11.5" ry="1" class="cask-hoop"/>
+  
+  <!-- Whisky drop -->
+  <circle cx="17" cy="26.5" r="1.3" fill="#DAA520" opacity="0.7"/>
+</svg>

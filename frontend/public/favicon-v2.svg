@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+  <style>
+    .cask-body { 
+      fill: #8B4513; 
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .cask-hoop { 
+      fill: #333; 
+      stroke: #555; 
+      stroke-width: 0.3;
+    }
+    .whisky-shine { 
+      fill: #FFD700; 
+      opacity: 0.3;
+      animation: shine 3s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { fill: #8B4513; }
+      50% { fill: #A0522D; }
+    }
+    
+    @keyframes shine {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.6; }
+    }
+  </style>
+  
+  <!-- Simplified cask for better visibility at small size -->
+  <!-- Main barrel body -->
+  <ellipse cx="8" cy="3" rx="6" ry="1.5" class="cask-body"/>
+  <rect x="2" y="3" width="12" height="10" class="cask-body"/>
+  <ellipse cx="8" cy="13" rx="6" ry="1.5" class="cask-body"/>
+  
+  <!-- Animated shine effect -->
+  <ellipse cx="6" cy="4" rx="2" ry="0.8" class="whisky-shine"/>
+  <rect x="4" y="4" width="4" height="8" class="whisky-shine"/>
+  
+  <!-- Metal hoops (simplified) -->
+  <ellipse cx="8" cy="6" rx="6.2" ry="0.5" class="cask-hoop"/>
+  <ellipse cx="8" cy="8" rx="6.5" ry="0.5" class="cask-hoop"/>
+  <ellipse cx="8" cy="10" rx="6.2" ry="0.5" class="cask-hoop"/>
+</svg>

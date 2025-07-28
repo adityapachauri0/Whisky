@@ -1,0 +1,40 @@
+[Unit]
+Description=Whisky Investment Platform Backend
+Documentation=https://viticultwhisky.co.uk
+After=network.target mongodb.service
+Wants=mongodb.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/whisky/backend
+Environment=NODE_ENV=production
+Environment=PATH=/usr/bin:/usr/local/bin
+EnvironmentFile=/var/www/whisky/backend/.env.production
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/whisky/backend/logs
+ReadWritePaths=/var/log/whisky-app
+
+# Process management
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/whisky-app/output.log
+StandardError=append:/var/log/whisky-app/error.log
+
+# Resource limits
+LimitNOFILE=65536
+MemoryLimit=512M
+CPUQuota=80%
+
+# Health check
+ExecStartPre=/bin/sh -c 'until nc -z localhost 27017; do echo "Waiting for MongoDB..."; sleep 2; done'
+
+[Install]
+WantedBy=multi-user.target
