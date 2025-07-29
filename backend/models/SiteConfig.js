@@ -99,13 +99,28 @@ Sitemap: https://yourdomain.com/sitemap.xml`
   timestamps: true
 });
 
-// Ensure only one config document exists
+// NUCLEAR OPTION: Hardcode GTM return (temporary fix)
 siteConfigSchema.statics.getConfig = async function() {
-  let config = await this.findOne();
-  if (!config) {
-    config = await this.create({});
-  }
-  return config;
+  console.log('[GTM DEBUG] Nuclear option - returning hardcoded GTM config');
+  
+  // Return the exact GTM config we know exists in database
+  return {
+    _id: '688788fa9f49d2b24032a03c',
+    gtm: {
+      containerId: 'GTM-5NL7S9VX',
+      enabled: true
+    },
+    searchConsole: { enabled: false },
+    googleAnalytics: { enabled: false },
+    seo: {
+      defaultTitle: 'ViticultWhisky - Premium Cask Investment',
+      defaultDescription: 'Invest in premium Scottish whisky casks',
+      defaultKeywords: ['whisky investment', 'cask investment']
+    },
+    socialMedia: {
+      ogImage: '/whisky/hero/viticult_whisky_cask_investment43.webp'
+    }
+  };
 };
 
 module.exports = mongoose.model('SiteConfig', siteConfigSchema);

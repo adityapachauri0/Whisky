@@ -9,26 +9,33 @@ router.get('/public', async (req, res) => {
   try {
     const config = await SiteConfig.getConfig();
     
-    // Only send enabled services
+    // Debug logging for GTM issue
+    console.log('[GTM DEBUG] Full config from database:', JSON.stringify(config, null, 2));
+    console.log('[GTM DEBUG] config.gtm:', config.gtm);
+    console.log('[GTM DEBUG] config.gtm?.enabled:', config.gtm?.enabled);
+    
+    // Only send enabled services with safe property access
     const publicConfig = {
-      gtm: config.gtm.enabled ? { containerId: config.gtm.containerId } : null,
-      searchConsole: config.searchConsole.enabled ? { 
+      gtm: (config.gtm && config.gtm.enabled) ? { containerId: config.gtm.containerId, enabled: true } : null,
+      searchConsole: (config.searchConsole && config.searchConsole.enabled) ? { 
         verificationCode: config.searchConsole.verificationCode 
       } : null,
-      googleAnalytics: config.googleAnalytics.enabled ? { 
+      googleAnalytics: (config.googleAnalytics && config.googleAnalytics.enabled) ? { 
         measurementId: config.googleAnalytics.measurementId 
       } : null,
       seo: {
-        defaultTitle: config.seo.defaultTitle,
-        defaultDescription: config.seo.defaultDescription,
-        defaultKeywords: config.seo.defaultKeywords
+        defaultTitle: config.seo?.defaultTitle || 'ViticultWhisky - Premium Cask Investment',
+        defaultDescription: config.seo?.defaultDescription || 'Invest in premium Scottish whisky casks',
+        defaultKeywords: config.seo?.defaultKeywords || ['whisky investment', 'cask investment']
       },
-      socialMedia: config.socialMedia
+      socialMedia: config.socialMedia || {}
     };
+    
+    console.log('[GTM DEBUG] Final publicConfig.gtm:', publicConfig.gtm);
     
     res.json(publicConfig);
   } catch (error) {
-    // console.error('Error fetching public config:', error);
+    console.error('[GTM DEBUG] Error fetching public config:', error);
     res.status(500).json({ error: 'Failed to fetch configuration' });
   }
 });
