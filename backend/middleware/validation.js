@@ -140,7 +140,24 @@ exports.validateContactForm = [
   body('preferredContactMethod')
     .optional()
     .isIn(['email', 'phone', 'both'])
-    .withMessage('Invalid contact method')
+    .withMessage('Invalid contact method'),
+  // Interest selection checkboxes
+  body('investmentPurposes')
+    .optional()
+    .isBoolean()
+    .withMessage('Investment purposes must be a boolean value'),
+  body('ownCask')
+    .optional()
+    .isBoolean()
+    .withMessage('Own cask must be a boolean value'),
+  body('giftPurpose')
+    .optional()
+    .isBoolean()
+    .withMessage('Gift purpose must be a boolean value'),
+  body('otherInterest')
+    .optional()
+    .isBoolean()
+    .withMessage('Other interest must be a boolean value')
 ];
 
 // Validation rules for sell whisky form

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ import {
   BanknotesIcon,
   ClockIcon,
   CheckCircleIcon,
-  ExclamationCircleIcon
+  // ExclamationCircleIcon
 } from '@heroicons/react/24/outline';
 import {
   InvestmentCalculator,

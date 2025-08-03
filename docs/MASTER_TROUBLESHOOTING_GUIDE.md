@@ -2,6 +2,15 @@
 
 This comprehensive guide consolidates ALL troubleshooting information for the Whisky admin system, including the latest fixes and solutions.
 
+## 🆕 LATEST UPDATES (August 2025)
+
+**MAJOR NGINX CONFIGURATION FIXES ADDED:**
+- Permanent solution for recurring proxy port issues (5000 vs 5001)
+- Frontend build directory configuration fixes
+- Source file update strategy to prevent deployment overwrites
+- Complete admin login authentication troubleshooting
+- SSH access recovery procedures
+
 ## 📋 Table of Contents
 
 1. [🛡️ PREVENTION SYSTEM (NEW)](#️-prevention-system-new)
@@ -3140,4 +3149,346 @@ verify_hero_images() {
 
 ---
 
-*Last Updated: July 2025 | Includes Hero Image deployment fix, Site Configuration troubleshooting, MongoDB auth, secrets management, comprehensive API troubleshooting, email template fixes, export download fixes, and all previous fixes*
+---
+
+## 🚨 AUGUST 2025 CRITICAL FIXES - RECURRING CONFIGURATION ISSUES
+
+### 🔥 NGINX CONFIGURATION RECURRING PROBLEMS
+
+#### Problem 1: API Proxy Port Wrong (5000 vs 5001)
+**Symptoms**: 
+- Frontend loads but API calls return 404 errors
+- Console shows "Failed to load resource: 404" for `/api/*` routes
+- "An error occurred. Please check your connection" in admin login
+
+**Root Cause**: Deployment scripts overwrite nginx config with wrong port
+
+**PERMANENT SOLUTION**:
+```bash
+# 1. Fix source configuration file (prevents future overwrites)
+ssh root@31.97.57.193
+sed -i 's/localhost:5000/localhost:5001/g' /var/www/whisky/config/nginx.conf
+
+# 2. Apply to active configuration
+cp /var/www/whisky/config/nginx.conf /etc/nginx/sites-available/whisky
+nginx -t && systemctl reload nginx
+
+# 3. Verify fix
+curl -s https://viticultwhisky.co.uk/api/admin/health
+```
+
+**Diagnostic Commands**:
+```bash
+# Check current proxy configuration
+grep "proxy_pass" /etc/nginx/sites-available/whisky
+# Should show: proxy_pass http://localhost:5001;
+
+# Test API connectivity
+curl -I https://viticultwhisky.co.uk/api/admin/health
+# Should return JSON response, not 404
+
+# Check backend is running on correct port
+pm2 status | grep whisky
+netstat -tlnp | grep :5001
+```
+
+#### Problem 2: Wrong Frontend Root Directory
+**Symptoms**:
+- Admin login page shows main site content
+- Routes not working properly
+- Static files not served correctly
+
+**Root Cause**: Nginx serving from `/frontend` instead of `/frontend/build`
+
+**PERMANENT SOLUTION**:
+```bash
+# 1. Fix source configuration file
+sed -i 's|root /var/www/whisky/frontend;|root /var/www/whisky/frontend/build;|g' /var/www/whisky/config/nginx.conf
+
+# 2. Apply to active configuration
+cp /var/www/whisky/config/nginx.conf /etc/nginx/sites-available/whisky
+nginx -t && systemctl reload nginx
+
+# 3. Verify frontend files exist
+ls -la /var/www/whisky/frontend/build/index.html
+```
+
+**Diagnostic Commands**:
+```bash
+# Check current root directory
+grep "root.*frontend" /etc/nginx/sites-available/whisky
+# Should show: root /var/www/whisky/frontend/build;
+
+# Test frontend accessibility
+curl -I https://viticultwhisky.co.uk/admin/login
+# Should return 200 with proper HTML content type
+```
+
+### 🔐 ADMIN LOGIN AUTHENTICATION ISSUES
+
+#### Problem: "Invalid credentials" Despite Correct Password
+**Symptoms**:
+- Admin login fails with correct email/password
+- API returns authentication errors
+- Backend may be crashing
+
+**COMPLETE DIAGNOSTIC SEQUENCE**:
+```bash
+# 1. Check backend service status
+ssh root@31.97.57.193
+pm2 status | grep whisky
+
+# 2. Check backend logs for errors
+pm2 logs whisky-backend --lines 20
+
+# 3. Test admin login API directly
+curl -X POST https://viticultwhisky.co.uk/api/auth/admin/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@viticultwhisky.co.uk","password":"admin123"}'
+
+# 4. Check admin user in database
+mongosh whisky_platform_v2
+db.users.find({email: "admin@viticultwhisky.co.uk"})
+```
+
+**PERMANENT FIX - Create New Admin User**:
+```bash
+cd /var/www/whisky/backend
+cat > create_admin.js << 'EOF'
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
+mongoose.connect('mongodb://127.0.0.1:27017/whisky_platform_v2');
+
+const userSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+  firstName: String,
+  lastName: String,
+  role: String,
+  isEmailVerified: Boolean,
+  active: Boolean
+});
+
+const User = mongoose.model('User', userSchema);
+
+async function createAdmin() {
+  try {
+    const hashedPassword = await bcrypt.hash('admin123', 12);
+    await User.deleteMany({email: 'admin@viticultwhisky.co.uk'});
+    
+    const admin = new User({
+      email: 'admin@viticultwhisky.co.uk',
+      password: hashedPassword,
+      firstName: 'Admin',
+      lastName: 'User',
+      role: 'admin',
+      isEmailVerified: true,
+      active: true
+    });
+    
+    await admin.save();
+    console.log('✅ Admin user created successfully');
+    console.log('📧 Email: admin@viticultwhisky.co.uk');
+    console.log('🔑 Password: admin123');
+    process.exit(0);
+  } catch (error) {
+    console.error('❌ Error creating admin:', error);
+    process.exit(1);
+  }
+}
+
+createAdmin();
+EOF
+
+node create_admin.js
+```
+
+### 🔌 SSH ACCESS RECOVERY
+
+#### Problem: SSH Permission Denied or Connection Refused
+**Symptoms**:
+- "Permission denied" after password attempts
+- "Connection refused" on port 22
+- IP blocked due to failed attempts
+
+**RECOVERY STEPS**:
+```bash
+# 1. Use CORRECT password (avoid IP blocking)
+# Password: w(7rjMOF4'nzhIOuOdPF
+
+# 2. Test connectivity first
+ping 31.97.57.193
+
+# 3. Check SSH port accessibility
+nc -zv 31.97.57.193 22
+
+# 4. If blocked, wait 15-30 minutes or request IP change
+# Multiple failed attempts trigger fail2ban blocking
+```
+
+**SSH CONNECTION SCRIPT**:
+```bash
+# Safe SSH connection to avoid multiple failures
+expect -c "
+spawn ssh root@31.97.57.193
+expect \"password:\"
+send \"w(7rjMOF4'nzhIOuOdPF\\r\"
+expect \"#\"
+send \"echo 'Connected successfully'\\r\"
+expect \"#\"
+interact
+"
+```
+
+### 🛠️ EMERGENCY RECOVERY PROCEDURES
+
+#### Complete System Recovery (When Everything Fails)
+```bash
+# 1. SSH into server
+ssh root@31.97.57.193
+
+# 2. Backup current database state
+mongodump --db whisky_platform_v2 --out /tmp/emergency_backup_$(date +%Y%m%d_%H%M%S)
+
+# 3. Restore correct nginx configuration
+cp /var/www/whisky/config/nginx.conf /etc/nginx/sites-available/whisky
+
+# 4. Fix nginx configuration issues
+sed -i 's/localhost:5000/localhost:5001/g' /etc/nginx/sites-available/whisky
+sed -i 's|root /var/www/whisky/frontend;|root /var/www/whisky/frontend/build;|g' /etc/nginx/sites-available/whisky
+
+# 5. Test and reload nginx
+nginx -t && systemctl reload nginx
+
+# 6. Recreate admin user
+cd /var/www/whisky/backend && node create_admin.js
+
+# 7. Restart backend service
+pm2 restart whisky-backend
+
+# 8. Verify all services
+pm2 status
+systemctl status mongod
+curl -s https://viticultwhisky.co.uk/api/admin/health
+
+# 9. Test admin login
+curl -X POST https://viticultwhisky.co.uk/api/auth/admin/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@viticultwhisky.co.uk","password":"admin123"}'
+```
+
+#### Data Export Before Major Changes
+```bash
+# Export all form data to CSV
+mongoexport --db whisky_platform_v2 --collection users --type csv \
+  --fields _id,email,firstName,lastName,role,isEmailVerified,active,createdAt \
+  --out /tmp/users_backup_$(date +%Y%m%d_%H%M%S).csv
+
+mongoexport --db whisky_platform_v2 --collection contacts --type csv \
+  --fields _id,name,email,phone,subject,message,createdAt \
+  --out /tmp/contacts_backup_$(date +%Y%m%d_%H%M%S).csv
+
+mongoexport --db whisky_platform_v2 --collection sellwhiskies --type csv \
+  --fields _id,name,email,phone,whiskeyType,age,distillery,quantity,condition,description,createdAt \
+  --out /tmp/sellwhiskies_backup_$(date +%Y%m%d_%H%M%S).csv
+
+mongoexport --db whisky_platform_v2 --collection consultations --type csv \
+  --fields _id,name,email,phone,investmentAmount,experience,goals,timeframe,createdAt \
+  --out /tmp/consultations_backup_$(date +%Y%m%d_%H%M%S).csv
+```
+
+### 🚀 QUICK DIAGNOSTIC SEQUENCE (5 MINUTES)
+
+#### Health Check Commands
+```bash
+# 1. Overall system status
+ssh root@31.97.57.193 "pm2 status && systemctl status mongod && nginx -t"
+
+# 2. API connectivity
+curl -s https://viticultwhisky.co.uk/api/admin/health
+
+# 3. Admin login test
+curl -X POST https://viticultwhisky.co.uk/api/auth/admin/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@viticultwhisky.co.uk","password":"admin123"}'
+
+# 4. Frontend accessibility
+curl -I https://viticultwhisky.co.uk/admin/login
+
+# 5. Configuration verification
+ssh root@31.97.57.193 "grep -E '(proxy_pass|root.*frontend)' /etc/nginx/sites-available/whisky"
+```
+
+#### Expected Healthy Responses
+```bash
+# PM2 should show: whisky-backend (online)
+# MongoDB should show: active (running)
+# Nginx should show: syntax is ok
+
+# API health should return: {"success":false,"message":"No token provided"}
+# Admin login should return: {"success":true,"data":{"user":{...}}} or valid error
+# Frontend should return: HTTP/2 200 with text/html content-type
+# Nginx config should show:
+#   proxy_pass http://localhost:5001;
+#   root /var/www/whisky/frontend/build;
+```
+
+### 📋 PREVENTION CHECKLIST
+
+#### Before Making Any Changes
+- [ ] Backup database: `mongodump --db whisky_platform_v2 --out /tmp/backup_$(date +%Y%m%d_%H%M%S)`
+- [ ] Test admin login functionality works
+- [ ] Save current nginx config: `cp /etc/nginx/sites-available/whisky /tmp/nginx_backup_$(date +%Y%m%d_%H%M%S)`
+- [ ] Note PM2 status: `pm2 status`
+
+#### After Making Changes
+- [ ] Test nginx config: `nginx -t`
+- [ ] Reload services: `pm2 restart whisky-backend && systemctl reload nginx`
+- [ ] Test API health: `curl -s https://viticultwhisky.co.uk/api/admin/health`
+- [ ] Test admin login via browser: https://viticultwhisky.co.uk/admin/login
+- [ ] Update source config files to prevent overwrites
+- [ ] Document changes in this troubleshooting guide
+
+### 🔗 KEY REFERENCE INFORMATION
+
+**Server Details**:
+- Server IP: 31.97.57.193 (srv897225)
+- SSH User: root
+- SSH Password: w(7rjMOF4'nzhIOuOdPF
+- Domain: https://viticultwhisky.co.uk
+
+**Admin Credentials**:
+- Email: admin@viticultwhisky.co.uk
+- Password: admin123
+
+**Critical File Locations**:
+- Active nginx config: `/etc/nginx/sites-available/whisky`
+- Source nginx config: `/var/www/whisky/config/nginx.conf`
+- Backend directory: `/var/www/whisky/backend/`
+- Frontend build: `/var/www/whisky/frontend/build/`
+- MongoDB database: `whisky_platform_v2`
+
+**Service Management**:
+- Backend: `pm2 restart whisky-backend`
+- Web server: `systemctl reload nginx`
+- Database: `systemctl restart mongod`
+
+### 🎯 ROOT CAUSE ANALYSIS
+
+**Why These Issues Keep Recurring**:
+1. **Deployment Scripts**: Automatically copy outdated configuration files
+2. **Source vs Active**: Changes made to active configs but not source configs
+3. **Multiple Config Files**: Different versions in different locations
+4. **No Configuration Validation**: Deployments don't verify config correctness
+
+**The Permanent Solution Strategy**:
+1. **Always Update Source Files First**: `/var/www/whisky/config/nginx.conf`
+2. **Copy Source to Active**: `cp source_config active_config`
+3. **Validate Before Applying**: `nginx -t` before `systemctl reload`
+4. **Test After Changes**: API and frontend accessibility tests
+5. **Document in This Guide**: Add new issues and solutions immediately
+
+---
+
+*Last Updated: August 2025 | Includes comprehensive nginx configuration fixes, admin authentication troubleshooting, SSH recovery procedures, emergency recovery protocols, and prevention strategies for recurring issues*

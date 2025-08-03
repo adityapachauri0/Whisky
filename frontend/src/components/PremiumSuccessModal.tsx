@@ -195,7 +195,7 @@ export default function PremiumSuccessModal({ isOpen, onClose, userName, type = 
                       </p>
                       <div className="border-t border-amber-200 pt-3">
                         <p className="text-sm font-semibold text-amber-900 mb-2">Need to reach us?</p>
-                        <p className="text-sm text-amber-800 mb-1">📞 02035953910 | ✉️ admin@viticultwhisky.co.uk</p>
+                        <p className="text-sm text-amber-800 mb-1">📞 <a href="tel:+442035953910" className="hover:text-amber-600 underline">02035953910</a> | ✉️ admin@viticultwhisky.co.uk</p>
                       </div>
                       <p className="text-sm sm:text-base text-amber-800 font-medium mt-3">
                         We look forward to helping you get the best price for your whisky!

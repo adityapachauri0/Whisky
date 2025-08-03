@@ -70,3 +70,5 @@ pids/
 EOF < /dev/null
 # Specific large files over 99MB
 **/resized_winery_Viticult-7513835*.webp
+server-production.env
+*.tar.gz

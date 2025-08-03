@@ -191,7 +191,7 @@ const Terms: React.FC = () => {
               London<br />
               E1 7LP<br />
               Email: legal@whiskytradingco.com<br />
-              Phone: 020 3595 3910
+              Phone: <a href="tel:+442035953910" className="text-blue-600 hover:text-blue-800 underline">020 3595 3910</a>
             </p>
 
             <div className="mt-12 pt-8 border-t border-gray-200">

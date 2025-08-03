@@ -1,8 +1,10 @@
+const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const SellWhisky = require('../models/SellWhisky');
 const logger = require('../utils/logger');
 const getClientIp = require('../utils/getClientIp');
 const { validationResult } = require('express-validator');
+const mongoHandler = require('../utils/mongoConnectionHandler');
 
 // Create reusable transporter
 const transporter = nodemailer.createTransport({
@@ -253,27 +255,52 @@ exports.deleteSubmission = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const submission = await SellWhisky.findByIdAndDelete(id);
+    const result = await mongoHandler.safeDelete(SellWhisky, id, 'sell whisky submission');
+    
+    logger.info(`Sell submission deleted: ${result.deletedDocument.email} (ID: ${id}) by admin from IP: ${req.ip}`);
 
-    if (!submission) {
+    res.json({
+      success: true,
+      message: 'Submission deleted successfully',
+      data: {
+        deletedId: result.deletedId,
+        deletedEmail: result.deletedDocument.email
+      }
+    });
+
+  } catch (error) {
+    logger.error('Delete submission error:', {
+      error: error.message,
+      stack: error.stack,
+      submissionId: req.params.id,
+      ip: req.ip
+    });
+    
+    // Handle specific errors
+    if (error.message === 'Invalid document ID format') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid submission ID format'
+      });
+    }
+
+    if (error.message === 'Document not found') {
       return res.status(404).json({
         success: false,
         message: 'Submission not found'
       });
     }
-
-    logger.info(`Sell submission deleted: ${submission.email} by admin from IP: ${req.ip}`);
-
-    res.json({
-      success: true,
-      message: 'Submission deleted successfully'
-    });
-
-  } catch (error) {
-    logger.error('Delete submission error:', error);
+    
+    if (error.message === 'Failed to establish MongoDB connection') {
+      return res.status(503).json({
+        success: false,
+        message: 'Database connection unavailable. Please try again later.'
+      });
+    }
+    
     res.status(500).json({
       success: false,
-      message: 'Failed to delete submission'
+      message: 'Failed to delete submission. Please try again later.'
     });
   }
 };
@@ -290,21 +317,44 @@ exports.bulkDeleteSubmissions = async (req, res) => {
       });
     }
 
-    // Delete multiple submissions
-    const result = await SellWhisky.deleteMany({ _id: { $in: ids } });
+    const result = await mongoHandler.safeBulkDelete(SellWhisky, ids, 'sell whisky submissions');
     
-    logger.info(`Bulk delete: ${result.deletedCount} sell submissions deleted by admin from IP: ${req.ip}`);
+    logger.info(`Bulk delete: ${result.deletedCount} sell submissions deleted by admin from IP: ${req.ip}`, {
+      requestedIds: ids,
+      actualDeleted: result.deletedCount
+    });
     
     res.json({ 
       success: true, 
       message: `${result.deletedCount} submissions deleted successfully`,
-      deletedCount: result.deletedCount 
+      data: result
     });
   } catch (error) {
-    logger.error('Bulk delete submissions error:', error);
+    logger.error('Bulk delete submissions error:', {
+      error: error.message,
+      stack: error.stack,
+      requestedIds: req.body.ids,
+      ip: req.ip
+    });
+    
+    // Handle specific errors
+    if (error.message.includes('Invalid ID format')) {
+      return res.status(400).json({
+        success: false,
+        message: error.message
+      });
+    }
+    
+    if (error.message === 'Failed to establish MongoDB connection') {
+      return res.status(503).json({
+        success: false,
+        message: 'Database connection unavailable. Please try again later.'
+      });
+    }
+    
     res.status(500).json({
       success: false,
-      message: 'Failed to delete submissions'
+      message: 'Failed to delete submissions. Please try again later.'
     });
   }
 };

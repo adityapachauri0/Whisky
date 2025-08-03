@@ -244,6 +244,10 @@ export interface ContactFormData {
   subject: string;
   message: string;
   investmentInterest?: 'starter' | 'premium' | 'exclusive' | 'not-sure';
+  investmentPurposes?: boolean;
+  ownCask?: boolean;
+  giftPurpose?: boolean;
+  otherInterest?: boolean;
 }
 
 export interface ConsultationFormData {

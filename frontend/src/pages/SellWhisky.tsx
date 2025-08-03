@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { buildApiEndpoint } from '../config/api.config';
-import PremiumSuccessModal from '../components/PremiumSuccessModal';
 
 interface SellWhiskyFormData {
   name: string;
@@ -22,8 +21,6 @@ interface SellWhiskyFormData {
 const SellWhisky: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | 'rate-limit' | 'network-error' | null>(null);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [submittedName, setSubmittedName] = useState('');
   
   const { register, handleSubmit, formState: { errors }, reset } = useForm<SellWhiskyFormData>();
 
@@ -51,8 +48,13 @@ const SellWhisky: React.FC = () => {
       });
       localStorage.setItem('sellWhiskySubmissions', JSON.stringify(submissions));
       
-      setSubmittedName(data.name);
-      setShowSuccessModal(true);
+      // Redirect to Thank You page with user's name
+      const params = new URLSearchParams({
+        type: 'sell',
+        name: data.name
+      });
+      window.location.href = `/Thank_You_Sell?${params.toString()}`;
+      
       reset();
       
     } catch (error: any) {
@@ -77,14 +79,6 @@ const SellWhisky: React.FC = () => {
     }
   };
 
-  const handleCloseModal = () => {
-    setShowSuccessModal(false);
-    setSubmitStatus('success');
-    // Show simple success message after modal closes
-    setTimeout(() => {
-      setSubmitStatus(null);
-    }, 3000);
-  };
 
   return (
     <>
@@ -146,7 +140,7 @@ const SellWhisky: React.FC = () => {
                     </label>
                     <input
                       {...register('name', { required: 'Name is required' })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+                      className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
                       placeholder="John Doe"
                     />
                     {errors.name && (
@@ -170,8 +164,7 @@ const SellWhisky: React.FC = () => {
                             return 'Please enter a valid email address';
                           }
                           
-                          // Check for common typos
-                          const commonDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com'];
+                          // Check for common typos (removed unused variable)
                           const domain = value.split('@')[1]?.toLowerCase();
                           
                           // Check for missing @ symbol
@@ -220,7 +213,7 @@ const SellWhisky: React.FC = () => {
                         },
                       })}
                       type="email"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+                      className="w-full px-4 py-3 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
                       placeholder="john@example.com"
                     />
                     {errors.email && (
@@ -414,13 +407,6 @@ const SellWhisky: React.FC = () => {
         </div>
       </section>
 
-      {/* Premium Success Modal */}
-      <PremiumSuccessModal 
-        isOpen={showSuccessModal}
-        onClose={handleCloseModal}
-        userName={submittedName}
-        type="sell"
-      />
     </>
   );
 };

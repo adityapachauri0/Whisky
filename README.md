@@ -1,349 +1,237 @@
-# 🥃 Whisky Investment Platform
+# ViticultWhisky - Premium Scottish Whisky Cask Investment Platform
 
-> **Enterprise-grade whisky cask investment platform with automated management, lead generation, and comprehensive analytics.**
+A full-stack web application for whisky cask investment, connecting investors with Scotland's finest distilleries. Built with React, TypeScript, Node.js, and MongoDB.
 
-[![Production Ready](https://img.shields.io/badge/production-ready-brightgreen.svg)](docs/DEPLOYMENT_GUIDE.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](package.json)
-[![React](https://img.shields.io/badge/React-19.1.0-blue.svg)](frontend/package.json)
+## 🥃 Features
 
-**A comprehensive web platform for Scottish whisky cask investment featuring interactive calculators, automated lead management, enterprise monitoring, and beautiful floating £ animations.**
+### Frontend Features
+- **Investment Platform**: Complete whisky cask investment interface
+- **Interactive Calculator**: ROI calculator with market projections
+- **Contact & Sell Forms**: User engagement with proper validation
+- **Admin Dashboard**: Contact management and analytics
+- **Responsive Design**: Mobile-first design with Tailwind CSS
+- **SEO Optimized**: Meta tags, sitemaps, structured data
+- **Performance**: Image optimization, lazy loading, caching
 
-## ✨ **Key Features**
+### Backend Features
+- **RESTful API**: Complete CRUD operations
+- **Authentication**: JWT-based admin authentication
+- **Form Handling**: Contact and sell whisky form processing
+- **Data Validation**: Comprehensive input validation and sanitization
+- **Security**: Helmet.js, CORS, rate limiting, MongoDB sanitization
+- **Logging**: Comprehensive error and access logging
+- **Health Monitoring**: Health check endpoints for monitoring
 
-🎯 **Lead Generation** - Contact & sell whisky inquiry forms with validation  
-📊 **Interactive Calculator** - Real-time ROI projections with sliders  
-🛡️ **Admin Dashboard** - Complete inquiry management and analytics  
-🤖 **Enterprise Automation** - 24/7 monitoring, backups, and maintenance  
-💎 **Premium Design** - Floating £ animations and mobile-first UI  
-🔒 **Security First** - Rate limiting, JWT auth, input sanitization  
-📈 **SEO Optimized** - Schema markup, meta tags, and performance  
+## 🛠️ Technology Stack
 
-## 🚀 **Quick Start (1-Command Deploy)**
+### Frontend
+- **React 18** with TypeScript
+- **Tailwind CSS** for styling
+- **Framer Motion** for animations
+- **React Hook Form** for form handling
+- **React Router** for navigation
+- **Helmet** for SEO management
 
-### **VPS Deployment (Recommended)**
+### Backend
+- **Node.js** with Express.js
+- **MongoDB** with Mongoose ODM
+- **JWT** for authentication
+- **Express Validator** for input validation
+- **Helmet.js** for security headers
+- **Morgan** for logging
+- **Compression** and performance optimization
+
+## 📁 Project Structure
+
+```
+Whisky/
+├── frontend/           # React TypeScript frontend
+│   ├── public/        # Static assets and images
+│   ├── src/           # Source code
+│   └── build/         # Production build (generated)
+├── backend/           # Node.js Express backend
+│   ├── routes/        # API routes
+│   ├── models/        # Database models
+│   ├── middleware/    # Express middleware
+│   └── logs/          # Log files (generated)
+└── PROJECT_STRUCTURE.md  # Detailed structure guide
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ and npm
+- MongoDB 4.4+
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd viticult-whisky
+   ```
+
+2. **Backend Setup**
+   ```bash
+   cd backend
+   npm install
+   cp .env.example .env  # Edit with your configuration
+   npm start
+   ```
+
+3. **Frontend Setup** (new terminal)
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
+
+4. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5001
+   - Admin: http://localhost:3000/admin/login
+
+### Production Build
+
 ```bash
-# 1. Get Ubuntu 20.04+ VPS and point your domain
-# 2. Clone and deploy:
-git clone https://github.com/yourusername/whisky-investment-platform.git
-cd whisky-investment-platform
-chmod +x scripts/deploy.sh && ./scripts/deploy.sh
+# Frontend production build
+cd frontend
+npm run build
 
-# 3. Install enterprise automation:
-sudo ./backend/scripts/cron-setup.sh
-sudo crontab /tmp/viticult-crontab
-
-# ✅ Your platform is now live with 24/7 automation!
+# Backend production
+cd backend
+NODE_ENV=production npm start
 ```
 
-### **Local Development**
+## 🔧 Configuration
+
+### Environment Variables
+
+Create `.env` files in both frontend and backend directories. See `PROJECT_STRUCTURE.md` for complete configuration details.
+
+**Backend (.env)**
 ```bash
-# Clone and setup
-git clone <repository-url>
-cd whisky-investment-platform
-
-# Install dependencies  
-cd backend && npm install
-cd ../frontend && npm install
-
-# Configure environment
-cp backend/.env.example backend/.env
-# Edit .env with your settings
-
-# Start development servers
-npm run dev:backend  # Port 5001
-npm run dev:frontend # Port 3000
-
-# Access: http://localhost:3000
-# Admin: http://localhost:3000/admin/login
-```
-
-## 🛠️ **Tech Stack**
-
-### **Frontend**
-- **React 19.1.0** + TypeScript for modern UI
-- **Tailwind CSS** for responsive styling  
-- **Framer Motion** for premium animations
-- **React Helmet Async** for SEO optimization
-- **Custom floating £ animations** (gold/green/silver)
-
-### **Backend**
-- **Node.js + Express.js 4.18.2** for robust API
-- **MongoDB 7.6.3** with Mongoose ODM
-- **JWT Authentication** with httpOnly cookies
-- **Advanced rate limiting** and security middleware
-- **Comprehensive input validation** and sanitization
-
-### **Enterprise Features**
-- **24/7 Health Monitoring** with auto-restart
-- **Automated daily backups** with 30-day retention
-- **Security updates** and vulnerability scanning  
-- **SSL certificate auto-renewal**
-- **Performance optimization** and log management
-- **Weekly analytics reports** with HTML dashboards
-
-## 🤖 **Enterprise Automation**
-
-### **Continuous Monitoring (24/7)**
-- ✅ **Health checks every 5 minutes** - Auto-restart failed services
-- ✅ **Application monitoring every 30 minutes** - Performance tracking
-- ✅ **Database connectivity monitoring** - Auto-recovery
-
-### **Daily Maintenance (6:00-8:00 AM)**
-- 🌅 **6:00 AM** - Log rotation and cleanup
-- 🌅 **6:15 AM** - Database backup (compressed, 30-day retention)  
-- 🌅 **6:30 AM** - Temporary files cleanup
-- 🌅 **6:45 AM** - Security updates and vulnerability scans
-- 🌅 **7:00 AM** - SSL certificate verification and renewal
-
-### **Weekly Tasks**
-- 📊 **Monday 7:30 AM** - Comprehensive analytics report
-- 🔧 **Sunday 7:15 AM** - Database optimization
-- 🧹 **Sunday 7:45 AM** - Backup and log cleanup
-
-## 📊 **Admin Dashboard Features**
-
-### **Lead Management**
-- 📝 **Contact Form Submissions** - Full details with timestamps
-- 🥃 **Sell Whisky Inquiries** - Cask details and investment preferences  
-- 📊 **Analytics Dashboard** - Submission trends and statistics
-- 📁 **Bulk Export** - CSV/Excel export with filtering
-
-### **Site Configuration**
-- 🎨 **Dynamic Content Management** - Update text and settings
-- 📈 **GTM Integration** - Google Tag Manager configuration
-- 🔧 **Calculator Settings** - Adjust investment parameters
-- 💼 **Business Information** - Contact details and branding
-
-### **System Monitoring**
-- 🖥️ **Server Health** - Real-time system status
-- 📈 **Performance Metrics** - Response times and usage
-- 🔒 **Security Status** - Failed attempts and vulnerabilities
-- 💾 **Backup Status** - Recent backups and storage usage
-
-## 🎯 **Production Features**
-
-### **Lead Generation Optimized**
-- 📝 **Multi-step Contact Form** - Name, email, phone, investment interest
-- 🥃 **Detailed Sell Form** - Cask type, age, quantity, investment timeline
-- 🔔 **Real-time Validation** - Instant feedback and error prevention
-- 📧 **Email Notifications** - Immediate alerts for new submissions
-
-### **Investment Calculator**
-- 💰 **Interactive Sliders** - Investment amount (£3K - £100K)
-- ⏱️ **Holding Period** - 3-20 year projections
-- 📊 **Visual Charts** - Return comparisons vs other investments
-- 🎯 **Risk Assessment** - Expected vs conservative returns
-- 📱 **Mobile Optimized** - Touch-friendly controls
-
-### **SEO & Performance**
-- 🎯 **Lighthouse Score 95+** - Performance, SEO, Accessibility
-- 📊 **Schema Markup** - Rich snippets for search engines
-- 🖼️ **Automatic Alt Text** - AI-generated image descriptions
-- 📱 **Mobile-First Design** - Responsive across all devices
-- ⚡ **Sub-2s Load Times** - Optimized assets and code splitting
-
-## 🏗️ **Architecture**
-
-```
-whisky-investment-platform/
-├── 🎨 frontend/              # React TypeScript frontend
-│   ├── src/
-│   │   ├── components/      # UI components + floating animations
-│   │   ├── pages/          # Route pages
-│   │   ├── hooks/          # Custom React hooks  
-│   │   ├── services/       # API integration
-│   │   └── utils/          # Utilities + image alt generation
-│   └── public/             # Static assets + favicons
-├── ⚙️ backend/               # Node.js Express API
-│   ├── controllers/        # Business logic
-│   ├── models/            # MongoDB schemas
-│   ├── routes/            # API endpoints
-│   ├── middleware/        # Auth + validation + rate limiting
-│   ├── scripts/           # 🤖 Automation scripts
-│   └── utils/             # Backend utilities
-├── 📚 docs/                 # Comprehensive documentation
-│   ├── DEPLOYMENT_GUIDE.md # Complete production setup
-│   ├── QUICK_VPS_DEPLOYMENT.md # Fast deployment
-│   ├── API_DOCUMENTATION.md # API reference
-│   └── USER_GUIDE.md       # End-user guide
-├── 🤖 AUTOMATION_GUIDE.md   # Enterprise automation setup
-└── 📖 README.md            # This file
-```
-
-## 🔒 **Security & Performance**
-
-### **Security Features**
-- 🛡️ **Rate Limiting** - 450 dev / 270 prod requests per 15 min
-- 🔐 **JWT Authentication** - Secure admin access with httpOnly cookies
-- 🧹 **Input Sanitization** - XSS and injection prevention
-- 🔒 **CORS Protection** - Configured for production domains
-- 🛠️ **Security Headers** - Helmet.js with CSP policies
-- 🔍 **Vulnerability Scanning** - Automated dependency checks
-
-### **Performance Optimizations**
-- ⚡ **React 19 Features** - Latest performance improvements
-- 🎭 **Lazy Loading** - Code splitting for faster initial loads
-- 🖼️ **Image Optimization** - WebP format with fallbacks
-- 💾 **Efficient State Management** - Optimized re-renders
-- 📊 **Database Indexing** - Fast query performance
-- 🔄 **Memory Management** - Leak prevention and cleanup
-
-## 📈 **Business Impact**
-
-### **Lead Generation**
-- 📊 **Conversion Optimized** - Multi-step forms with validation
-- 🎯 **Target Audience** - High-net-worth whisky investors
-- 📧 **Immediate Alerts** - Real-time notifications for new leads
-- 📋 **Lead Qualification** - Detailed investment preferences captured
-
-### **Professional Presentation** 
-- 💎 **Premium Design** - Luxury brand aesthetic with floating £
-- 📱 **Mobile Excellence** - Perfect experience on all devices  
-- 🚀 **Fast Performance** - Sub-2s load times impress visitors
-- 🔍 **SEO Optimized** - Rank high for whisky investment keywords
-
-### **Operational Efficiency**
-- 🤖 **Zero Maintenance** - Fully automated server management
-- 📊 **Analytics Dashboard** - Business insights and reporting
-- 💾 **Data Protection** - Automated backups and disaster recovery
-- 🔒 **Security Monitoring** - 24/7 threat detection and response
-
-## 🌐 **API Reference**
-
-### **Authentication**
-```javascript
-POST /api/auth/login          // Admin login
-POST /api/auth/logout         // Admin logout  
-GET  /api/auth/verify         // Token verification
-```
-
-### **Lead Management**
-```javascript
-POST /api/contact             // Contact form submission
-POST /api/sell-whisky         // Sell inquiry submission
-GET  /api/admin/contacts      // Get all contacts (Admin)
-GET  /api/admin/sell-submissions // Get sell inquiries (Admin)
-```
-
-### **Configuration**
-```javascript
-GET  /api/config/site         // Public site configuration
-PUT  /api/config/site         // Update config (Admin)
-GET  /api/health              // System health check
-```
-
-## 📚 **Complete Documentation**
-
-- 📖 [**Deployment Guide**](docs/DEPLOYMENT_GUIDE.md) - Production setup with Nginx + PM2
-- ⚡ [**Quick VPS Setup**](docs/QUICK_VPS_DEPLOYMENT.md) - 5-minute deployment  
-- 🤖 [**Automation Guide**](AUTOMATION_GUIDE.md) - Enterprise monitoring setup
-- 🏗️ [**Architecture**](docs/ARCHITECTURE_DOCUMENTATION.md) - System design details
-- 📡 [**API Reference**](docs/API_DOCUMENTATION.md) - Complete endpoint documentation
-- 👥 [**User Guide**](docs/USER_GUIDE.md) - End-user instructions
-- 🔧 [**Development Setup**](docs/DEVELOPMENT_SETUP_GUIDE.md) - Local development
-
-## 🎛️ **Configuration**
-
-### **Environment Variables**
-```bash
-# Database
+NODE_ENV=development
+PORT=5001
 MONGODB_URI=mongodb://localhost:27017/viticult-whisky
-
-# Authentication  
-JWT_SECRET=your-super-secret-jwt-key
+JWT_SECRET=your-secure-secret
 ADMIN_EMAIL=admin@viticultwhisky.co.uk
-ADMIN_PASSWORD_HASH=bcrypt-hashed-password
-
-# Rate Limiting
-RATE_LIMIT_MAX_REQUESTS=450    # Dev: 450, Prod: 270
-RATE_LIMIT_WINDOW_MS=900000    # 15 minutes
-
-# Security
-CORS_ORIGIN=https://yourdomain.com
-ENCRYPTION_KEY=32-character-encryption-key
+# ... see PROJECT_STRUCTURE.md for complete list
 ```
 
-### **Admin Credentials**
+**Frontend (.env)** (optional)
 ```bash
-# Default login (change in production):
-Email: admin@viticultwhisky.co.uk
-Password: admin123
+REACT_APP_API_URL=http://localhost:5001/api
 ```
 
-## 🧪 **Testing & Quality**
+## 📊 Features Overview
+
+### Investment Platform
+- **Cask Selection**: Browse and select premium whisky casks
+- **ROI Calculator**: Interactive investment return calculator
+- **Market Insights**: Market growth charts and projections
+- **Angels' Share**: Understanding evaporation and tax benefits
+
+### Contact Management
+- **Contact Forms**: Lead capture with validation
+- **Sell Whisky**: Collection valuation requests
+- **Admin Dashboard**: Contact management and analytics
+- **Email Integration**: Automated notifications
+
+### Security & Performance
+- **Rate Limiting**: 500 requests/15min (business-friendly)
+- **Input Validation**: Comprehensive validation and sanitization
+- **CORS Protection**: Configured for production domains
+- **Image Optimization**: WebP format with fallbacks
+- **Caching**: Browser and API response caching
+
+## 🔐 Security Features
+
+- **Authentication**: JWT-based admin authentication
+- **Rate Limiting**: Business-friendly rate limiting
+- **Input Validation**: Express-validator with custom rules
+- **MongoDB Sanitization**: Protection against NoSQL injection
+- **Security Headers**: Helmet.js with business-friendly settings
+- **CORS Configuration**: Properly configured for production domains
+
+## 📱 API Endpoints
+
+```
+GET  /api/health              # Health check
+POST /api/contact             # Contact form submission
+POST /api/sell-whisky         # Sell whisky form submission
+POST /api/auth/admin/login    # Admin authentication
+GET  /api/admin/contacts      # Get all contacts (admin)
+```
+
+See `PROJECT_STRUCTURE.md` for complete API documentation.
+
+## 🎨 Design System
+
+### Color Palette
+- **Primary Gold**: #D4AF37 (premium-gold)
+- **Charcoal**: #2D3748 (primary text)
+- **Rich Brown**: #8B4513 (accent)
+- **Eco Green**: #10B981 (success states)
+
+### Typography
+- **Headings**: Custom serif font stack
+- **Body**: Inter font family
+- **Code**: Fira Code for code blocks
+
+## 🧪 Testing
 
 ```bash
-# Backend API tests
-cd backend && npm test
+# Frontend tests
+cd frontend
+npm test
 
-# Frontend component tests
-cd frontend && npm test
-
-# End-to-end testing
-npm run test:e2e
-
-# Performance testing
-npm run lighthouse
-
-# Security audit
-npm audit
+# Backend tests (if implemented)
+cd backend
+npm test
 ```
 
-## 📊 **Performance Metrics**
+## 📈 Performance
 
-- **Lighthouse Score**: 95+ (Performance, SEO, Accessibility, Best Practices)
-- **Page Load Speed**: <2s (optimized assets and lazy loading)
-- **Mobile Performance**: 95+ mobile score with touch-optimized UI
-- **SEO Score**: 100 (comprehensive schema markup and meta tags)
-- **Uptime**: 99.9% with automated monitoring and restart
+- **Lighthouse Score**: 95+ across all metrics
+- **Image Optimization**: WebP format with lazy loading
+- **Code Splitting**: Dynamic imports for optimal loading
+- **Compression**: Gzip compression enabled
+- **Caching**: Proper cache headers and strategies
 
-## 🆘 **Support & Troubleshooting**
+## 🚀 Deployment
 
-### **Quick Fixes**
-```bash
-# Restart services
-pm2 restart all
+### Production Checklist
+- [ ] Update environment variables
+- [ ] Configure MongoDB connection
+- [ ] Set up email SMTP
+- [ ] Configure domain in CORS settings
+- [ ] Set up reverse proxy (nginx)
+- [ ] Configure SSL certificates
+- [ ] Set up monitoring and logging
 
-# Check health
-curl http://localhost:5001/api/health
+### Recommended Stack
+- **VPS**: Ubuntu 20.04+ with 2GB+ RAM
+- **Process Manager**: PM2 for production
+- **Reverse Proxy**: Nginx
+- **Database**: MongoDB 4.4+
+- **SSL**: Let's Encrypt certificates
 
-# View logs
-pm2 logs
-tail -f /var/log/viticult-whisky/*.log
+## 📞 Contact & Support
 
-# Run diagnostics
-./backend/scripts/health-check.sh
-```
+- **Email**: admin@viticult.co.uk
+- **Phone**: 020 3595 3910
+- **Address**: 3rd Floor, 35 Artillery Lane, London, E1 7LP
 
-### **Support Resources**
-- 📖 **Documentation**: Complete guides in `/docs`
-- 🔧 **Troubleshooting**: [DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md#troubleshooting)
-- 🤖 **Automation Logs**: `/var/log/viticult-whisky/`
-- 📊 **Weekly Reports**: Generated automatically every Monday
+## 📄 License
 
-## 🎯 **What Makes This Special**
+This project is proprietary software. All rights reserved.
 
-✨ **Enterprise-Grade Automation** - Set it and forget it server management  
-💎 **Premium User Experience** - Floating £ animations and luxury design  
-🎯 **Business-Ready** - Immediate lead generation and conversion optimization  
-🛡️ **Security-First** - Production-hardened with comprehensive protection  
-📈 **Growth-Oriented** - SEO optimized for organic traffic and conversions  
-🤖 **Zero-Maintenance** - Fully automated with 24/7 monitoring  
+## 🤝 Contributing
 
-## 🚀 **Ready to Launch?**
-
-Your whisky investment platform is **production-ready** with:
-
-1. ✅ **Complete codebase** - All features implemented and tested
-2. ✅ **Enterprise automation** - 24/7 monitoring and maintenance  
-3. ✅ **Security hardened** - Rate limiting, validation, and protection
-4. ✅ **Performance optimized** - Fast loading and mobile-first
-5. ✅ **Documentation complete** - Deployment and user guides
-6. ✅ **Business ready** - Lead generation and admin management
-
-**Deploy now and start generating whisky investment leads! 🥃🚀**
+This is a private project. For internal development guidelines, see the development documentation.
 
 ---
 
-*Built with ❤️ for the whisky investment industry. Production-ready and enterprise-grade.*
+**Built with ❤️ for whisky investment enthusiasts**

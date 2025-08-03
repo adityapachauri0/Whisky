@@ -9,15 +9,11 @@ import {
   ClockIcon
 } from '@heroicons/react/24/outline';
 import { contactAPI, ContactFormData } from '../services/api';
-import PremiumSuccessModal from '../components/PremiumSuccessModal';
 import FloatingPounds from '../components/common/FloatingPounds';
 
 const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [submittedName, setSubmittedName] = useState('');
 
   const {
     register,
@@ -56,8 +52,13 @@ const Contact: React.FC = () => {
       // Only save to localStorage on actual success
       saveToLocalStorage();
       
-      setSubmittedName(data.name);
-      setShowSuccessModal(true);
+      // Redirect to Thank You page with user's name
+      const params = new URLSearchParams({
+        type: 'contact',
+        name: data.name
+      });
+      window.location.href = `/thank-you?${params.toString()}`;
+      
       reset();
       
     } catch (error: any) {
@@ -89,14 +90,6 @@ const Contact: React.FC = () => {
     }
   };
   
-  const handleCloseModal = () => {
-    setShowSuccessModal(false);
-    setSubmitSuccess(true);
-    // Show simple success message after modal closes
-    setTimeout(() => {
-      setSubmitSuccess(false);
-    }, 3000);
-  };
   
 
   const contactInfo = [
@@ -161,12 +154,12 @@ const Contact: React.FC = () => {
       <FloatingPounds count={8} color="green" size="small" speed="slow" />
       
       {/* Hero Section */}
-      <section className="relative h-screen min-h-[800px] overflow-hidden">
+      <section className="relative h-[35vh] min-h-[300px] max-h-[450px] overflow-hidden">
         <div className="absolute inset-0">
           <img 
             src="/whisky/hero/contact-hero.webp" 
             alt="Luxury whisky bottles"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
         </div>
@@ -189,7 +182,7 @@ const Contact: React.FC = () => {
       
 
       {/* Contact Form Section */}
-      <section className="section bg-white">
+      <section className="py-8 bg-white">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
@@ -201,15 +194,6 @@ const Contact: React.FC = () => {
             >
               <h2 className="heading-3 text-charcoal mb-6">Send Us a Message</h2>
               
-              {submitSuccess && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-green-100 text-green-800 rounded-lg"
-                >
-                  Thank you for your message! We'll get back to you within 24-48 hours.
-                </motion.div>
-              )}
 
               {submitError && (
                 <motion.div
@@ -257,8 +241,7 @@ const Contact: React.FC = () => {
                             return 'Please enter a valid email address';
                           }
                           
-                          // Check for common typos
-                          const commonDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com'];
+                          // Check for common typos (removed unused variable)
                           const domain = value.split('@')[1]?.toLowerCase();
                           
                           // Check for missing @ symbol
@@ -392,6 +375,59 @@ const Contact: React.FC = () => {
                   )}
                 </div>
 
+                {/* Interest Selection */}
+                <div>
+                  <label className="form-label">
+                    What interests you in whisky cask ownership with ViticultWhisky?
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="investmentPurposes"
+                        {...register('investmentPurposes')}
+                        className="h-4 w-4 text-premium-gold focus:ring-premium-gold border-gray-300 rounded"
+                      />
+                      <label htmlFor="investmentPurposes" className="ml-3 text-sm text-gray-700">
+                        Investment Purposes
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="ownCask"
+                        {...register('ownCask')}
+                        className="h-4 w-4 text-premium-gold focus:ring-premium-gold border-gray-300 rounded"
+                      />
+                      <label htmlFor="ownCask" className="ml-3 text-sm text-gray-700">
+                        Always wanted to own my own cask
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="giftPurpose"
+                        {...register('giftPurpose')}
+                        className="h-4 w-4 text-premium-gold focus:ring-premium-gold border-gray-300 rounded"
+                      />
+                      <label htmlFor="giftPurpose" className="ml-3 text-sm text-gray-700">
+                        Want to Gift
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="otherInterest"
+                        {...register('otherInterest')}
+                        className="h-4 w-4 text-premium-gold focus:ring-premium-gold border-gray-300 rounded"
+                      />
+                      <label htmlFor="otherInterest" className="ml-3 text-sm text-gray-700">
+                        Other
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -403,7 +439,7 @@ const Contact: React.FC = () => {
                       Sending...
                     </span>
                   ) : (
-                    'Send Message'
+                    'Register Your Interest'
                   )}
                 </button>
               </form>
@@ -465,12 +501,6 @@ const Contact: React.FC = () => {
         </div>
       </section>
       
-      {/* Premium Success Modal */}
-      <PremiumSuccessModal 
-        isOpen={showSuccessModal}
-        onClose={handleCloseModal}
-        userName={submittedName}
-      />
     </>
   );
 };

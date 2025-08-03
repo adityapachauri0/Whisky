@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRightIcon, PlayIcon, PauseIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, PlayIcon, PauseIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 
 // Hero image configurations with responsive sources
 const heroImageSets = [
@@ -256,14 +256,18 @@ const Hero: React.FC<HeroProps> = () => {
                 <ArrowRightIcon className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               
-              <Link 
-                to="/how-it-works" 
+              <a 
+                href="/Viticult-Whisky-2025-Brochure.pdf" 
+                download="Viticult-Whisky-2025-Brochure.pdf"
+                type="application/pdf"
                 className="btn-secondary group inline-flex"
-                aria-label="Watch video about how whisky investment works"
+                aria-label="Download Viticult Whisky 2025 brochure"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <PlayIcon className="mr-3 h-5 w-5" />
-                <span>Watch How It Works</span>
-              </Link>
+                <DocumentArrowDownIcon className="mr-3 h-5 w-5" />
+                <span>Download Brochure</span>
+              </a>
             </motion.div>
 
             {/* Trust Indicators */}

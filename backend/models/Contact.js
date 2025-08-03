@@ -36,6 +36,23 @@ const contactSchema = new mongoose.Schema({
     enum: ['starter', 'premium', 'exclusive', 'not-sure'],
     default: 'not-sure'
   },
+  // Interest selection checkboxes (inspired by Bunnahabhain form)
+  investmentPurposes: {
+    type: Boolean,
+    default: false
+  },
+  ownCask: {
+    type: Boolean,
+    default: false
+  },
+  giftPurpose: {
+    type: Boolean,
+    default: false
+  },
+  otherInterest: {
+    type: Boolean,
+    default: false
+  },
   preferredContactMethod: {
     type: String,
     enum: ['email', 'phone', 'both'],

@@ -59,13 +59,18 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  // Log error
+  // Enhanced error logging for monitoring
   logger.error({
     error: err.message,
     stack: err.stack,
     url: req.originalUrl,
     method: req.method,
     ip: req.ip,
+    userAgent: req.get('User-Agent'),
+    timestamp: new Date().toISOString(),
+    statusCode: err.statusCode,
+    userId: req.user?.id || 'anonymous',
+    sessionId: req.sessionID || 'no-session'
   });
 
   if (process.env.NODE_ENV === 'development') {

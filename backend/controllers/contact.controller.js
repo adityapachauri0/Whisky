@@ -1,9 +1,11 @@
+const mongoose = require('mongoose');
 const Contact = require('../models/Contact');
 const emailService = require('../utils/emailService');
 const { validationResult } = require('express-validator');
 const logger = require('../utils/logger');
 const AppError = require('../utils/appError');
 const getClientIp = require('../utils/getClientIp');
+const mongoHandler = require('../utils/mongoConnectionHandler');
 
 // Create new contact submission
 exports.createContact = async (req, res, next) => {
@@ -175,22 +177,41 @@ exports.deleteContact = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const contact = await Contact.findByIdAndDelete(id);
-
-    if (!contact) {
-      return next(new AppError('Contact not found', 404));
-    }
-
-    logger.info(`Contact deleted: ${contact.email} by admin from IP: ${req.ip}`);
+    const result = await mongoHandler.safeDelete(Contact, id, 'contact');
+    
+    logger.info(`Contact deleted: ${result.deletedDocument.email} (ID: ${id}) by admin from IP: ${req.ip}`);
 
     res.json({
       success: true,
-      message: 'Contact deleted successfully'
+      message: 'Contact deleted successfully',
+      data: {
+        deletedId: result.deletedId,
+        deletedEmail: result.deletedDocument.email
+      }
     });
 
   } catch (error) {
-    logger.error('Delete contact error:', error);
-    next(new AppError('Failed to delete contact', 500));
+    logger.error('Delete contact error:', {
+      error: error.message,
+      stack: error.stack,
+      contactId: req.params.id,
+      ip: req.ip
+    });
+    
+    // Handle specific errors
+    if (error.message === 'Invalid document ID format') {
+      return next(new AppError('Invalid contact ID format', 400));
+    }
+
+    if (error.message === 'Document not found') {
+      return next(new AppError('Contact not found', 404));
+    }
+    
+    if (error.message === 'Failed to establish MongoDB connection') {
+      return next(new AppError('Database connection unavailable. Please try again later.', 503));
+    }
+    
+    next(new AppError('Failed to delete contact. Please try again later.', 500));
   }
 };
 
@@ -203,18 +224,35 @@ exports.bulkDeleteContacts = async (req, res, next) => {
       return next(new AppError('Please provide an array of contact IDs to delete', 400));
     }
 
-    // Delete multiple contacts
-    const result = await Contact.deleteMany({ _id: { $in: ids } });
+    const result = await mongoHandler.safeBulkDelete(Contact, ids, 'contacts');
     
-    logger.info(`Bulk delete: ${result.deletedCount} contacts deleted by admin from IP: ${req.ip}`);
+    logger.info(`Bulk delete: ${result.deletedCount} contacts deleted by admin from IP: ${req.ip}`, {
+      requestedIds: ids,
+      actualDeleted: result.deletedCount
+    });
     
     res.json({ 
       success: true, 
       message: `${result.deletedCount} contacts deleted successfully`,
-      deletedCount: result.deletedCount 
+      data: result
     });
   } catch (error) {
-    logger.error('Bulk delete contacts error:', error);
-    next(new AppError('Failed to delete contacts', 500));
+    logger.error('Bulk delete contacts error:', {
+      error: error.message,
+      stack: error.stack,
+      requestedIds: req.body.ids,
+      ip: req.ip
+    });
+    
+    // Handle specific errors
+    if (error.message.includes('Invalid ID format')) {
+      return next(new AppError(error.message, 400));
+    }
+    
+    if (error.message === 'Failed to establish MongoDB connection') {
+      return next(new AppError('Database connection unavailable. Please try again later.', 503));
+    }
+    
+    next(new AppError('Failed to delete contacts. Please try again later.', 500));
   }
 };

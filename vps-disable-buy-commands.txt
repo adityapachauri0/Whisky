@@ -1,0 +1,42 @@
+# Commands to run on VPS to disable Investment-Grade Whisky Casks section
+# Copy and paste these commands one by one after connecting to the VPS
+
+# Step 1: Find the website directory
+echo "Finding website directory..."
+find /var/www -name "*.html" -type f | head -5
+find /var/www -type d -name "*viticult*"
+ls -la /var/www/
+
+# Step 2: Navigate to the most likely website directory
+cd /var/www/viticultwhisky.co.uk || cd /var/www/html || cd /var/www/whisky/frontend/build
+
+# Step 3: Check current directory and contents
+pwd
+ls -la
+
+# Step 4: Create backup
+mkdir -p backup_$(date +%Y%m%d_%H%M%S)
+cp -r static/ backup_$(date +%Y%m%d_%H%M%S)/ 2>/dev/null || echo "No static dir"
+cp index.html backup_$(date +%Y%m%d_%H%M%S)/ 2>/dev/null || echo "No index.html"
+
+# Step 5: Find files containing the buy section
+grep -r "Investment-Grade Whisky Casks" . --include="*.js" --include="*.html"
+grep -r "Highland Single Malt 2018" . --include="*.js" --include="*.html"
+
+# Step 6: Find the main JavaScript file
+find . -name "main.*.js" -type f
+find . -name "*.js" -path "*/static/js/*" -exec grep -l "Investment-Grade" {} \;
+
+# Step 7: Disable the buy section (replace FILENAME with actual file found above)
+# sed -i.bak 's/Investment-Grade Whisky Casks/Section Temporarily Disabled/g' FILENAME
+# sed -i.bak 's/Highland Single Malt 2018//g' FILENAME
+# sed -i.bak 's/Islay Peated Cask 2019//g' FILENAME
+# sed -i.bak 's/Speyside Reserve 2017//g' FILENAME
+# sed -i.bak 's/Highland Park 2016//g' FILENAME
+# sed -i.bak 's/Buy Whisky/Sell Whisky Only/g' FILENAME
+
+# Step 8: Restart services
+systemctl reload nginx
+pm2 restart all 2>/dev/null || echo "No PM2 processes"
+
+echo "Done! Check https://viticultwhisky.co.uk/buy-sell"

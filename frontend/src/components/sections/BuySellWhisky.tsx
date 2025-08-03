@@ -4,54 +4,10 @@ import { Link } from 'react-router-dom';
 import { ArrowRightIcon, ChartBarIcon, GlobeAltIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 
 const BuySellWhisky: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
+  const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('sell');
 
-  const buyWhiskyCasks = [
-    {
-      id: 1,
-      name: 'Highland Single Malt 2018',
-      distillery: 'The Dalmore',
-      age: '5 Years',
-      price: '£12,500',
-      image: '/whisky/shop-bottle-12.webp',
-      description: 'Premium Highland single malt with exceptional aging potential',
-      abv: '43%',
-      caskType: 'Ex-Bourbon'
-    },
-    {
-      id: 2,
-      name: 'Islay Peated Cask 2019',
-      distillery: 'Lagavulin',
-      age: '4 Years',
-      price: '£18,750',
-      image: '/whisky/shop-bottle-3.webp',
-      description: 'Heavily peated Islay whisky with strong investment growth',
-      abv: '46%',
-      caskType: 'First Fill Sherry'
-    },
-    {
-      id: 3,
-      name: 'Speyside Reserve 2017',
-      distillery: 'The Macallan',
-      age: '6 Years',
-      price: '£45,000',
-      image: '/whisky/shop-daftmill-2011.webp',
-      description: 'Rare Speyside cask from renowned Macallan distillery',
-      abv: '48%',
-      caskType: 'European Oak'
-    },
-    {
-      id: 4,
-      name: 'Highland Park 2016',
-      distillery: 'Highland Park',
-      age: '7 Years',
-      price: '£28,500',
-      image: '/whisky/shop-bottle-7.webp',
-      description: 'Exceptional Orkney single malt with complex character',
-      abv: '45%',
-      caskType: 'Sherry Butt'
-    }
-  ];
+  // Buy whisky casks data temporarily commented out
+  // const buyWhiskyCasks = [ ... ];
 
   const sellBenefits = [
     {
@@ -121,120 +77,25 @@ const BuySellWhisky: React.FC = () => {
           <div className="divider-gold mt-8" />
         </motion.div>
 
-        {/* Tab Navigation */}
+        {/* Tab Navigation - Buy section disabled */}
         <div className="flex justify-center mb-12">
           <div className="inline-flex bg-rich-brown/50 backdrop-blur-sm rounded-none p-1 border border-premium-gold/30">
-            <button
-              onClick={() => setActiveTab('buy')}
-              className={`px-8 py-3 text-sm font-medium tracking-wider uppercase transition-all duration-300 ${
-                activeTab === 'buy'
-                  ? 'bg-gradient-to-r from-antique-gold via-premium-gold to-bright-gold text-primary-black'
-                  : 'text-text-secondary hover:text-premium-gold'
-              }`}
-            >
-              Buy Whisky
-            </button>
+            {/* Buy Whisky tab hidden - section temporarily disabled */}
             <button
               onClick={() => setActiveTab('sell')}
-              className={`px-8 py-3 text-sm font-medium tracking-wider uppercase transition-all duration-300 ${
-                activeTab === 'sell'
-                  ? 'bg-gradient-to-r from-antique-gold via-premium-gold to-bright-gold text-primary-black'
-                  : 'text-text-secondary hover:text-premium-gold'
-              }`}
+              className="px-8 py-3 text-sm font-medium tracking-wider uppercase transition-all duration-300 bg-gradient-to-r from-antique-gold via-premium-gold to-bright-gold text-primary-black"
             >
               Sell Whisky
             </button>
           </div>
         </div>
 
-        {/* Buy Section */}
+        {/* Buy Section - TEMPORARILY DISABLED */}
+        {/* 
         {activeTab === 'buy' && (
-          <motion.div
-            id="buy-casks"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="text-center mb-12">
-              <h3 className="font-serif text-3xl text-text-primary mb-4">
-                Investment-Grade Whisky Casks
-              </h3>
-              <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-                Carefully selected casks from Scotland's most prestigious distilleries with proven investment potential
-              </p>
-            </div>
-
-            {/* Cask Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-              {buyWhiskyCasks.map((cask, index) => (
-                <motion.div
-                  key={cask.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group"
-                >
-                  <div className="card-luxury h-full flex flex-col">
-                    {/* Image Container */}
-                    <div className="relative h-64 overflow-hidden">
-                      <img
-                        src={cask.image}
-                        alt={cask.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary-black via-transparent to-transparent opacity-60" />
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6 flex-1 flex flex-col">
-                      <div className="flex-1">
-                        <h3 className="font-serif text-2xl text-text-primary mb-2 group-hover:text-premium-gold transition-colors">
-                          {cask.name}
-                        </h3>
-                        <div className="flex justify-between items-center mb-4">
-                          <span className="text-premium-gold font-medium tracking-wider uppercase text-sm">
-                            {cask.distillery}
-                          </span>
-                          <span className="text-text-secondary text-sm">{cask.age}</span>
-                        </div>
-                        <p className="text-text-secondary mb-4 text-sm leading-relaxed">
-                          {cask.description}
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-text-secondary mb-4">
-                          <div>
-                            <span className="text-premium-gold">ABV:</span> {cask.abv}
-                          </div>
-                          <div>
-                            <span className="text-premium-gold">Cask:</span> {cask.caskType}
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="border-t border-premium-gold/20 pt-4 mt-auto">
-                        <div className="flex justify-between items-center">
-                          <span className="font-serif text-3xl text-text-primary">{cask.price}</span>
-                          <Link to="/contact" className="btn-premium-small group inline-flex items-center">
-                            Enquire
-                            <ArrowRightIcon className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* View All CTA */}
-            <div className="text-center">
-              <Link to="/buy" className="btn-secondary inline-flex items-center group">
-                View Full Collection
-                <ArrowRightIcon className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </motion.div>
+          // Buy section content commented out - will be re-enabled when requested
         )}
+        */}
 
         {/* Sell Section */}
         {activeTab === 'sell' && (

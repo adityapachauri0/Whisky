@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -21,10 +21,12 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import BuySell from './pages/BuySell';
-import Buy from './pages/Buy';
+// import Buy from './pages/Buy'; // Temporarily disabled
 import SellWhisky from './pages/SellWhisky';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
+import ThankYou from './pages/ThankYou';
+import ThankYouSell from './pages/Thank_You_Sell';
 
 // Admin Pages - also lazy loaded
 const AdminLogin = lazy(() => import('./pages/Admin/Login'));
@@ -130,9 +132,10 @@ function App() {
                   path="/buy-sell" 
                   element={<BuySell />} 
                 />
+                {/* Buy route temporarily disabled - redirects to contact */}
                 <Route 
                   path="/buy" 
-                  element={<Buy />} 
+                  element={<Navigate to="/contact" replace />} 
                 />
                 <Route 
                   path="/sell-whisky" 
@@ -161,6 +164,14 @@ function App() {
                 <Route 
                   path="/terms" 
                   element={<Terms />} 
+                />
+                <Route 
+                  path="/thank-you" 
+                  element={<ThankYou />} 
+                />
+                <Route 
+                  path="/Thank_You_Sell" 
+                  element={<ThankYouSell />} 
                 />
                 
                 {/* Catch-all route for debugging */}

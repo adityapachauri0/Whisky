@@ -16,6 +16,7 @@ import {
 import axios from 'axios';
 import { buildApiEndpoint } from '../../config/api.config';
 import SiteConfigManager from '../../components/admin/SiteConfigManager';
+import { adminAPI } from '../../services/adminApi';
 
 interface Contact {
   _id: string;
@@ -31,6 +32,11 @@ interface Contact {
   notes?: string;
   ipAddress?: string;
   userAgent?: string;
+  // Interest selection checkboxes (added for Bunnahabhain-style form)
+  investmentPurposes?: boolean;
+  ownCask?: boolean;
+  giftPurpose?: boolean;
+  otherInterest?: boolean;
 }
 
 interface SellWhiskySubmission {
@@ -183,14 +189,13 @@ const AdminDashboard: React.FC = () => {
     }
     
     try {
-      await axios.delete(buildApiEndpoint(`admin/contact/${id}`), {
-        withCredentials: true
-      });
+      await adminAPI.contacts.delete(id);
       fetchData();
       alert('Contact deleted successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting contact:', error);
-      alert('Failed to delete contact');
+      const errorMessage = error.response?.data?.message || 'Failed to delete contact';
+      alert(errorMessage);
     }
   };
 
@@ -200,14 +205,13 @@ const AdminDashboard: React.FC = () => {
     }
     
     try {
-      await axios.delete(buildApiEndpoint(`admin/sell-submissions/${id}`), {
-        withCredentials: true
-      });
+      await adminAPI.sellSubmissions.delete(id);
       fetchData();
       alert('Sell submission deleted successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting sell submission:', error);
-      alert('Failed to delete sell submission');
+      const errorMessage = error.response?.data?.message || 'Failed to delete sell submission';
+      alert(errorMessage);
     }
   };
 
@@ -223,16 +227,16 @@ const AdminDashboard: React.FC = () => {
     }
     
     try {
-      const response = await axios.post(buildApiEndpoint('admin/contact/bulk-delete'), {
-        ids: selectedContacts
-      }, { withCredentials: true });
+      const response = await adminAPI.contacts.bulkDelete(selectedContacts);
       
       fetchData();
       setSelectedContacts([]);
-      alert(`${response.data.deletedCount} contacts deleted successfully`);
-    } catch (error) {
+      const deletedCount = response.data.data?.deletedCount || response.data.deletedCount || selectedContacts.length;
+      alert(`${deletedCount} contacts deleted successfully`);
+    } catch (error: any) {
       console.error('Error bulk deleting contacts:', error);
-      alert('Failed to delete contacts');
+      const errorMessage = error.response?.data?.message || 'Failed to delete contacts';
+      alert(errorMessage);
     }
   };
 
@@ -247,16 +251,16 @@ const AdminDashboard: React.FC = () => {
     }
     
     try {
-      const response = await axios.post(buildApiEndpoint('admin/sell-submissions/bulk-delete'), {
-        ids: selectedSellSubmissions
-      }, { withCredentials: true });
+      const response = await adminAPI.sellSubmissions.bulkDelete(selectedSellSubmissions);
       
       fetchData();
       setSelectedSellSubmissions([]);
-      alert(`${response.data.deletedCount} submissions deleted successfully`);
-    } catch (error) {
+      const deletedCount = response.data.data?.deletedCount || response.data.deletedCount || selectedSellSubmissions.length;
+      alert(`${deletedCount} submissions deleted successfully`);
+    } catch (error: any) {
       console.error('Error bulk deleting sell submissions:', error);
-      alert('Failed to delete submissions');
+      const errorMessage = error.response?.data?.message || 'Failed to delete submissions';
+      alert(errorMessage);
     }
   };
 
@@ -762,6 +766,9 @@ const AdminDashboard: React.FC = () => {
                             Interest Level
                           </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Interest Selections
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Status
                           </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -806,6 +813,33 @@ const AdminDashboard: React.FC = () => {
                               <span className="text-sm text-gray-900 capitalize">
                                 {contactItem.investmentInterest}
                               </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex flex-wrap gap-1 max-w-xs">
+                                {contactItem.investmentPurposes && (
+                                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Investment
+                                  </span>
+                                )}
+                                {contactItem.ownCask && (
+                                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    Own Cask
+                                  </span>
+                                )}
+                                {contactItem.giftPurpose && (
+                                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    Gift
+                                  </span>
+                                )}
+                                {contactItem.otherInterest && (
+                                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    Other
+                                  </span>
+                                )}
+                                {!contactItem.investmentPurposes && !contactItem.ownCask && !contactItem.giftPurpose && !contactItem.otherInterest && (
+                                  <span className="text-xs text-gray-400">None selected</span>
+                                )}
+                              </div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(contactItem.status)}`}>
@@ -1102,6 +1136,55 @@ const AdminDashboard: React.FC = () => {
                   <span className="font-medium text-gray-700">Message:</span>
                   <p className="mt-2 text-gray-900 bg-gray-50 p-3 rounded">{selectedContact.message}</p>
                 </div>
+                
+                {/* Interest Selection Checkboxes */}
+                {(selectedContact.investmentPurposes || selectedContact.ownCask || selectedContact.giftPurpose || selectedContact.otherInterest) && (
+                  <div className="border-t pt-4">
+                    <span className="font-medium text-gray-700 block mb-3">Interest Selections:</span>
+                    <div className="grid grid-cols-2 gap-3">
+                      {selectedContact.investmentPurposes && (
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
+                            <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <span className="ml-2 text-sm text-gray-700">Investment Purposes</span>
+                        </div>
+                      )}
+                      {selectedContact.ownCask && (
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
+                            <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <span className="ml-2 text-sm text-gray-700">Own Cask Interest</span>
+                        </div>
+                      )}
+                      {selectedContact.giftPurpose && (
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
+                            <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <span className="ml-2 text-sm text-gray-700">Gift Purpose</span>
+                        </div>
+                      )}
+                      {selectedContact.otherInterest && (
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
+                            <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <span className="ml-2 text-sm text-gray-700">Other Interest</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
                 {selectedContact.ipAddress && (
                   <div className="grid grid-cols-2 gap-4 mt-4 p-4 bg-gray-50 rounded">
                     <div>

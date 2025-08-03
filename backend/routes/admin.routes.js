@@ -37,12 +37,12 @@ router.get('/consultation-requests', adminController.getConsultationRequests);
 // Export submissions (read-only, no CSRF needed)
 router.get('/export', adminController.exportSubmissions);
 
-// Delete operations
-router.delete('/contact/:id', deleteContact);
-router.delete('/sell-submissions/:id', deleteSubmission);
+// Delete operations (with CSRF protection for security)
+router.delete('/contact/:id', validateCSRF, deleteContact);
+router.delete('/sell-submissions/:id', validateCSRF, deleteSubmission);
 
-// Bulk delete operations
-router.post('/contact/bulk-delete', bulkDeleteContacts);
-router.post('/sell-submissions/bulk-delete', bulkDeleteSubmissions);
+// Bulk delete operations (with CSRF protection for security)
+router.post('/contact/bulk-delete', validateCSRF, bulkDeleteContacts);
+router.post('/sell-submissions/bulk-delete', validateCSRF, bulkDeleteSubmissions);
 
 module.exports = router;

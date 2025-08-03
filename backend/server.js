@@ -36,12 +36,37 @@ app.set('trust proxy', 1);
 // HTTPS enforcement - DISABLED FOR TESTING
 // app.use(httpsEnforce);
 
-// Security middleware - MINIMAL FOR TESTING
-// app.use(helmet());
+// Security middleware - REASONABLE FOR PRODUCTION
+app.use(helmet({
+  contentSecurityPolicy: false, // Disabled for easier integration
+  crossOriginEmbedderPolicy: false // Disabled for third-party integrations
+}));
 
-// CORS configuration - Permissive for production
+// CORS configuration - Business-friendly
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? 
+  process.env.ALLOWED_ORIGINS.split(',') : 
+  [
+    'http://localhost:3000',
+    'http://localhost:3001', 
+    'https://viticultwhisky.co.uk',
+    'https://www.viticultwhisky.co.uk',
+    'https://viticult.co.uk',
+    'https://www.viticult.co.uk'
+  ];
+
 app.use(cors({ 
-  origin: true,  // Allow all origins
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      // Log but don't block for business continuity
+      console.log('CORS origin not in whitelist:', origin);
+      callback(null, true); // Still allow for business operations
+    }
+  },
   credentials: true 
 }));
 
@@ -73,49 +98,52 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined', { stream: accessLogStream }));
 }
 
-// Global rate limiting - DISABLED FOR TESTING
-// const globalLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: process.env.NODE_ENV === 'production' ? 270 : 450, // Increased by 1.5x
-//   message: 'Too many requests from this IP, please try again later.',
-//   standardHeaders: true,
-//   legacyHeaders: false,
-//   skipSuccessfulRequests: false,
-//   handler: (req, res) => {
-//     logger.warn(`Rate limit exceeded for IP: ${req.ip}, Path: ${req.path}`);
-//     res.status(429).json({
-//       status: 'error',
-//       message: 'Too many requests. Please try again later.'
-//     });
-//   }
-// });
+// Global rate limiting - BUSINESS FRIENDLY
+const globalLimiter = rateLimit({
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 900000, // 15 minutes
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 500, // Generous limit for business operations
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: false,
+  handler: (req, res) => {
+    logger.warn(`Rate limit exceeded for IP: ${req.ip}, Path: ${req.path}`);
+    res.status(429).json({
+      status: 'error',
+      message: 'Too many requests. Please try again later.'
+    });
+  }
+});
 
-// Apply rate limiting to all routes - DISABLED FOR TESTING
-// app.use(globalLimiter);
+// Apply rate limiting to all routes - REASONABLE PROTECTION
+app.use(globalLimiter);
 
-// Strict rate limiting for auth routes - ENHANCED
-// const authLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 23, // Increased by 1.5x (15 * 1.5 = 22.5, rounded to 23)
-//   skipSuccessfulRequests: true,
-//   standardHeaders: true,
-//   legacyHeaders: false,
-//   message: 'Too many authentication attempts. Please try again later.',
-//   handler: (req, res) => {
-//     logger.error(`Auth rate limit exceeded for IP: ${req.ip}, Email: ${req.body.email}`);
-//     res.status(429).json({
-//       status: 'error',
-//       message: 'Too many authentication attempts. Account temporarily locked.'
-//     });
-//   }
-// });
+// Auth rate limiting - REASONABLE PROTECTION
+const authLimiter = rateLimit({
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 900000, // 15 minutes
+  max: parseInt(process.env.AUTH_RATE_LIMIT_MAX) || 50, // Generous limit for business users
+  skipSuccessfulRequests: true,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many authentication attempts. Please try again later.',
+  handler: (req, res) => {
+    logger.error(`Auth rate limit exceeded for IP: ${req.ip}, Email: ${req.body.email}`);
+    res.status(429).json({
+      status: 'error',
+      message: 'Too many authentication attempts. Account temporarily locked.'
+    });
+  }
+});
 
-// MongoDB connection with error handling
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/whisky-investment', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  autoIndex: true,
-  serverSelectionTimeoutMS: 5000,
+// MongoDB connection with improved stability settings
+const mongoConnectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/viticult-whisky';
+mongoose.connect(mongoConnectionString, {
+  serverSelectionTimeoutMS: 10000,
+  socketTimeoutMS: 45000,
+  maxPoolSize: 10,
+  minPoolSize: 2,
+  maxIdleTimeMS: 30000,
+  family: 4 // Force IPv4 to avoid IPv6 connection issues
 })
 .then(() => {
   logger.info('MongoDB connected successfully');
@@ -137,20 +165,44 @@ mongoose.connection.on('disconnected', () => {
 
 // Health check endpoint - MUST be before routes to avoid auth middleware
 app.get('/api/health', (req, res) => {
-  logger.info('Health endpoint accessed');
-  const health = {
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    environment: process.env.NODE_ENV,
-    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
-  };
-  
-  res.status(200).json(health);
+  try {
+    // Check memory usage for monitoring
+    const memUsage = process.memoryUsage();
+    const memUsageMB = {
+      rss: Math.round(memUsage.rss / 1024 / 1024),
+      heapTotal: Math.round(memUsage.heapTotal / 1024 / 1024),
+      heapUsed: Math.round(memUsage.heapUsed / 1024 / 1024)
+    };
+    
+    const health = {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      uptime: Math.round(process.uptime()),
+      environment: process.env.NODE_ENV,
+      database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+      version: '1.0.0',
+      memory: memUsageMB,
+      nodeVersion: process.version
+    };
+    
+    // Log health periodically for monitoring (every 50th request)
+    if (Math.random() < 0.02) {
+      logger.info('Health check', health);
+    }
+    
+    res.status(200).json(health);
+  } catch (error) {
+    logger.error('Health check failed:', error);
+    res.status(503).json({
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      message: 'Service unhealthy'
+    });
+  }
 });
 
-// Routes
-app.use('/api/auth', authRoutes);
+// Routes with rate limiting
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/config', configRoutes);
 app.use('/api/contact', contactRoutes);
