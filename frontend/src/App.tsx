@@ -10,23 +10,27 @@ import PublicLayout from './components/layout/PublicLayout';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import ScrollToTop from './components/common/ScrollToTop';
+import CookieConsent from './components/common/CookieConsent';
 
-// TEMPORARILY SWITCH TO EAGER LOADING FOR DEBUGGING
+// Eager load only critical pages for fast initial load
 import Home from './pages/Home';
-import About from './pages/About';
-import HowItWorksNew from './pages/HowItWorksNew';
-// import HowItWorksTest from './pages/HowItWorksTest'; // USING TEST VERSION
-import FAQ from './pages/FAQ';
-import Contact from './pages/Contact';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
-import BuySell from './pages/BuySell';
-// import Buy from './pages/Buy'; // Temporarily disabled
-import SellWhisky from './pages/SellWhisky';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Terms from './pages/Terms';
-import ThankYou from './pages/ThankYou';
-import ThankYouSell from './pages/Thank_You_Sell';
+
+// Lazy load all other pages for better performance
+const About = lazy(() => import('./pages/About'));
+const HowItWorksNew = lazy(() => import('./pages/HowItWorksNew'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
+const BuySell = lazy(() => import('./pages/BuySell'));
+const SellWhisky = lazy(() => import('./pages/SellWhisky'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const CookiePolicy = lazy(() => import('./pages/CookiePolicy'));
+const DataRights = lazy(() => import('./pages/DataRights'));
+const Terms = lazy(() => import('./pages/Terms'));
+const ThankYou = lazy(() => import('./pages/ThankYou'));
+const ThankYouSell = lazy(() => import('./pages/Thank_You_Sell'));
+const Distilleries = lazy(() => import('./pages/Distilleries'));
 
 // Admin Pages - also lazy loaded
 const AdminLogin = lazy(() => import('./pages/Admin/Login'));
@@ -142,6 +146,10 @@ function App() {
                   element={<SellWhisky />} 
                 />
                 <Route 
+                  path="/distilleries" 
+                  element={<Distilleries />} 
+                />
+                <Route 
                   path="/faq" 
                   element={<FAQ />} 
                 />
@@ -160,6 +168,18 @@ function App() {
                 <Route 
                   path="/privacy" 
                   element={<PrivacyPolicy />} 
+                />
+                <Route 
+                  path="/privacy-policy" 
+                  element={<PrivacyPolicy />} 
+                />
+                <Route 
+                  path="/cookie-policy" 
+                  element={<CookiePolicy />} 
+                />
+                <Route 
+                  path="/data-rights" 
+                  element={<DataRights />} 
                 />
                 <Route 
                   path="/terms" 
@@ -197,6 +217,7 @@ function App() {
                 />
               </Route>
             </Routes>
+            <CookieConsent />
           </div>
         </Router>
       </HelmetProvider>

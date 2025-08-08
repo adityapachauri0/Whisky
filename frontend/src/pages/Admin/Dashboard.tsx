@@ -14,7 +14,7 @@ import {
   ChevronRightIcon
 } from '@heroicons/react/24/outline';
 import axios from 'axios';
-import { buildApiEndpoint } from '../../config/api.config';
+import { buildApiEndpoint, API_URL } from '../../config/api.config';
 import SiteConfigManager from '../../components/admin/SiteConfigManager';
 import { adminAPI } from '../../services/adminApi';
 
@@ -39,6 +39,30 @@ interface Contact {
   otherInterest?: boolean;
 }
 
+interface Visitor {
+  _id?: string; // Optional since API doesn't return it
+  visitorId: string;
+  name: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  ipAddress: string;
+  status: string;
+  engagementScore: number;
+  leadScore: number;
+  formData: Record<string, any>;
+  formFields: Array<{
+    form: string;
+    field: string;
+    value: string;
+    updated: string;
+  }>;
+  firstVisit: string;
+  lastVisit: string;
+  createdAt: string;
+}
+
 interface SellWhiskySubmission {
   _id: string;
   name: string;
@@ -61,6 +85,7 @@ const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('contacts');
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [sellSubmissions, setSellSubmissions] = useState<SellWhiskySubmission[]>([]);
+  const [visitors, setVisitors] = useState<Visitor[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -82,9 +107,11 @@ const AdminDashboard: React.FC = () => {
   // Bulk selection state
   const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
   const [selectedSellSubmissions, setSelectedSellSubmissions] = useState<string[]>([]);
+  const [selectedVisitors, setSelectedVisitors] = useState<string[]>([]);
 
   const fetchData = React.useCallback(async () => {
     setLoading(true);
+    console.log('🔄 fetchData called with activeTab:', activeTab);
     try {
       // Check if user is authenticated by looking for session data
       const adminUser = sessionStorage.getItem('adminUser');
@@ -94,8 +121,10 @@ const AdminDashboard: React.FC = () => {
       }
 
       // Always try to load local data first
-      const loadLocalData = () => {
+      const loadLocalData = async () => {
+        console.log('🔍 loadLocalData - activeTab is:', activeTab);
         if (activeTab === 'contacts') {
+          console.log('📧 Loading contacts data...');
           const localSubmissions = JSON.parse(localStorage.getItem('contactSubmissions') || '[]');
           // Add IP addresses to local submissions that don't have them
           const localSubmissionsWithIP = localSubmissions.map((contact: Contact, index: number) => ({
@@ -105,6 +134,25 @@ const AdminDashboard: React.FC = () => {
           }));
           const combinedContacts = [...localSubmissionsWithIP, ...mockContacts];
           setContacts(combinedContacts);
+        } else if (activeTab === 'visitors') {
+          // Fetch real visitor data from tracking API when visitors tab is active
+          console.log('🎯 VISITOR TAB ACTIVE - Loading visitor data from API...');
+          try {
+            console.log('🔄 Making API request to:', 'http://localhost:5001/api/tracking/captured-data');
+            const visitorResponse = await fetch('http://localhost:5001/api/tracking/captured-data');
+            console.log('📡 API Response status:', visitorResponse.status);
+            if (!visitorResponse.ok) {
+              throw new Error(`HTTP ${visitorResponse.status}`);
+            }
+            const visitorData = await visitorResponse.json();
+            const realVisitors = visitorData.visitors || [];
+            console.log('✅ SUCCESS! Real visitors loaded:', realVisitors.length, 'visitors');
+            console.log('📊 First visitor:', realVisitors[0]?.name || 'None');
+            setVisitors(realVisitors);
+          } catch (visitorError) {
+            console.error('❌ FAILED to load visitor data:', visitorError);
+            setVisitors(mockVisitors); // Fallback to mock data
+          }
         } else {
           const localSellSubmissions = JSON.parse(localStorage.getItem('sellWhiskySubmissions') || '[]');
           const combinedSellSubmissions = [...localSellSubmissions, ...mockSellSubmissions];
@@ -144,6 +192,26 @@ const AdminDashboard: React.FC = () => {
             const localSellSubmissions = JSON.parse(localStorage.getItem('sellWhiskySubmissions') || '[]');
             setSellSubmissions(localSellSubmissions);
           }
+        } else if (activeTab === 'visitors') {
+          // For visitors tab, we only use API data (no database storage)
+          console.log('🎯 API-FIRST: Loading visitor data for visitors tab...');
+          try {
+            console.log('🔄 Making API request to:', 'http://localhost:5001/api/tracking/captured-data');
+            const visitorResponse = await fetch('http://localhost:5001/api/tracking/captured-data');
+            console.log('📡 API Response status:', visitorResponse.status);
+            if (!visitorResponse.ok) {
+              throw new Error(`HTTP ${visitorResponse.status}`);
+            }
+            const visitorData = await visitorResponse.json();
+            const realVisitors = visitorData.visitors || [];
+            console.log('✅ SUCCESS! API visitors loaded:', realVisitors.length, 'visitors');
+            console.log('📊 First visitor:', realVisitors[0]?.name || 'None');
+            setVisitors(realVisitors);
+          } catch (visitorError) {
+            console.error('❌ FAILED to load visitor data from API:', visitorError);
+            // Fallback to mock data
+            setVisitors([]);
+          }
         }
       } catch (apiError: any) {
         console.error('API error, loading local data:', apiError);
@@ -156,7 +224,7 @@ const AdminDashboard: React.FC = () => {
         }
         
         // For any other error (including 500), load local data as fallback
-        loadLocalData();
+        await loadLocalData();
       }
     } catch (error: any) {
       console.error('Error in fetchData:', error);
@@ -264,6 +332,77 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  const bulkDeleteVisitors = async () => {
+    if (selectedVisitors.length === 0) {
+      alert('Please select visitors to delete');
+      return;
+    }
+    
+    if (!window.confirm(`Are you sure you want to delete ${selectedVisitors.length} selected visitors? This action cannot be undone.`)) {
+      return;
+    }
+    
+    try {
+      // Use the selected visitor IDs directly (they are already visitorIds)
+      const visitorIds = selectedVisitors;
+      
+      const response = await axios.delete(`${API_URL}/tracking/visitors/bulk`, {
+        data: { visitorIds },
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      fetchData();
+      setSelectedVisitors([]);
+      const deletedCount = response.data.deletedCount || selectedVisitors.length;
+      alert(`${deletedCount} visitors deleted successfully`);
+    } catch (error: any) {
+      console.error('Error bulk deleting visitors:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to delete visitors';
+      alert(errorMessage);
+    }
+  };
+
+  const deleteAllVisitors = async () => {
+    if (visitors.length === 0) {
+      alert('No visitors to delete');
+      return;
+    }
+    
+    if (!window.confirm(`⚠️ WARNING: Are you sure you want to delete ALL ${visitors.length} visitors? This action cannot be undone.`)) {
+      return;
+    }
+    
+    // Double confirmation for delete all
+    if (!window.confirm(`This will permanently delete ALL visitor data. Type "DELETE ALL" to confirm.`)) {
+      return;
+    }
+    
+    try {
+      // Get all visitorIds (directly from visitors array)
+      const visitorIds = visitors.map(visitor => visitor.visitorId);
+      
+      const response = await axios.delete(`${API_URL}/tracking/visitors/bulk`, {
+        data: { visitorIds },
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      fetchData();
+      setSelectedVisitors([]);
+      const deletedCount = response.data.deletedCount || visitors.length;
+      alert(`✅ Successfully deleted ALL ${deletedCount} visitors`);
+    } catch (error: any) {
+      console.error('Error deleting all visitors:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to delete all visitors';
+      alert(errorMessage);
+    }
+  };
+
   // Selection helper functions
   const toggleContactSelection = (contactId: string) => {
     setSelectedContacts(prev => 
@@ -278,6 +417,14 @@ const AdminDashboard: React.FC = () => {
       prev.includes(submissionId) 
         ? prev.filter(id => id !== submissionId)
         : [...prev, submissionId]
+    );
+  };
+
+  const toggleVisitorSelection = (visitorId: string) => {
+    setSelectedVisitors(prev => 
+      prev.includes(visitorId) 
+        ? prev.filter(id => id !== visitorId)
+        : [...prev, visitorId]
     );
   };
 
@@ -347,6 +494,34 @@ const AdminDashboard: React.FC = () => {
 
   // Mock data for demo
   const mockContacts: Contact[] = [];
+
+  // Add visitor tracking data from our tests
+  const mockVisitors: Visitor[] = [
+    {
+      _id: '1',
+      visitorId: 'real-test-456',
+      name: 'RealTest User',
+      email: 'test@example.com',
+      firstName: 'RealTest',
+      lastName: 'User',
+      phone: '',
+      ipAddress: '127.0.0.1',
+      status: 'identified',
+      engagementScore: 5,
+      leadScore: 25,
+      formData: {
+        firstName: 'RealTest',
+        email: 'test@example.com'
+      },
+      formFields: [
+        { form: 'contact', field: 'firstName', value: 'RealTest', updated: new Date().toISOString() },
+        { form: 'contact', field: 'email', value: 'test@example.com', updated: new Date().toISOString() }
+      ],
+      firstVisit: new Date().toISOString(),
+      lastVisit: new Date().toISOString(),
+      createdAt: new Date().toISOString()
+    }
+  ];
 
   const mockSellSubmissions: SellWhiskySubmission[] = [];
 
@@ -651,6 +826,19 @@ const AdminDashboard: React.FC = () => {
                 }`}
               >
                 Sell Whisky Submissions
+              </button>
+              <button
+                onClick={() => {
+                  console.log('🖱️ VISITOR TAB CLICKED - Setting activeTab to visitors');
+                  setActiveTab('visitors');
+                }}
+                className={`py-4 px-6 text-sm font-medium border-b-2 transition-colors ${
+                  activeTab === 'visitors'
+                    ? 'border-amber-500 text-amber-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Captured Visitors ({visitors.length})
               </button>
               <button
                 onClick={() => setActiveTab('config')}
@@ -1019,6 +1207,169 @@ const AdminDashboard: React.FC = () => {
                           </tr>
                         );
                         })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+
+                {activeTab === 'visitors' && (
+                  <div className="overflow-x-auto">
+                    <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <h3 className="font-semibold text-green-800 mb-2">Real-Time Form Capture Data</h3>
+                      <p className="text-sm text-green-700">
+                        This shows visitors who filled out form fields without submitting. Data is captured in real-time as users type.
+                      </p>
+                    </div>
+                    
+                    {(selectedVisitors.length > 0 || visitors.length > 0) && (
+                      <div className="mb-4 flex justify-between items-center bg-amber-50 p-4 rounded-lg border border-amber-200">
+                        <div className="text-sm text-amber-700">
+                          {selectedVisitors.length > 0 
+                            ? `${selectedVisitors.length} visitor(s) selected`
+                            : `Total: ${visitors.length} visitor(s)`
+                          }
+                        </div>
+                        <div className="flex space-x-2">
+                          {selectedVisitors.length > 0 && (
+                            <button
+                              onClick={bulkDeleteVisitors}
+                              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-medium flex items-center"
+                            >
+                              <TrashIcon className="h-4 w-4 mr-1" />
+                              Delete Selected ({selectedVisitors.length})
+                            </button>
+                          )}
+                          <button
+                            onClick={deleteAllVisitors}
+                            className="bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded text-sm font-medium flex items-center"
+                          >
+                            <TrashIcon className="h-4 w-4 mr-1" />
+                            Delete All ({visitors.length})
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead>
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <input
+                              type="checkbox"
+                              checked={selectedVisitors.length === visitors.length && visitors.length > 0}
+                              onChange={() => {
+                                if (selectedVisitors.length === visitors.length) {
+                                  setSelectedVisitors([]);
+                                } else {
+                                  setSelectedVisitors(visitors.map(visitor => visitor.visitorId));
+                                }
+                              }}
+                              className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                            />
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Visitor ID
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Name
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Email
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Phone
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            IP Address
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Lead Score
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Last Visit
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {visitors.map((visitor) => (
+                          <tr key={visitor.visitorId} className="hover:bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <input
+                                type="checkbox"
+                                checked={selectedVisitors.includes(visitor.visitorId)}
+                                onChange={() => toggleVisitorSelection(visitor.visitorId)}
+                                className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                              />
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              {visitor.visitorId.substring(0, 20)}...
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-sm font-medium text-gray-900">
+                                {visitor.name || '-'}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {visitor.firstName && visitor.lastName ? `${visitor.firstName} ${visitor.lastName}` : ''}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              {visitor.email || '-'}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              {visitor.phone || '-'}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
+                              {visitor.ipAddress || 'Not recorded'}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                visitor.status === 'identified' 
+                                  ? 'bg-green-100 text-green-800'
+                                  : visitor.status === 'prospect'
+                                  ? 'bg-blue-100 text-blue-800'
+                                  : 'bg-gray-100 text-gray-800'
+                              }`}>
+                                {visitor.status}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              {visitor.leadScore || 0}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              {visitor.lastVisit ? new Date(visitor.lastVisit).toLocaleDateString() : '-'}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => {
+                                    alert(`Visitor Details:\nID: ${visitor.visitorId}\nName: ${visitor.name || 'N/A'}\nEmail: ${visitor.email || 'N/A'}\nPhone: ${visitor.phone || 'N/A'}\nIP: ${visitor.ipAddress || 'N/A'}\nStatus: ${visitor.status}\nLead Score: ${visitor.leadScore}`);
+                                  }}
+                                  className="text-amber-600 hover:text-amber-900"
+                                >
+                                  View Details
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    if (window.confirm(`Are you sure you want to delete visitor ${visitor.name || visitor.visitorId}? This action cannot be undone.`)) {
+                                      setSelectedVisitors([visitor.visitorId]);
+                                      bulkDeleteVisitors();
+                                    }
+                                  }}
+                                  className="text-red-600 hover:text-red-900 p-1"
+                                  title="Delete visitor"
+                                >
+                                  <TrashIcon className="h-4 w-4" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>

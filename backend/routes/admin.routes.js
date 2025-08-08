@@ -34,6 +34,9 @@ router.get('/contact-submissions', adminController.getContactSubmissions);
 router.get('/sell-submissions', adminController.getSellWhiskySubmissions);
 router.get('/consultation-requests', adminController.getConsultationRequests);
 
+// Get visitor tracking data (read-only, no CSRF needed)
+router.get('/visitors', adminController.getVisitors);
+
 // Export submissions (read-only, no CSRF needed)
 router.get('/export', adminController.exportSubmissions);
 

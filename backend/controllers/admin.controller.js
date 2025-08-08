@@ -6,6 +6,7 @@ const ExcelJS = require('exceljs');
 const Contact = require('../models/Contact');
 const InvestmentInquiry = require('../models/InvestmentInquiry');
 const SellWhisky = require('../models/SellWhisky');
+const Visitor = require('../models/Visitor');
 const emailService = require('../utils/emailService');
 const { generateInvestmentInquiryEmail } = require('../utils/emailTemplates');
 
@@ -624,6 +625,64 @@ exports.getConsultationRequests = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch consultations'
+    });
+  }
+};
+
+// Get visitor tracking data
+exports.getVisitors = async (req, res) => {
+  try {
+    const visitors = await Visitor.find()
+      .select('visitorId email firstName lastName name phone status behavior.engagementScore behavior.leadScore formInteractions firstVisit lastVisit createdAt')
+      .sort({ createdAt: -1 })
+      .limit(1000); // Limit to most recent 1000 visitors
+
+    // Transform the data for frontend display
+    const transformedVisitors = visitors.map(visitor => {
+      // Get the latest form interaction data
+      let latestFormData = {};
+      if (visitor.formInteractions && visitor.formInteractions.length > 0) {
+        const latestForm = visitor.formInteractions[visitor.formInteractions.length - 1];
+        if (latestForm.fields) {
+          latestForm.fields.forEach(field => {
+            latestFormData[field.name] = field.lastValue;
+          });
+        }
+      }
+
+      return {
+        _id: visitor._id,
+        visitorId: visitor.visitorId,
+        email: visitor.email || latestFormData.email || '',
+        firstName: visitor.firstName || latestFormData.firstName || '',
+        lastName: visitor.lastName || latestFormData.lastName || '',
+        name: visitor.name || latestFormData.name || `${latestFormData.firstName || ''} ${latestFormData.lastName || ''}`.trim(),
+        phone: visitor.phone || latestFormData.phone || '',
+        status: visitor.status,
+        engagementScore: visitor.behavior?.engagementScore || 0,
+        leadScore: visitor.behavior?.leadScore || 0,
+        formData: latestFormData,
+        firstVisit: visitor.firstVisit,
+        lastVisit: visitor.lastVisit,
+        createdAt: visitor.createdAt,
+        hasFormData: Object.keys(latestFormData).length > 0
+      };
+    });
+
+    // Filter to only show visitors with form data (captured fields)
+    const visitorsWithData = transformedVisitors.filter(v => v.hasFormData);
+
+    logger.info(`Fetched ${visitorsWithData.length} visitors with form data`);
+    
+    res.json({
+      success: true,
+      data: visitorsWithData
+    });
+  } catch (error) {
+    logger.error('Error fetching visitors:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch visitor data'
     });
   }
 };

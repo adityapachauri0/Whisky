@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { initWebVitals } from './utils/webVitals';
 
 // Extend window type for gtag
 declare global {
@@ -20,25 +21,13 @@ root.render(
   </React.StrictMode>
 );
 
-// Web Vitals reporting
-if (process.env.NODE_ENV === 'production') {
-  reportWebVitals((metric) => {
-    // Send to analytics service
-    if (window.gtag) {
-      window.gtag('event', metric.name, {
-        value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
-        event_category: 'Web Vitals',
-        event_label: metric.id,
-        non_interaction: true,
-      });
-    }
-    
-    // Only log in development
-    if (process.env.NODE_ENV === 'development') {
-      // Metrics logged in development only
-    }
-  });
-} else {
-  // Metrics not logged in production
-  reportWebVitals(() => {});
-}
+// Initialize Web Vitals monitoring
+initWebVitals();
+
+// Legacy Web Vitals reporting (kept for compatibility)
+reportWebVitals((metric) => {
+  // Metrics are now handled by initWebVitals
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[Legacy Web Vitals]', metric.name, metric.value);
+  }
+});

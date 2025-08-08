@@ -37,7 +37,7 @@ const HowItWorksSection: React.FC = () => {
       number: '04',
       title: 'Exit Strategy',
       description: 'When ready, we help you maximize returns through our global network of collectors, investors, and premium buyers.',
-      image: '/whisky/whisky-glass.webp',
+      image: '/whisky/hero/hero-1.webp',
     },
   ];
 

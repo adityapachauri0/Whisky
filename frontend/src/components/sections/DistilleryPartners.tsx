@@ -21,7 +21,7 @@ const DistilleryPartners: React.FC = () => {
       name: 'The Dalmore Distillery',
       location: 'Northern Highlands',
       description: 'Carbon-neutral since 2019, The Dalmore creates exceptional single malts matured in exclusive sherry casks from González Byass.',
-      image: '/whisky/distilleries/dalmore-distillery-building.webp',
+      image: '/whisky/distilleries/dalmore-exterior.webp',
       features: ['100% Renewable Energy', 'Exclusive Sherry Casks', 'Royal Warrant Holder'],
       carbonNeutralSince: '2019'
     },
@@ -30,7 +30,7 @@ const DistilleryPartners: React.FC = () => {
       name: 'The Macallan Estate',
       location: 'Speyside',
       description: 'Setting the standard for sustainable luxury whisky production with their state-of-the-art eco-distillery.',
-      image: '/whisky/distilleries/dalmore-production.webp',
+      image: '/whisky/distilleries/macallan-distillery.webp',
       features: ['Zero Waste Facility', 'Solar Powered', 'Estate Grown Barley'],
       carbonNeutralSince: '2020'
     },
@@ -39,7 +39,7 @@ const DistilleryPartners: React.FC = () => {
       name: 'Lagavulin Distillery',
       location: 'Islay',
       description: 'Harnessing renewable energy to craft intensely peated single malts that command premium prices globally.',
-      image: '/whisky/distilleries/dalmore-whisky-glass.webp',
+      image: '/whisky/distilleries/lagavulin-facade.webp',
       features: ['Wind Powered', 'Traditional Floor Maltings', '200+ Years Heritage'],
       carbonNeutralSince: '2021'
     }
@@ -119,7 +119,7 @@ const DistilleryPartners: React.FC = () => {
                 </div>
 
                 <Link 
-                  to={`/distilleries/${distillery.id}`}
+                  to="/distilleries"
                   className="inline-flex items-center text-premium-gold hover:text-bright-gold transition-colors duration-300"
                 >
                   <span className="text-sm font-semibold uppercase tracking-wide">Learn More</span>

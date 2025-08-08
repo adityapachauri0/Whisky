@@ -14,42 +14,42 @@ const WhiskyGallery: React.FC = () => {
     {
       id: 'warehouse',
       src: '/whisky/casks/viticult-secure-storage.webp',
-      alt: 'Secure whisky warehouse storage facility',
+      alt: 'Government-bonded whisky warehouse with 24/7 security for cask investment storage',
       title: 'Secure Warehouse Storage',
       description: 'Government-bonded facilities with 24/7 security and climate control'
     },
     {
       id: 'barrels',
       src: '/whisky/casks/viticult-cask-1.webp',
-      alt: 'Premium oak whisky casks',
+      alt: 'Premium European and American oak whisky casks for maturation investment',
       title: 'Premium Oak Casks',
       description: 'Hand-selected European and American oak for optimal maturation'
     },
     {
       id: 'distillery',
-      src: '/whisky/distilleries/dalmore-whisky-glass.webp',
-      alt: 'The Dalmore whisky glass and distillery',
+      src: '/whisky/distilleries/dalmore-exterior.webp',
+      alt: 'The Dalmore Highland distillery - Premium whisky cask investment partner',
       title: 'Partner Distilleries',
       description: 'Exclusive access to Scotland\'s most prestigious producers'
     },
     {
       id: 'tasting',
       src: '/whisky/casks/dalmore-21-casks.webp',
-      alt: 'Premium Dalmore 21 year old whisky',
+      alt: 'Dalmore 21 year old casks - Expert curation for whisky investment portfolios',
       title: 'Expert Curation',
       description: 'Selected by master distillers and investment specialists'
     },
     {
       id: 'collection',
-      src: '/whisky/distilleries/dalmore-rare-luminary.webp',
-      alt: 'Rare Dalmore Luminary collection',
+      src: '/whisky/distilleries/highland-park-building.webp',
+      alt: 'Highland Park distillery Scotland - Rare whisky collections with investment potential',
       title: 'Rare Collections',
       description: 'Limited releases with exceptional appreciation potential'
     },
     {
       id: 'investment',
       src: '/whisky/casks/dalmore-oak-barrels.webp',
-      alt: 'Premium whisky investment portfolio',
+      alt: 'Premium whisky cask portfolio - Real-time market valuations and tracking',
       title: 'Portfolio Excellence',
       description: 'Track performance with real-time market valuations'
     }

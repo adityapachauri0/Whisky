@@ -74,7 +74,27 @@ const PrivacyPolicy: React.FC = () => {
               <li>Device information</li>
               <li>Pages visited and time spent on each page</li>
               <li>Referring website addresses</li>
+              <li>Visitor behavioral analytics (scroll depth, click patterns, engagement metrics)</li>
             </ul>
+
+            <h3>2.3 Real-Time Form Data Capture</h3>
+            <p>
+              <strong>WITH YOUR EXPLICIT CONSENT ONLY:</strong> When you enable "Auto-Save Progress" on our contact forms, 
+              we capture and temporarily store form field data as you type to prevent data loss. This includes:
+            </p>
+            <ul>
+              <li>First name and last name (from name field)</li>
+              <li>Email address</li>
+              <li>Phone number</li>
+              <li>Form preferences and selections</li>
+              <li>Timestamps of when data was captured</li>
+            </ul>
+            <p>
+              <strong>Legal Basis:</strong> Article 6(1)(a) GDPR - Your explicit consent<br/>
+              <strong>Data Retention:</strong> Form data is encrypted and stored for 30 days, then automatically deleted<br/>
+              <strong>Your Rights:</strong> You can withdraw consent, access, or delete your data at any time<br/>
+              <strong>Processing Purpose:</strong> To prevent data loss and improve user experience
+            </p>
 
             <h2>3. How We Use Your Information</h2>
             <p>We use the collected information for various purposes:</p>
@@ -120,6 +140,21 @@ const PrivacyPolicy: React.FC = () => {
             <p>
               We use cookies and similar tracking technologies to enhance your experience on our website. 
               You can control cookie preferences through your browser settings.
+            </p>
+            
+            <h3>7.1 Types of Cookies We Use</h3>
+            <ul>
+              <li><strong>Essential Cookies:</strong> Required for basic website functionality</li>
+              <li><strong>Analytics Cookies:</strong> Help us understand how visitors interact with our website</li>
+              <li><strong>Functional Cookies:</strong> Remember your preferences and consent choices</li>
+              <li><strong>Form Progress Cookies:</strong> Store your auto-save consent preference (with your permission)</li>
+            </ul>
+
+            <h3>7.2 Visitor Tracking and Fingerprinting</h3>
+            <p>
+              We use anonymous visitor fingerprinting to provide personalized experiences and prevent fraudulent activity. 
+              This creates a unique identifier based on your browser configuration but does not store personally 
+              identifiable information unless you provide explicit consent.
             </p>
 
             <h2>8. International Data Transfers</h2>

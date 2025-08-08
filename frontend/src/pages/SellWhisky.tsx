@@ -231,8 +231,8 @@ const SellWhisky: React.FC = () => {
                         validate: (value) => {
                           // Remove all non-digit characters
                           const digitsOnly = value.replace(/\D/g, '');
-                          if (digitsOnly.length !== 10) {
-                            return 'Phone number must be exactly 10 digits';
+                          if (digitsOnly.length < 10 || digitsOnly.length > 11) {
+                            return 'Phone number must be 10 or 11 digits';
                           }
                           return true;
                         },

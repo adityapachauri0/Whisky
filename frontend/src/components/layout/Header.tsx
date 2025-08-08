@@ -1,34 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
-const Header: React.FC = () => {
+const Header: React.FC = React.memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 20);
+  }, []);
 
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  const navigation = [
+  const navigation = useMemo(() => [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'How It Works', path: '/how-it-works' },
     { name: 'Buy & Sell', path: '/buy-sell' },
+    { name: 'Distilleries', path: '/distilleries' },
     { name: 'FAQ', path: '/faq' },
     { name: 'Blog', path: '/blog' },
-  ];
+  ], []);
 
   return (
     <header
@@ -369,6 +370,6 @@ const Header: React.FC = () => {
       </div>
     </header>
   );
-};
+});
 
 export default Header;

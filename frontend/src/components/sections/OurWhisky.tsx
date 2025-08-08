@@ -36,7 +36,7 @@ const OurWhisky: React.FC = () => {
       name: 'Islay',
       description: 'Known as "Whisky Island," Islay produces the most distinctive and powerful whiskies in Scotland. These intensely peated expressions are highly sought after by collectors and investors worldwide.',
       characteristics: ['Intensely peated', 'Maritime & medicinal', 'Seaweed & salt spray', 'Bold & powerful'],
-      image: '/whisky/distilleries/dalmore-rare-luminary.webp',
+      image: '/whisky/regions/islay.webp',
       distilleries: ['Ardbeg', 'Lagavulin', 'Laphroaig', 'Bowmore', 'Bruichladdich']
     },
     {
@@ -122,7 +122,7 @@ const OurWhisky: React.FC = () => {
               className="relative overflow-hidden rounded-lg shadow-2xl group"
             >
               <img
-                src={imageErrors[currentRegion.id] ? '/whisky/whisky-glass.webp' : currentRegion.image}
+                src={imageErrors[currentRegion.id] ? '/whisky/distillery.webp' : currentRegion.image}
                 alt={`${currentRegion.name} whisky`}
                 className="w-full h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
                 onError={() => {

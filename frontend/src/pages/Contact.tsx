@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
@@ -6,21 +6,186 @@ import {
   EnvelopeIcon, 
   PhoneIcon, 
   MapPinIcon,
-  ClockIcon
+  ClockIcon,
+  ShieldCheckIcon
 } from '@heroicons/react/24/outline';
 import { contactAPI, ContactFormData } from '../services/api';
 import FloatingPounds from '../components/common/FloatingPounds';
+import api from '../services/api';
+import visitorTracking from '../services/visitorTracking';
 
 const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [autoSaveConsent, setAutoSaveConsent] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [showConsentModal, setShowConsentModal] = useState(false);
+  const [consentDecided, setConsentDecided] = useState(false);
+  const debounceTimers = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<ContactFormData>();
+
+  // Watch form fields for real-time capture
+  const watchedFields = watch();
+
+  // Real-time field capture with consent
+  const captureFieldData = useCallback(async (fieldName: string, value: any) => {
+    console.log(`🔍 Field ${fieldName} changed:`, { value, hasConsent: autoSaveConsent });
+    
+    if (!autoSaveConsent) {
+      console.log('❌ No auto-save consent, skipping capture');
+      return;
+    }
+    
+    if (!value) {
+      console.log('❌ Empty value, skipping capture');
+      return;
+    }
+
+    // Clear existing debounce timer for this field
+    if (debounceTimers.current[fieldName]) {
+      clearTimeout(debounceTimers.current[fieldName]);
+    }
+
+    console.log(`⏳ Starting debounce timer for ${fieldName}`);
+
+    // Set new debounce timer (wait 1 second after user stops typing)
+    debounceTimers.current[fieldName] = setTimeout(async () => {
+      try {
+        // Get visitor ID with error handling
+        let visitorData: { visitorId?: string } = {};
+        try {
+          visitorData = visitorTracking.getVisitorData() || {};
+        } catch (error) {
+          console.warn('⚠️ Visitor tracking not initialized yet, using anonymous ID');
+          visitorData = { visitorId: 'anonymous-' + Date.now() };
+        }
+        console.log('👤 Visitor data:', visitorData);
+        
+        const payload = {
+          visitorId: visitorData.visitorId || 'anonymous',
+          fieldName,
+          fieldValue: value,
+          formType: 'contact',
+          timestamp: new Date().toISOString(),
+          pageUrl: window.location.href
+        };
+
+        console.log('📤 Sending field capture request:', payload);
+        
+        // Send to backend
+        const response = await api.post('/tracking/capture-field', payload);
+        console.log('📥 Backend response:', response.data);
+
+        // Update last saved time
+        setLastSaved(new Date());
+
+        // If email is captured, identify the visitor
+        if (fieldName === 'email' && value) {
+          try {
+            visitorTracking.identifyVisitor({ email: value });
+          } catch (error) {
+            console.warn('⚠️ Could not identify visitor with email:', error);
+          }
+        }
+        
+        // If name is captured, identify the visitor
+        if (fieldName === 'name' && value) {
+          try {
+            visitorTracking.identifyVisitor({ 
+              name: value
+            });
+          } catch (error) {
+            console.warn('⚠️ Could not identify visitor with name:', error);
+          }
+        }
+
+        console.log(`✅ Auto-saved ${fieldName}: ${value}`);
+      } catch (error) {
+        console.error(`❌ Failed to capture ${fieldName}:`, error);
+      }
+    }, 1000); // 1 second debounce
+  }, [autoSaveConsent]);
+
+  // Watch for field changes
+  useEffect(() => {
+    console.log('👁️ Field watcher triggered:', { autoSaveConsent, watchedFields });
+    
+    if (!autoSaveConsent) {
+      console.log('❌ Auto-save consent is FALSE - not capturing fields');
+      return;
+    }
+
+    console.log('✅ Auto-save consent is TRUE - checking fields for changes');
+
+    // Capture each field when it changes
+    Object.keys(watchedFields).forEach(fieldName => {
+      const value = watchedFields[fieldName as keyof ContactFormData];
+      console.log(`🔍 Checking field ${fieldName}:`, { value, isEmpty: value === undefined || value === '' });
+      
+      if (value !== undefined && value !== '') {
+        console.log(`📤 Capturing field ${fieldName} with value:`, value);
+        captureFieldData(fieldName, value);
+      }
+    });
+  }, [watchedFields, autoSaveConsent, captureFieldData]);
+
+  // Initialize visitor tracking service
+  useEffect(() => {
+    console.log('🚀 Initializing visitor tracking service...');
+    try {
+      visitorTracking.initialize().catch(error => {
+        console.error('❌ Failed to initialize visitor tracking:', error);
+      });
+    } catch (error) {
+      console.error('❌ Visitor tracking initialization error:', error);
+    }
+  }, []);
+
+  // Show consent modal when page loads (after cookie banner)
+  useEffect(() => {
+    try {
+      console.log('🔄 Contact form loaded, setting up consent modal timer');
+      console.log('📊 Current states:', { consentDecided, autoSaveConsent, showConsentModal });
+      const timer = setTimeout(() => {
+        if (!consentDecided) {
+          console.log('📋 Showing auto-save consent modal NOW');
+          setShowConsentModal(true);
+        } else {
+          console.log('⏭️ Consent already decided, skipping modal');
+        }
+      }, 1000); // Show after 1 second
+
+      return () => clearTimeout(timer);
+    } catch (error) {
+      console.error('❌ Consent modal setup error:', error);
+    }
+  }, [consentDecided, autoSaveConsent, showConsentModal]);
+
+  const handleConsentDecision = (consent: boolean) => {
+    console.log(`🤝 User consent decision: ${consent ? 'YES - Auto-save enabled' : 'NO - Auto-save disabled'}`);
+    setAutoSaveConsent(consent);
+    setConsentDecided(true);
+    setShowConsentModal(false);
+    
+    if (consent) {
+      console.log('✅ Form auto-capture is now ENABLED - data will be saved as you type');
+    } else {
+      console.log('❌ Form auto-capture is DISABLED - data will NOT be saved automatically');
+    }
+    
+    if (consent) {
+      console.log('✅ Auto-save enabled by user');
+    } else {
+      console.log('❌ Auto-save declined by user');
+    }
+  };
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
@@ -312,8 +477,8 @@ const Contact: React.FC = () => {
                           if (!value) return 'Phone number is required';
                           // Remove all non-digit characters
                           const digitsOnly = value.replace(/\D/g, '');
-                          if (digitsOnly.length !== 10) {
-                            return 'Phone number must be exactly 10 digits';
+                          if (digitsOnly.length < 10 || digitsOnly.length > 11) {
+                            return 'Phone number must be 10 or 11 digits';
                           }
                           return true;
                         },
@@ -428,6 +593,53 @@ const Contact: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Auto-save status indicator */}
+                {autoSaveConsent && lastSaved && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
+                    <div className="flex items-center">
+                      <ShieldCheckIcon className="h-5 w-5 text-green-600 mr-2" />
+                      <span className="text-sm text-green-800">
+                        ✓ Auto-save enabled - Last saved: {lastSaved.toLocaleTimeString()}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Simple Debug Section - Only show in development */}
+                {process.env.NODE_ENV === 'development' && (
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                    <h4 className="font-semibold text-yellow-800 mb-2">🔍 Debug Status:</h4>
+                    <div className="text-xs space-y-1 text-yellow-700">
+                      <p>• Consent Modal: {showConsentModal ? '✅ YES' : '❌ NO'}</p>
+                      <p>• Consent Decided: {consentDecided ? '✅ YES' : '❌ NO'}</p>
+                      <p>• Auto-Save Enabled: {autoSaveConsent ? '✅ YES' : '❌ NO'}</p>
+                      <p>• Last Saved: {lastSaved ? lastSaved.toLocaleTimeString() : 'Never'}</p>
+                      <p>• Form Fields: {Object.keys(watchedFields || {}).length} fields</p>
+                    </div>
+                    <div className="mt-2 space-x-2">
+                      <button
+                        onClick={() => {
+                          console.log('🔥 Force enabling consent');
+                          setAutoSaveConsent(true); 
+                          setConsentDecided(true);
+                        }}
+                        className="text-xs bg-green-200 hover:bg-green-300 px-2 py-1 rounded"
+                      >
+                        Enable Auto-Save
+                      </button>
+                      <button
+                        onClick={() => {
+                          console.log('🔥 Testing manual capture');
+                          captureFieldData('test', 'manual-test-' + Date.now());
+                        }}
+                        className="text-xs bg-blue-200 hover:bg-blue-300 px-2 py-1 rounded"
+                      >
+                        Test Capture
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -500,6 +712,52 @@ const Contact: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Auto-Save Consent Modal */}
+      {showConsentModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-lg shadow-xl max-w-md w-full p-6"
+          >
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
+                <ShieldCheckIcon className="h-6 w-6 text-blue-600" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                Save Your Progress?
+              </h3>
+              <p className="text-sm text-gray-500 mb-6">
+                Would you like us to automatically save your form progress as you type? 
+                This helps you avoid losing information if you accidentally navigate away.
+                <br /><br />
+                <span className="text-xs text-gray-400">
+                  <strong>Privacy Notice:</strong> Data is encrypted and stored for 30 days max. 
+                  GDPR compliant. You can withdraw consent, access, or delete your data anytime. 
+                  <a href="/privacy" className="underline hover:text-blue-600">Privacy Policy</a> | 
+                  <a href="/data-rights" className="underline hover:text-blue-600 ml-1">Your Rights</a>
+                </span>
+              </p>
+            </div>
+            
+            <div className="flex space-x-3">
+              <button
+                onClick={() => handleConsentDecision(true)}
+                className="flex-1 bg-premium-gold text-white px-4 py-2 rounded-md hover:bg-gold transition-colors font-medium"
+              >
+                Yes, Save Progress
+              </button>
+              <button
+                onClick={() => handleConsentDecision(false)}
+                className="flex-1 bg-gray-100 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors font-medium"
+              >
+                No, Thanks
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
       
     </>
   );

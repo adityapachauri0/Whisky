@@ -16,8 +16,8 @@ const BlogPreview: React.FC = () => {
       slug: 'difference-single-malt-blended-whisky',
       excerpt: 'Understanding the key distinctions between single malt and blended whisky can help investors make informed decisions about their portfolio.',
       featuredImage: {
-        url: '/whisky/shop-bottle-5.webp',
-        alt: 'Premium single malt whisky bottle',
+        url: '/whisky/hero/hero-1.webp',
+        alt: 'Premium whisky distillery',
       },
       category: 'whisky-education',
       publishedAt: '2024-01-15',
@@ -58,8 +58,8 @@ const BlogPreview: React.FC = () => {
       slug: 'investors-turning-whisky-tangible-asset',
       excerpt: 'Discover why savvy investors are increasingly adding whisky to their portfolios as a hedge against market volatility.',
       featuredImage: {
-        url: '/whisky/shop-daftmill-2011.webp',
-        alt: 'Rare Daftmill 2011 whisky bottle',
+        url: '/whisky/distillery.webp',
+        alt: 'Rare whisky investment opportunity',
       },
       category: 'market-insights',
       publishedAt: '2024-01-05',

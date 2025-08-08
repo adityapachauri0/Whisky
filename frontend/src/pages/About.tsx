@@ -150,8 +150,8 @@ const About: React.FC = () => {
                 className="order-2 lg:order-1"
               >
                 <img
-                  src="/whisky/distilleries/dalmore-whisky-glass.webp"
-                  alt="Premium Dalmore whisky in crystal glass"
+                  src="/whisky/distilleries/glenfiddich-estate.webp"
+                  alt="Glenfiddich distillery estate"
                   className="rounded-lg shadow-2xl"
                 />
               </motion.div>

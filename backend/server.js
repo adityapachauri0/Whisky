@@ -27,6 +27,8 @@ const blogRoutes = require('./routes/blog.routes');
 const sellWhiskyRoutes = require('./routes/sellWhisky.routes');
 const adminRoutes = require('./routes/admin.routes');
 const configRoutes = require('./routes/config');
+const trackingRoutes = require('./routes/trackingRoutes');
+const gdprRoutes = require('./routes/gdprRoutes');
 
 const app = express();
 
@@ -98,10 +100,10 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined', { stream: accessLogStream }));
 }
 
-// Global rate limiting - BUSINESS FRIENDLY
+// Global rate limiting - DEVELOPMENT FRIENDLY
 const globalLimiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 900000, // 15 minutes
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 500, // Generous limit for business operations
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 2000, // Higher limit for development
   message: 'Too many requests from this IP, please try again later.',
   standardHeaders: true,
   legacyHeaders: false,
@@ -209,6 +211,8 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/consultation', consultationRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/sell-whisky', sellWhiskyRoutes);
+app.use('/api/tracking', trackingRoutes);
+app.use('/api/gdpr', gdprRoutes);
 
 // API documentation endpoint
 app.get('/api', (req, res) => {
