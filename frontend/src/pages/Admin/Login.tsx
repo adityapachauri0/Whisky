@@ -25,7 +25,7 @@ const AdminLogin: React.FC = () => {
       // Try API authentication
       try {
         // Use admin login endpoint
-        const response = await axios.post(buildApiEndpoint('auth/admin/login'), credentials, {
+        const response = await axios.post(buildApiEndpoint('admin/login'), credentials, {
           withCredentials: true
         });
         

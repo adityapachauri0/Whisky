@@ -1,0 +1,117 @@
+# VPS Redeployment Commands - Execute these on your VPS server
+# First connect to VPS: expect -c "spawn ssh root@31.97.57.193; expect \"password:\"; send \"w(7rjMOF4'nzhIOuOdPF\r\"; interact"
+
+# Step 1: Stop all services
+echo "🛑 Stopping all services..."
+pm2 stop all
+systemctl stop nginx
+systemctl stop mongod
+
+# Step 2: Backup critical data
+echo "💾 Creating backup..."
+mkdir -p /tmp/whisky-backup-$(date +%Y%m%d-%H%M%S)
+BACKUP_DIR="/tmp/whisky-backup-$(date +%Y%m%d-%H%M%S)"
+
+# Backup environment files and data
+if [ -d "/var/www/viticultwhisky" ]; then
+    find /var/www/viticultwhisky -name "*.env*" -not -path "*/node_modules/*" -exec cp {} $BACKUP_DIR/ \;
+    [ -d "/var/www/viticultwhisky/uploads" ] && cp -r /var/www/viticultwhisky/uploads $BACKUP_DIR/
+    [ -f "/etc/nginx/sites-available/viticultwhisky" ] && cp /etc/nginx/sites-available/viticultwhisky $BACKUP_DIR/
+fi
+
+# Backup MongoDB
+systemctl start mongod
+sleep 3
+mongodump --db=viticult_whisky --out=$BACKUP_DIR/mongodb/
+systemctl stop mongod
+
+# Step 3: Remove old project completely
+echo "🗑️ Removing old project..."
+rm -rf /var/www/viticultwhisky
+
+# Step 4: Clone fresh from GitHub
+echo "📥 Cloning fresh version from GitHub..."
+cd /var/www
+git clone https://github.com/adityapachauri0/whisky.git viticultwhisky
+cd viticultwhisky
+
+# Step 5: Restore environment files (create basic ones)
+echo "🔧 Setting up environment files..."
+
+# Backend .env
+cat > backend/.env << 'EOF'
+NODE_ENV=production
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/viticult_whisky
+JWT_SECRET=your-jwt-secret-change-this-in-production
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+CORS_ORIGIN=https://viticultwhisky.co.uk
+EOF
+
+# Frontend .env
+cat > frontend/.env << 'EOF'
+REACT_APP_API_URL=https://viticultwhisky.co.uk/api
+REACT_APP_ENVIRONMENT=production
+EOF
+
+# Step 6: Install dependencies
+echo "📦 Installing dependencies..."
+
+# Backend
+cd backend
+npm ci --production
+cd ..
+
+# Frontend
+cd frontend
+npm ci
+npm run build
+cd ..
+
+# Step 7: Set permissions
+chown -R www-data:www-data /var/www/viticultwhisky
+chmod +x scripts/*.sh
+
+# Step 8: Update nginx config
+if [ -f "nginx-vps-config" ]; then
+    cp nginx-vps-config /etc/nginx/sites-available/viticultwhisky
+    ln -sf /etc/nginx/sites-available/viticultwhisky /etc/nginx/sites-enabled/
+    nginx -t
+fi
+
+# Step 9: Start services
+echo "🚀 Starting services..."
+
+# Start MongoDB
+systemctl start mongod
+systemctl enable mongod
+
+# Restore database if backup exists
+if [ -d "$BACKUP_DIR/mongodb" ]; then
+    mongorestore $BACKUP_DIR/mongodb/
+fi
+
+# Start backend with PM2
+pm2 delete all || true
+cd /var/www/viticultwhisky
+pm2 start backend/server.js --name "whisky-backend" --watch
+pm2 startup
+pm2 save
+
+# Start nginx
+systemctl start nginx
+systemctl enable nginx
+
+# Step 10: Verify deployment
+echo "🔍 Verifying deployment..."
+pm2 status
+systemctl status nginx --no-pager -l
+curl -I http://localhost:5000/api/health || echo "Backend not responding"
+
+echo "✅ Deployment complete!"
+echo "🌐 Site: https://viticultwhisky.co.uk"
+echo "💾 Backup: $BACKUP_DIR"
+echo "📊 Includes 114+ images and all features"

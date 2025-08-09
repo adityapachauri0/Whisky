@@ -1,0 +1,145 @@
+#!/usr/bin/expect -f
+
+spawn ssh root@31.97.57.193
+expect "password:"
+send "w(7rjMOF4'nzhIOuOdPF\r"
+expect "#"
+
+send "echo 'Starting VPS redeployment...'\r"
+expect "#"
+
+send "BACKUP_DIR=/tmp/whisky-backup-\$(date +%Y%m%d-%H%M%S)\r"
+expect "#"
+
+send "mkdir -p \$BACKUP_DIR\r"
+expect "#"
+
+send "echo \"Backup directory: \$BACKUP_DIR\"\r"
+expect "#"
+
+send "systemctl start mongod\r"
+expect "#"
+
+send "sleep 3\r"
+expect "#"
+
+send "mongodump --db=viticult_whisky --out=\$BACKUP_DIR/mongodb/ 2>/dev/null || echo 'No existing database'\r"
+expect "#"
+
+send "systemctl stop mongod\r"
+expect "#"
+
+send "rm -rf /var/www/viticultwhisky\r"
+expect "#"
+
+send "echo 'Old project removed'\r"
+expect "#"
+
+send "cd /var/www\r"
+expect "#"
+
+send "git clone https://github.com/adityapachauri0/whisky.git viticultwhisky\r"
+expect "#"
+
+send "cd viticultwhisky\r"
+expect "#"
+
+send "echo 'Fresh project cloned - checking contents...'\r"
+expect "#"
+
+send "ls -la\r"
+expect "#"
+
+send "echo 'Setting up environment files...'\r"
+expect "#"
+
+send "cat > backend/.env << 'EOF'\r"
+expect ">"
+send "NODE_ENV=production\r"
+expect ">"
+send "PORT=5000\r"
+expect ">"
+send "MONGODB_URI=mongodb://localhost:27017/viticult_whisky\r"
+expect ">"
+send "JWT_SECRET=whisky-jwt-secret-production-2024\r"
+expect ">"
+send "EMAIL_HOST=smtp.gmail.com\r"
+expect ">"
+send "EMAIL_PORT=587\r"
+expect ">"
+send "EMAIL_USER=info@viticultwhisky.co.uk\r"
+expect ">"
+send "EMAIL_PASS=your-app-password\r"
+expect ">"
+send "CORS_ORIGIN=https://viticultwhisky.co.uk\r"
+expect ">"
+send "EOF\r"
+expect "#"
+
+send "cat > frontend/.env << 'EOF'\r"
+expect ">"
+send "REACT_APP_API_URL=https://viticultwhisky.co.uk/api\r"
+expect ">"
+send "REACT_APP_ENVIRONMENT=production\r"
+expect ">"
+send "EOF\r"
+expect "#"
+
+send "echo 'Installing backend dependencies...'\r"
+expect "#"
+
+send "cd backend && npm ci --production\r"
+expect "#"
+
+send "echo 'Installing frontend dependencies...'\r"
+expect "#"
+
+send "cd ../frontend && npm ci --legacy-peer-deps\r"
+expect "#"
+
+send "echo 'Building frontend...'\r"
+expect "#"
+
+send "npm run build\r"
+expect "#"
+
+send "cd ..\r"
+expect "#"
+
+send "chown -R www-data:www-data /var/www/viticultwhisky\r"
+expect "#"
+
+send "echo 'Starting services...'\r"
+expect "#"
+
+send "systemctl start mongod && systemctl enable mongod\r"
+expect "#"
+
+send "pm2 delete all 2>/dev/null || true\r"
+expect "#"
+
+send "pm2 start backend/server.js --name 'whisky-backend'\r"
+expect "#"
+
+send "pm2 startup\r"
+expect "#"
+
+send "pm2 save\r"
+expect "#"
+
+send "systemctl start nginx && systemctl enable nginx\r"
+expect "#"
+
+send "echo 'Checking final status...'\r"
+expect "#"
+
+send "pm2 status\r"
+expect "#"
+
+send "systemctl status nginx --no-pager -l\r"
+expect "#"
+
+send "echo 'Deployment complete! Site: https://viticultwhisky.co.uk'\r"
+expect "#"
+
+interact

@@ -375,8 +375,10 @@ const AdminDashboard: React.FC = () => {
       return;
     }
     
-    // Double confirmation for delete all
-    if (!window.confirm(`This will permanently delete ALL visitor data. Type "DELETE ALL" to confirm.`)) {
+    // Double confirmation for delete all - require typing "DELETE ALL"
+    const confirmation = window.prompt(`This will permanently delete ALL visitor data. Type "DELETE ALL" to confirm:`);
+    if (confirmation !== 'DELETE ALL') {
+      alert('Operation cancelled. Please type "DELETE ALL" exactly to confirm.');
       return;
     }
     
