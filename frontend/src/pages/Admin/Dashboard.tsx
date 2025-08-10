@@ -138,8 +138,9 @@ const AdminDashboard: React.FC = () => {
           // Fetch real visitor data from tracking API when visitors tab is active
           console.log('🎯 VISITOR TAB ACTIVE - Loading visitor data from API...');
           try {
-            console.log('🔄 Making API request to:', 'http://localhost:5001/api/tracking/captured-data');
-            const visitorResponse = await fetch('http://localhost:5001/api/tracking/captured-data');
+            const apiEndpoint = buildApiEndpoint('tracking/captured-data');
+            console.log('🔄 Making API request to:', apiEndpoint);
+            const visitorResponse = await fetch(apiEndpoint);
             console.log('📡 API Response status:', visitorResponse.status);
             if (!visitorResponse.ok) {
               throw new Error(`HTTP ${visitorResponse.status}`);
@@ -196,8 +197,9 @@ const AdminDashboard: React.FC = () => {
           // For visitors tab, we only use API data (no database storage)
           console.log('🎯 API-FIRST: Loading visitor data for visitors tab...');
           try {
-            console.log('🔄 Making API request to:', 'http://localhost:5001/api/tracking/captured-data');
-            const visitorResponse = await fetch('http://localhost:5001/api/tracking/captured-data');
+            const apiEndpoint = buildApiEndpoint('tracking/captured-data');
+            console.log('🔄 Making API request to:', apiEndpoint);
+            const visitorResponse = await fetch(apiEndpoint);
             console.log('📡 API Response status:', visitorResponse.status);
             if (!visitorResponse.ok) {
               throw new Error(`HTTP ${visitorResponse.status}`);

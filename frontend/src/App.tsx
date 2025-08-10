@@ -10,7 +10,8 @@ import PublicLayout from './components/layout/PublicLayout';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import ScrollToTop from './components/common/ScrollToTop';
-import CookieConsent from './components/common/CookieConsent';
+// import CookieConsent from './components/common/CookieConsent';
+import UnifiedConsentModal from './components/common/UnifiedConsentModal';
 
 // Eager load only critical pages for fast initial load
 import Home from './pages/Home';
@@ -19,7 +20,8 @@ import Home from './pages/Home';
 const About = lazy(() => import('./pages/About'));
 const HowItWorksNew = lazy(() => import('./pages/HowItWorksNew'));
 const FAQ = lazy(() => import('./pages/FAQ'));
-const Contact = lazy(() => import('./pages/Contact'));
+// const Contact = lazy(() => import('./pages/Contact'));
+const Contact = lazy(() => import('./pages/ContactWithUnifiedConsent'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const BuySell = lazy(() => import('./pages/BuySell'));
@@ -217,7 +219,8 @@ function App() {
                 />
               </Route>
             </Routes>
-            <CookieConsent />
+            {/* Global Unified Consent Modal - shows on all pages */}
+            <UnifiedConsentModal />
           </div>
         </Router>
       </HelmetProvider>

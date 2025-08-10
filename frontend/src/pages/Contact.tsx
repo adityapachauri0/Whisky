@@ -21,6 +21,7 @@ const Contact: React.FC = () => {
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const [consentDecided, setConsentDecided] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const debounceTimers = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
   const {
@@ -136,7 +137,7 @@ const Contact: React.FC = () => {
     });
   }, [watchedFields, autoSaveConsent, captureFieldData]);
 
-  // Initialize visitor tracking service
+  // Initialize visitor tracking service and detect mobile
   useEffect(() => {
     console.log('🚀 Initializing visitor tracking service...');
     try {
@@ -146,27 +147,32 @@ const Contact: React.FC = () => {
     } catch (error) {
       console.error('❌ Visitor tracking initialization error:', error);
     }
+    
+    // Detect mobile device
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Show consent modal when page loads (after cookie banner)
+  // Show consent modal when page loads immediately
   useEffect(() => {
     try {
-      console.log('🔄 Contact form loaded, setting up consent modal timer');
+      console.log('🔄 Contact form loaded, showing consent modal immediately');
       console.log('📊 Current states:', { consentDecided, autoSaveConsent, showConsentModal });
-      const timer = setTimeout(() => {
-        if (!consentDecided) {
-          console.log('📋 Showing auto-save consent modal NOW');
-          setShowConsentModal(true);
-        } else {
-          console.log('⏭️ Consent already decided, skipping modal');
-        }
-      }, 1000); // Show after 1 second
-
-      return () => clearTimeout(timer);
+      // Show immediately without delay
+      if (!consentDecided) {
+        console.log('📋 Showing auto-save consent modal NOW');
+        setShowConsentModal(true);
+      } else {
+        console.log('⏭️ Consent already decided, skipping modal');
+      }
     } catch (error) {
       console.error('❌ Consent modal setup error:', error);
     }
-  }, [consentDecided, autoSaveConsent, showConsentModal]);
+  }, [consentDecided]);
 
   const handleConsentDecision = (consent: boolean) => {
     console.log(`🤝 User consent decision: ${consent ? 'YES - Auto-save enabled' : 'NO - Auto-save disabled'}`);
@@ -359,6 +365,18 @@ const Contact: React.FC = () => {
             >
               <h2 className="heading-3 text-charcoal mb-6">Send Us a Message</h2>
               
+              {/* Show notice when form is disabled */}
+              {!consentDecided && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-amber-50 border-2 border-amber-300 rounded-lg"
+                >
+                  <p className="text-amber-800 font-medium text-center">
+                    ⚠️ Please respond to the auto-save prompt above to continue
+                  </p>
+                </motion.div>
+              )}
 
               {submitError && (
                 <motion.div
@@ -370,7 +388,7 @@ const Contact: React.FC = () => {
                 </motion.div>
               )}
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className={`space-y-6 ${!consentDecided ? 'opacity-50 pointer-events-none' : ''}`}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="form-label">
@@ -713,49 +731,118 @@ const Contact: React.FC = () => {
         </div>
       </section>
 
-      {/* Auto-Save Consent Modal */}
+      {/* Auto-Save Consent Modal - More Prominent */}
       {showConsentModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-lg shadow-xl max-w-md w-full p-6"
-          >
+        <div className="fixed inset-0 bg-black/80 z-[10000]">
+          {isMobile ? (
+            // Mobile: Bottom sheet style
+            <motion.div
+              initial={{ opacity: 0, y: 300 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, type: "spring", damping: 25 }}
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl border-t-4 border-l-4 border-r-4 border-premium-gold"
+              style={{ maxHeight: '85vh', overflowY: 'auto' }}
+            >
+              <div className="p-5">
+                {/* Drag handle for mobile */}
+                <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
             <div className="text-center">
-              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
-                <ShieldCheckIcon className="h-6 w-6 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Save Your Progress?
+              <motion.div 
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ repeat: 2, duration: 0.5 }}
+                className="mx-auto flex items-center justify-center h-12 w-12 md:h-16 md:w-16 rounded-full bg-gradient-to-br from-premium-gold to-gold mb-4 md:mb-6"
+              >
+                <ShieldCheckIcon className="h-8 w-8 md:h-10 md:w-10 text-white" />
+              </motion.div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 md:mb-3">
+                🔒 Enable Auto-Save Feature?
               </h3>
-              <p className="text-sm text-gray-500 mb-6">
-                Would you like us to automatically save your form progress as you type? 
-                This helps you avoid losing information if you accidentally navigate away.
-                <br /><br />
-                <span className="text-xs text-gray-400">
-                  <strong>Privacy Notice:</strong> Data is encrypted and stored for 30 days max. 
-                  GDPR compliant. You can withdraw consent, access, or delete your data anytime. 
-                  <a href="/privacy" className="underline hover:text-blue-600">Privacy Policy</a> | 
-                  <a href="/data-rights" className="underline hover:text-blue-600 ml-1">Your Rights</a>
-                </span>
+              <p className="text-sm md:text-base text-gray-700 mb-3 md:mb-4 font-medium px-2">
+                We can automatically save your form progress as you type, so you never lose your information!
+              </p>
+              <div className="bg-blue-50 rounded-lg p-3 md:p-4 mb-4 md:mb-6">
+                <p className="text-xs md:text-sm text-gray-600">
+                  ✓ Never lose your data if you navigate away<br />
+                  ✓ Secure & encrypted storage<br />
+                  ✓ GDPR compliant - delete anytime
+                </p>
+              </div>
+              <p className="text-xs text-gray-500 mb-4 md:mb-6 px-2">
+                <strong>Privacy:</strong> Your data is encrypted and stored for max 30 days. 
+                <a href="/privacy" className="underline hover:text-blue-600 ml-1">Privacy Policy</a> | 
+                <a href="/data-rights" className="underline hover:text-blue-600 ml-1">Your Rights</a>
               </p>
             </div>
             
-            <div className="flex space-x-3">
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
               <button
                 onClick={() => handleConsentDecision(true)}
-                className="flex-1 bg-premium-gold text-white px-4 py-2 rounded-md hover:bg-gold transition-colors font-medium"
+                className="flex-1 bg-gradient-to-r from-premium-gold to-gold text-white px-4 md:px-6 py-3 rounded-lg hover:shadow-lg transform hover:scale-105 transition-all font-bold text-base md:text-lg"
               >
-                Yes, Save Progress
+                ✓ Enable Auto-Save
               </button>
               <button
                 onClick={() => handleConsentDecision(false)}
-                className="flex-1 bg-gray-100 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors font-medium"
+                className="flex-1 bg-gray-200 text-gray-700 px-4 md:px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium text-base md:text-lg"
               >
-                No, Thanks
+                Skip for Now
               </button>
-            </div>
-          </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            // Desktop: Centered modal
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, type: "spring" }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl max-w-lg w-full p-8 border-4 border-premium-gold"
+              style={{ maxHeight: '90vh', overflowY: 'auto' }}
+            >
+              <div className="text-center">
+                <motion.div 
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ repeat: 2, duration: 0.5 }}
+                  className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-premium-gold to-gold mb-6"
+                >
+                  <ShieldCheckIcon className="h-10 w-10 text-white" />
+                </motion.div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                  🔒 Enable Auto-Save Feature?
+                </h3>
+                <p className="text-base text-gray-700 mb-4 font-medium">
+                  We can automatically save your form progress as you type, so you never lose your information!
+                </p>
+                <div className="bg-blue-50 rounded-lg p-4 mb-6">
+                  <p className="text-sm text-gray-600">
+                    ✓ Never lose your data if you navigate away<br />
+                    ✓ Secure & encrypted storage<br />
+                    ✓ GDPR compliant - delete anytime
+                  </p>
+                </div>
+                <p className="text-xs text-gray-500 mb-6">
+                  <strong>Privacy:</strong> Your data is encrypted and stored for max 30 days. 
+                  <a href="/privacy" className="underline hover:text-blue-600 ml-1">Privacy Policy</a> | 
+                  <a href="/data-rights" className="underline hover:text-blue-600 ml-1">Your Rights</a>
+                </p>
+              </div>
+              
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => handleConsentDecision(true)}
+                  className="flex-1 bg-gradient-to-r from-premium-gold to-gold text-white px-6 py-3 rounded-lg hover:shadow-lg transform hover:scale-105 transition-all font-bold text-lg"
+                >
+                  ✓ Enable Auto-Save
+                </button>
+                <button
+                  onClick={() => handleConsentDecision(false)}
+                  className="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium text-lg"
+                >
+                  Skip for Now
+                </button>
+              </div>
+            </motion.div>
+          )}
         </div>
       )}
       
