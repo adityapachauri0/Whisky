@@ -176,198 +176,173 @@ const UnifiedConsentModal: React.FC<UnifiedConsentModalProps> = ({
       <AnimatePresence>
         {showBanner && (
           <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-0 left-0 right-0 z-[9999] p-4 sm:p-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] bg-gradient-to-b from-black/40 via-black/20 to-transparent backdrop-blur-sm"
           >
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white rounded-2xl shadow-2xl border-2 border-premium-gold overflow-hidden">
-                <div className="p-6 sm:p-8">
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center">
-                      <ShieldCheckIcon className="h-8 w-8 text-premium-gold mr-3 flex-shrink-0" />
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900">
-                          Privacy & Consent Settings
-                        </h3>
-                        {isOnContactPage && (
-                          <p className="text-sm text-amber-600 font-medium mt-1">
-                            ✨ Including form auto-save feature for contact form
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setShowBanner(false)}
-                      className="text-gray-400 hover:text-gray-600 ml-4"
-                    >
-                      <XMarkIcon className="h-6 w-6" />
-                    </button>
+            <motion.div 
+              className="max-w-2xl w-full mx-auto mt-20 sm:mt-28 px-4 sm:px-0"
+              initial={{ y: -30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+            >
+              <div className="bg-white/95 backdrop-blur rounded-xl shadow-2xl border-2 border-premium-gold overflow-hidden ring-1 ring-black/5">
+                <div className="p-4 sm:p-5">
+                  {/* Modal Header */}
+                  <div className="text-center mb-3 sm:mb-4">
+                    <ShieldCheckIcon className="h-8 sm:h-10 w-8 sm:w-10 text-premium-gold mx-auto mb-2" />
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">
+                      Privacy & Consent Settings
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 px-2 sm:px-0">
+                      We use cookies to enhance your experience & auto-save your form progress
+                    </p>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-gray-600 mb-6 text-sm sm:text-base">
-                    We use cookies and similar technologies to enhance your experience. 
-                    {isOnContactPage && (
-                      <span className="block mt-2 text-amber-700 font-medium">
-                        🔒 On this page, we can also auto-save your form progress securely, so you never lose your information!
-                      </span>
-                    )}
-                  </p>
-
-                  {/* Quick Toggle Categories */}
-                  <div className={`grid grid-cols-1 sm:grid-cols-2 ${isOnContactPage ? 'lg:grid-cols-5' : 'lg:grid-cols-4'} gap-3 mb-6`}>
+                  {/* Quick Toggle Categories - Compact */}
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2 mb-3">
                     {/* Essential Cookies */}
-                    <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-                      <div className="flex items-center mb-1">
-                        <ShieldCheckIcon className="h-4 w-4 text-gray-600 mr-2" />
-                        <span className="text-sm font-medium">Essential</span>
+                    <div className="bg-gray-50 rounded-lg p-1.5 sm:p-2 border border-gray-200">
+                      <div className="flex items-center">
+                        <ShieldCheckIcon className="h-3 w-3 text-gray-600 mr-0.5 sm:mr-1" />
+                        <span className="text-[10px] sm:text-xs font-medium">Essential</span>
                       </div>
-                      <p className="text-xs text-gray-500">Always active</p>
+                      <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">Always on</p>
                     </div>
 
                     {/* Analytics */}
                     <div 
-                      className="bg-white rounded-lg p-3 border border-gray-200 cursor-pointer hover:border-premium-gold transition-colors"
+                      className="bg-white rounded-lg p-1.5 sm:p-2 border border-gray-200 cursor-pointer hover:border-premium-gold transition-colors"
                       onClick={() => handleTogglePreference('analytics')}
                     >
-                      <div className="flex items-center mb-1">
+                      <div className="flex items-center">
                         <input
                           type="checkbox"
                           checked={preferences.analytics}
                           onChange={() => handleTogglePreference('analytics')}
-                          className="mr-2 accent-premium-gold"
+                          className="mr-0.5 sm:mr-1 h-3 w-3 accent-premium-gold"
                           onClick={(e) => e.stopPropagation()}
                         />
-                        <ChartBarIcon className="h-4 w-4 text-gray-600 mr-1" />
-                        <span className="text-sm font-medium">Analytics</span>
+                        <ChartBarIcon className="h-3 w-3 text-gray-600 mr-0.5 sm:mr-1" />
+                        <span className="text-[10px] sm:text-xs font-medium">Analytics</span>
                       </div>
-                      <p className="text-xs text-gray-500">Usage insights</p>
+                      <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">Usage data</p>
                     </div>
 
                     {/* Marketing */}
                     <div 
-                      className="bg-white rounded-lg p-3 border border-gray-200 cursor-pointer hover:border-premium-gold transition-colors"
+                      className="bg-white rounded-lg p-1.5 sm:p-2 border border-gray-200 cursor-pointer hover:border-premium-gold transition-colors"
                       onClick={() => handleTogglePreference('marketing')}
                     >
-                      <div className="flex items-center mb-1">
+                      <div className="flex items-center">
                         <input
                           type="checkbox"
                           checked={preferences.marketing}
                           onChange={() => handleTogglePreference('marketing')}
-                          className="mr-2 accent-premium-gold"
+                          className="mr-0.5 sm:mr-1 h-3 w-3 accent-premium-gold"
                           onClick={(e) => e.stopPropagation()}
                         />
-                        <MegaphoneIcon className="h-4 w-4 text-gray-600 mr-1" />
-                        <span className="text-sm font-medium">Marketing</span>
+                        <MegaphoneIcon className="h-3 w-3 text-gray-600 mr-0.5 sm:mr-1" />
+                        <span className="text-[10px] sm:text-xs font-medium">Marketing</span>
                       </div>
-                      <p className="text-xs text-gray-500">Targeted ads</p>
+                      <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">Targeted ads</p>
                     </div>
 
                     {/* Functional */}
                     <div 
-                      className="bg-white rounded-lg p-3 border border-gray-200 cursor-pointer hover:border-premium-gold transition-colors"
+                      className="bg-white rounded-lg p-1.5 sm:p-2 border border-gray-200 cursor-pointer hover:border-premium-gold transition-colors"
                       onClick={() => handleTogglePreference('functional')}
                     >
-                      <div className="flex items-center mb-1">
+                      <div className="flex items-center">
                         <input
                           type="checkbox"
                           checked={preferences.functional}
                           onChange={() => handleTogglePreference('functional')}
-                          className="mr-2 accent-premium-gold"
+                          className="mr-0.5 sm:mr-1 h-3 w-3 accent-premium-gold"
                           onClick={(e) => e.stopPropagation()}
                         />
-                        <WrenchIcon className="h-4 w-4 text-gray-600 mr-1" />
-                        <span className="text-sm font-medium">Functional</span>
+                        <WrenchIcon className="h-3 w-3 text-gray-600 mr-0.5 sm:mr-1" />
+                        <span className="text-[10px] sm:text-xs font-medium">Functional</span>
                       </div>
-                      <p className="text-xs text-gray-500">Preferences</p>
+                      <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">Preferences</p>
                     </div>
 
-                    {/* Form Auto-Save (only show on contact page) */}
-                    {isOnContactPage && (
-                      <div 
-                        className="bg-amber-50 rounded-lg p-3 border-2 border-amber-300 cursor-pointer hover:border-premium-gold transition-colors"
-                        onClick={() => handleTogglePreference('formAutoSave')}
+                    {/* Form Auto-Save (available on all pages) */}
+                    <div 
+                      className="bg-amber-50 rounded-lg p-1.5 sm:p-2 border border-amber-300 cursor-pointer hover:border-premium-gold transition-colors col-span-2 sm:col-span-1"
+                      onClick={() => handleTogglePreference('formAutoSave')}
+                    >
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={preferences.formAutoSave}
+                          onChange={() => handleTogglePreference('formAutoSave')}
+                          className="mr-0.5 sm:mr-1 h-3 w-3 accent-premium-gold"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <DocumentCheckIcon className="h-3 w-3 text-amber-600 mr-0.5 sm:mr-1" />
+                        <span className="text-[10px] sm:text-xs font-medium text-amber-800">Auto-Save</span>
+                      </div>
+                      <p className="text-[10px] sm:text-xs text-amber-600 mt-0.5 sm:mt-1">Forms</p>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons - Modal style */}
+                  <div className="flex flex-col sm:flex-row gap-2 mt-3 sm:mt-4">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleAcceptEssential}
+                        className="px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium flex-1 sm:flex-initial"
                       >
-                        <div className="flex items-center mb-1">
-                          <input
-                            type="checkbox"
-                            checked={preferences.formAutoSave}
-                            onChange={() => handleTogglePreference('formAutoSave')}
-                            className="mr-2 accent-premium-gold"
-                            onClick={(e) => e.stopPropagation()}
-                          />
-                          <DocumentCheckIcon className="h-4 w-4 text-amber-600 mr-1" />
-                          <span className="text-sm font-medium text-amber-800">Auto-Save</span>
-                        </div>
-                        <p className="text-xs text-amber-600 font-medium">Form progress</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Benefits Box (if auto-save is available) */}
-                  {isOnContactPage && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-                      <p className="text-xs text-blue-800">
-                        <strong>✓ Auto-Save Benefits:</strong> Never lose your form data • 
-                        Secure encryption • Resume anytime • GDPR compliant • 
-                        Auto-delete after 30 days
-                      </p>
+                        Reject All
+                      </button>
+                      
+                      <button
+                        onClick={() => setShowDetailedPreferences(true)}
+                        className="px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium flex items-center justify-center flex-1 sm:flex-initial"
+                      >
+                        <CogIcon className="h-3 sm:h-4 w-3 sm:w-4 mr-1" />
+                        Customize
+                      </button>
                     </div>
-                  )}
 
-                  {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <button
-                      onClick={handleAcceptEssential}
-                      className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
-                    >
-                      Essential Only
-                    </button>
-                    
-                    <button
-                      onClick={() => setShowDetailedPreferences(true)}
-                      className="px-6 py-3 bg-white border-2 border-premium-gold text-premium-gold rounded-lg hover:bg-amber-50 transition-colors font-medium flex items-center justify-center"
-                    >
-                      <CogIcon className="h-5 w-5 mr-2" />
-                      Customize
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleSaveCustomPreferences}
+                        className="px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm bg-amber-100 text-amber-800 rounded-lg hover:bg-amber-200 transition-colors font-medium flex-1 sm:flex-initial"
+                      >
+                        Save Selection
+                      </button>
 
-                    <button
-                      onClick={handleSaveCustomPreferences}
-                      className="px-6 py-3 bg-amber-100 text-amber-800 rounded-lg hover:bg-amber-200 transition-colors font-medium"
-                    >
-                      Save My Choices
-                    </button>
-
-                    <button
-                      onClick={handleAcceptAll}
-                      className="px-6 py-3 bg-gradient-to-r from-premium-gold to-amber-500 text-white rounded-lg hover:shadow-lg transform hover:scale-105 transition-all font-bold flex-1"
-                    >
-                      Accept All{isOnContactPage && ' + Enable Auto-Save'}
-                    </button>
+                      <button
+                        onClick={handleAcceptAll}
+                        className="px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm bg-gradient-to-r from-premium-gold to-amber-500 text-white rounded-lg hover:shadow-lg transition-all font-bold flex-1"
+                      >
+                        Accept All
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Compliance Footer */}
-                  <div className="mt-4 pt-4 border-t border-gray-200 flex items-center justify-between">
-                    <p className="text-xs text-gray-500">
-                      <ShieldCheckIcon className="inline h-4 w-4 mr-1" />
-                      GDPR/CCPA Compliant • Your data is protected
+                  {/* Compact Compliance Footer */}
+                  <div className="mt-2 sm:mt-3 pt-2 border-t border-gray-200 flex items-center justify-between">
+                    <p className="text-[10px] sm:text-xs text-gray-500">
+                      <ShieldCheckIcon className="inline h-3 w-3 mr-0.5 sm:mr-1" />
+                      <span className="hidden sm:inline">GDPR Compliant</span>
+                      <span className="sm:hidden">GDPR</span>
                     </p>
-                    <div className="text-xs">
-                      <Link to="/privacy-policy" className="text-premium-gold hover:underline mr-3">
-                        Privacy Policy
+                    <div className="text-[10px] sm:text-xs">
+                      <Link to="/privacy-policy" className="text-gray-600 hover:text-premium-gold mr-2">
+                        Privacy
                       </Link>
-                      <Link to="/cookie-policy" className="text-premium-gold hover:underline">
-                        Cookie Policy
+                      <Link to="/cookie-policy" className="text-gray-600 hover:text-premium-gold">
+                        Cookies
                       </Link>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -509,36 +484,34 @@ const UnifiedConsentModal: React.FC<UnifiedConsentModalProps> = ({
                     </div>
                   </div>
 
-                  {/* Form Auto-Save (if applicable) */}
-                  {isOnContactPage && (
-                    <div className="border-2 border-amber-300 rounded-lg p-4 bg-amber-50">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center">
-                          <DocumentCheckIcon className="h-5 w-5 text-amber-600 mr-2" />
-                          <h3 className="font-semibold text-amber-900">
-                            Form Auto-Save Feature
-                          </h3>
-                        </div>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={preferences.formAutoSave}
-                            onChange={() => handleTogglePreference('formAutoSave')}
-                            className="sr-only peer"
-                          />
-                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
-                        </label>
+                  {/* Form Auto-Save */}
+                  <div className="border-2 border-amber-300 rounded-lg p-4 bg-amber-50">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center">
+                        <DocumentCheckIcon className="h-5 w-5 text-amber-600 mr-2" />
+                        <h3 className="font-semibold text-amber-900">
+                          Form Auto-Save Feature
+                        </h3>
                       </div>
-                      <p className="text-sm text-amber-800 mb-2">
-                        Automatically saves your form progress as you type, ensuring you never 
-                        lose your information if you navigate away or experience a connection issue.
-                      </p>
-                      <div className="text-xs text-amber-700">
-                        <strong>Features:</strong> Real-time saving • Encrypted storage • 
-                        30-day retention • Automatic cleanup • Resume anytime
-                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={preferences.formAutoSave}
+                          onChange={() => handleTogglePreference('formAutoSave')}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                      </label>
                     </div>
-                  )}
+                    <p className="text-sm text-amber-800 mb-2">
+                      Automatically saves your form progress as you type across all forms on our website, 
+                      ensuring you never lose your information if you navigate away or experience a connection issue.
+                    </p>
+                    <div className="text-xs text-amber-700">
+                      <strong>Features:</strong> Real-time saving • Encrypted storage • 
+                      30-day retention • Automatic cleanup • Resume anytime • Works on all forms
+                    </div>
+                  </div>
                 </div>
 
                 {/* Privacy Rights */}

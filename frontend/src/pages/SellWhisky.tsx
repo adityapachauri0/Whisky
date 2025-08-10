@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { buildApiEndpoint } from '../config/api.config';
+import { ShieldCheckIcon } from '@heroicons/react/24/outline';
+import api from '../services/api';
+import visitorTracking from '../services/visitorTracking';
 
 interface SellWhiskyFormData {
   name: string;
@@ -21,8 +24,162 @@ interface SellWhiskyFormData {
 const SellWhisky: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | 'rate-limit' | 'network-error' | null>(null);
+  const [autoSaveConsent, setAutoSaveConsent] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const debounceTimers = useRef<{ [key: string]: NodeJS.Timeout }>({});
   
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<SellWhiskyFormData>();
+  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<SellWhiskyFormData>();
+  
+  // Watch form fields for real-time capture
+  const watchedFields = watch();
+
+  // Check for existing auto-save consent on mount and listen for changes
+  useEffect(() => {
+    // Check initial auto-save consent
+    const checkAutoSaveConsent = () => {
+      const existingAutoSaveConsent = localStorage.getItem('formAutoSaveConsent');
+      if (existingAutoSaveConsent === 'true') {
+        setAutoSaveConsent(true);
+        console.log('✅ Auto-save consent found and enabled for sell-whisky form');
+      } else if (existingAutoSaveConsent === 'false') {
+        setAutoSaveConsent(false);
+        console.log('❌ Auto-save consent explicitly disabled for sell-whisky form');
+      }
+    };
+    
+    checkAutoSaveConsent();
+    
+    // Listen for storage changes (in case consent is given in another tab/component)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'formAutoSaveConsent') {
+        checkAutoSaveConsent();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also check periodically in case the modal updates it
+    const interval = setInterval(checkAutoSaveConsent, 1000);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
+
+  // Real-time field capture with consent
+  const captureFieldData = useCallback(async (fieldName: string, value: any) => {
+    console.log(`🔍 Sell-Whisky Field ${fieldName} changed:`, { value, hasConsent: autoSaveConsent });
+    
+    if (!autoSaveConsent) {
+      console.log('❌ No auto-save consent, skipping capture');
+      return;
+    }
+    
+    if (!value) {
+      console.log('❌ Empty value, skipping capture');
+      return;
+    }
+
+    // Clear existing debounce timer for this field
+    if (debounceTimers.current[fieldName]) {
+      clearTimeout(debounceTimers.current[fieldName]);
+    }
+
+    console.log(`⏳ Starting debounce timer for ${fieldName}`);
+
+    // Set new debounce timer (wait 1 second after user stops typing)
+    debounceTimers.current[fieldName] = setTimeout(async () => {
+      try {
+        // Get visitor ID with error handling
+        let visitorData: { visitorId?: string } = {};
+        try {
+          visitorData = visitorTracking.getVisitorData() || {};
+        } catch (error) {
+          console.warn('⚠️ Visitor tracking not initialized yet, using anonymous ID');
+          visitorData = { visitorId: 'anonymous-' + Date.now() };
+        }
+        console.log('👤 Visitor data:', visitorData);
+        
+        const payload = {
+          visitorId: visitorData.visitorId || 'anonymous',
+          fieldName,
+          fieldValue: value,
+          formType: 'sell-whisky',
+          timestamp: new Date().toISOString(),
+          pageUrl: window.location.href
+        };
+
+        console.log('📤 Sending field capture request:', payload);
+        
+        // Send to backend
+        const response = await api.post('/tracking/capture-field', payload);
+        console.log('📥 Backend response:', response.data);
+
+        // Update last saved time
+        setLastSaved(new Date());
+
+        // If email is captured, identify the visitor
+        if (fieldName === 'email' && value) {
+          try {
+            visitorTracking.identifyVisitor({ email: value });
+          } catch (error) {
+            console.warn('⚠️ Could not identify visitor with email:', error);
+          }
+        }
+        
+        // If name is captured, identify the visitor
+        if (fieldName === 'name' && value) {
+          try {
+            visitorTracking.identifyVisitor({ 
+              name: value
+            });
+          } catch (error) {
+            console.warn('⚠️ Could not identify visitor with name:', error);
+          }
+        }
+
+        console.log(`✅ Auto-saved ${fieldName}: ${value}`);
+      } catch (error) {
+        console.error(`❌ Failed to capture ${fieldName}:`, error);
+      }
+    }, 1000); // 1 second debounce
+  }, [autoSaveConsent]);
+
+  // Watch for field changes
+  useEffect(() => {
+    console.log('👁️ Sell-Whisky field watcher triggered:', { autoSaveConsent, watchedFields });
+    
+    if (!autoSaveConsent) {
+      console.log('❌ Auto-save consent is FALSE - not capturing fields');
+      return;
+    }
+
+    console.log('✅ Auto-save consent is TRUE - checking fields for changes');
+
+    // Capture each field when it changes
+    Object.keys(watchedFields).forEach(fieldName => {
+      const value = watchedFields[fieldName as keyof SellWhiskyFormData];
+      console.log(`🔍 Checking field ${fieldName}:`, { value, isEmpty: value === undefined || value === '' });
+      
+      if (value !== undefined && value !== '') {
+        console.log(`📤 Capturing field ${fieldName} with value:`, value);
+        captureFieldData(fieldName, value);
+      }
+    });
+  }, [watchedFields, autoSaveConsent, captureFieldData]);
+
+  // Initialize visitor tracking service
+  useEffect(() => {
+    console.log('🚀 Initializing visitor tracking service for sell-whisky...');
+    try {
+      visitorTracking.initialize().catch(error => {
+        console.error('❌ Failed to initialize visitor tracking:', error);
+      });
+    } catch (error) {
+      console.error('❌ Visitor tracking initialization error:', error);
+    }
+  }, []);
 
   const onSubmit = async (data: SellWhiskyFormData) => {
     setIsSubmitting(true);
@@ -387,6 +544,18 @@ const SellWhisky: React.FC = () => {
                   >
                     Network connection error. Please check your internet and try again.
                   </motion.div>
+                )}
+
+                {/* Auto-save status indicator */}
+                {autoSaveConsent && lastSaved && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                    <div className="flex items-center">
+                      <ShieldCheckIcon className="h-5 w-5 text-green-600 mr-2" />
+                      <span className="text-sm text-green-800">
+                        ✓ Auto-save enabled - Last saved: {lastSaved.toLocaleTimeString()}
+                      </span>
+                    </div>
+                  </div>
                 )}
 
                 <button

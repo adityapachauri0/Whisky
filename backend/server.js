@@ -118,7 +118,8 @@ const globalLimiter = rateLimit({
 });
 
 // Apply rate limiting to all routes - REASONABLE PROTECTION
-app.use(globalLimiter);
+// TEMPORARILY DISABLED FOR TESTING
+// app.use(globalLimiter);
 
 // Auth rate limiting - REASONABLE PROTECTION
 const authLimiter = rateLimit({
